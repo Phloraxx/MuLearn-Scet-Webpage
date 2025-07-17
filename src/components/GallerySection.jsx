@@ -31,11 +31,6 @@ const GallerySection = () => {
       title: "Project Presentation"
     },
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268451.jpeg",
-      alt: "Workshop Session 5",
-      title: "Group Discussion"
-    },
-    {
       src: "/assets/fwdaiworkshop (2)/1742023268457.jpeg",
       alt: "Workshop Session 6",
       title: "Technical Deep Dive"
@@ -44,16 +39,6 @@ const GallerySection = () => {
       src: "/assets/fwdaiworkshop (2)/1742023268465.jpeg",
       alt: "Workshop Session 7",
       title: "Problem Solving Session"
-    },
-    {
-      src: "/assets/fwdaiworkshop (2)/1742023268471.jpeg",
-      alt: "Workshop Session 8",
-      title: "Final Projects Demo"
-    },
-    {
-      src: "/assets/fwdaiworkshop (2)/1742023268478.jpeg",
-      alt: "Workshop Session 9",
-      title: "Networking & Q&A"
     },
     {
       src: "/assets/fwdaiworkshop (2)/1742023268486.jpeg",

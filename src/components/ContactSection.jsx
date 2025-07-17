@@ -58,7 +58,7 @@ const ContactSection = () => {
 
   return (
     <section ref={ref} className="py-20 bg-gradient-to-b from-cornsilk-800 to-cornsilk-700" id="contact">
-      <div className="max-w-7xl mx-auto px-6">
+  <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
