@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { FaDiscord, FaArrowRight } from 'react-icons/fa'
+import MuLearnLogo from './MuLearnLogo'
 
 const HeroSection = () => {
   return (
@@ -19,23 +20,27 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-6"
         >
-          <motion.h1 
-            className="text-6xl md:text-8xl font-bold text-pakistan-green mb-6"
+          <motion.div
+            className="flex flex-col items-center"
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            µLearn
+            <MuLearnLogo 
+              size="large" 
+              className="text-pakistan-green mb-4"
+            />
             <motion.span 
-              className="block text-4xl md:text-5xl font-light text-dark-moss-green mt-2"
+              className="text-4xl md:text-5xl font-light text-dark-moss-green"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
               SahrdayaCET
             </motion.span>
-          </motion.h1>
+          </motion.div>
         </motion.div>
 
         <motion.p 
@@ -63,7 +68,7 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <motion.button
-            className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95 "
+            className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -84,7 +89,7 @@ const HeroSection = () => {
 
       {/* Floating illustration */}
       <motion.div
-        className="absolute transform -bottom-1/16 lg:block"
+        className="absolute transform -bottom-1/5 lg:block"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 1 }}

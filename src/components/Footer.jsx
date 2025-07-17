@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { FaHeart, FaCode, FaDiscord, FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa'
+import MuLearnLogo from './MuLearnLogo'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -44,8 +45,8 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-br from-pakistan-green to-dark-moss-green text-white">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <div className="max-w-7xl mx-auto px-6 py-16 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <motion.div
@@ -54,9 +55,13 @@ const Footer = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-3xl font-bold mb-4">
-                µLearn <span className="text-tigers-eye">Sahrdaya</span>
-              </h3>
+              <div className="w-full items-center gap-3 mb-4 flex">
+                <MuLearnLogo 
+                  size="default" 
+                  className="text-white"
+                />
+                <span className="text-2xl font-bold text-tigers-eye">Sahrdaya</span>
+              </div>
               <p className="text-lg text-gray-300 mb-6 leading-relaxed">
                 Empowering students through peer learning and innovation. Join our community 
                 of passionate learners and build the future together.
@@ -121,11 +126,11 @@ const Footer = () => {
                 Get the latest updates about workshops, events, and learning opportunities.
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row w-full gap-3">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-tigers-eye"
+                className="flex px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-tigers-eye"
               />
               <motion.button
                 className="bg-tigers-eye hover:bg-tigers-eye-600 px-6 py-3 rounded-lg font-semibold transition-all duration-300"

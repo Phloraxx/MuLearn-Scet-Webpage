@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import MuLearnLogo from './MuLearnLogo'
 
 const LoadingScreen = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0)
@@ -30,18 +31,19 @@ const LoadingScreen = ({ onLoadingComplete }) => {
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8"
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="mb-8 flex flex-col items-center"
         >
-          <h1 className="text-6xl font-bold text-pakistan-green mb-4">
-            µLearn
-            <span className="block text-3xl font-light text-dark-moss-green mt-2">
-              Sahrdaya
-            </span>
-          </h1>
+          <MuLearnLogo 
+            size="large" 
+            className="text-pakistan-green mb-4"
+          />
+          <span className="text-3xl font-light text-dark-moss-green">
+            Sahrdaya
+          </span>
         </motion.div>
 
-        <div className="w-64 h-2 bg-white/30 rounded-full overflow-hidden">
+        <div className="w-full h-2 bg-white/30 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-tigers-eye rounded-full"
             initial={{ width: 0 }}

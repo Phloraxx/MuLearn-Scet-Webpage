@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { FaBars, FaTimes, FaDiscord } from 'react-icons/fa'
+import MuLearnLogo from './MuLearnLogo'
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -48,10 +49,11 @@ const Navigation = () => {
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
           >
-            <div className="text-2xl font-bold text-pakistan-green flex">   
-              µLearn 
-              <span className="text-tigers-eye">Sahrdaya</span>
-            </div>
+            <MuLearnLogo 
+              size="small" 
+              className="text-pakistan-green"
+            />
+            <span className="text-lg font-semibold text-tigers-eye">Sahrdaya</span>
           </motion.div>
 
           {/* Desktop Navigation */}
