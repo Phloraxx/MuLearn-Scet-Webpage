@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+/* Custom Color Palette from assets/colors.css */
+@theme {
+  --color-dark-moss-green: #606c38;
+  --color-dark-moss-green-100: #13160b;
+  --color-dark-moss-green-200: #262b16;
+  --color-dark-moss-green-300: #394121;
+  --color-dark-moss-green-400: #4c562c;
+  --color-dark-moss-green-500: #606c38;
+  --color-dark-moss-green-600: #88994f;
+  --color-dark-moss-green-700: #a9b876;
+  --color-dark-moss-green-800: #c5d0a3;
+  --color-dark-moss-green-900: #e2e7d1;
+
+  --color-pakistan-green: #283618;
+  --color-pakistan-green-100: #080b05;
+  --color-pakistan-green-200: #101509;
+  --color-pakistan-green-300: #18200e;
+  --color-pakistan-green-400: #1f2a13;
+  --color-pakistan-green-500: #283618;
+  --color-pakistan-green-600: #547133;
+  --color-pakistan-green-700: #80ac4d;
+  --color-pakistan-green-800: #aac987;
+  --color-pakistan-green-900: #d5e4c3;
+
+  --color-cornsilk: #fefae0;
+  --color-cornsilk-100: #5d5103;
+  --color-cornsilk-200: #baa206;
+  --color-cornsilk-300: #f8dc27;
+  --color-cornsilk-400: #fbeb84;
+  --color-cornsilk-500: #fefae0;
+  --color-cornsilk-600: #fefbe7;
+  --color-cornsilk-700: #fefced;
+  --color-cornsilk-800: #fffdf3;
+  --color-cornsilk-900: #fffef9;
+
+  --color-earth-yellow: #dda15e;
+  --color-earth-yellow-100: #34210b;
+  --color-earth-yellow-200: #684216;
+  --color-earth-yellow-300: #9d6321;
+  --color-earth-yellow-400: #d1842c;
+  --color-earth-yellow-500: #dda15e;
+  --color-earth-yellow-600: #e4b57f;
+  --color-earth-yellow-700: #ebc79f;
+  --color-earth-yellow-800: #f1dabf;
+  --color-earth-yellow-900: #f8ecdf;
+
+  --color-tigers-eye: #bc6c25;
+  --color-tigers-eye-100: #251507;
+  --color-tigers-eye-200: #4b2b0f;
+  --color-tigers-eye-300: #704016;
+  --color-tigers-eye-400: #96561e;
+  --color-tigers-eye-500: #bc6c25;
+  --color-tigers-eye-600: #d98840;
+  --color-tigers-eye-700: #e3a570;
+  --color-tigers-eye-800: #ecc3a0;
+  --color-tigers-eye-900: #f6e1cf;
+}
+
+/* Custom fonts and base styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cornsilk-200);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark-moss-green);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-pakistan-green);
+}

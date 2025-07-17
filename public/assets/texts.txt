@@ -1,0 +1,17 @@
+
+Join Our Discord
+
+Welcome to MuLearn Sahrdaya!
+
+Empowering Students Through Peer Learning & Innovation
+
+Ready to start your learning journey? Be part of a community that’s redefining education.
+
+Our Mission
+To create a thriving ecosystem of self-driven learners, empowering students to develop industry-relevant skills, collaborate on exciting projects, and contribute to real-world solutions.
+
+µLearn is a synergic philosophy of education, with a culture of mutual learning through micro peer groups. We are here to assist you in breaking through the echo chambers and free you from the shackles you have grounded yourself in.
+
+Team Page, Workshops, Login
+
+"Create a vite + react + tailwind page using the assets given. Use framer motion,animation libraries and icons, also use premade libraries. Take inspiration from other developer portfolios. Use color pallete from @/assets/colors.css . Create a .md file."
