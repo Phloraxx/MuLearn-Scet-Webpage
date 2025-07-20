@@ -4,7 +4,7 @@ const MuLearnLogo = ({ className = "", size = "default" }) => {
 const sizeClasses = {
   small: "w-28 h-8",
   default: "w-28 h-8 sm:w-96 sm:h-24",
-  large: "w-28 h-8 sm:w-96 sm:h-24 lg:w-[500px] lg:h-32"
+  large: "w-64 h-8 sm:w-96 sm:h-24 lg:w-[500px] lg:h-32"
 }
 
   return (

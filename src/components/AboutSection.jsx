@@ -21,7 +21,7 @@ const AboutSection = () => {
   }
 
   return (
-    <section ref={ref} className="py-20 bg-cornsilk-800" id="about">
+    <section ref={ref} className="py-20 bg-cornsilk-800 overflow-x-hidden" id="about">
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -33,7 +33,7 @@ const AboutSection = () => {
             About µLearn Sahrdaya
           </h2>
           <p className="text-xl text-pakistan-green-600 max-w-3xl mx-auto">
-            µLearn is a synergic philosophy of education, with a culture of mutual learning through micro peer groups.
+            <span class="type-example">µLearn </span>is a synergic philosophy of education, with a culture of mutual learning through micro peer groups.
           </p>
         </motion.div>
 
@@ -126,7 +126,7 @@ const AboutSection = () => {
             <motion.button
               className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
               whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              onClick={() => window.open('https://app.mulearn.org/', '_blank')}
             >
               Get Started Today
             </motion.button>

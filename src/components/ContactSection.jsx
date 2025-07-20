@@ -50,22 +50,22 @@ const ContactSection = () => {
   ]
 
   const socialLinks = [
-    { icon: FaDiscord, label: "Discord", href: "#", color: "hover:text-blue-600" },
-    { icon: FaInstagram, label: "Instagram", href: "#", color: "hover:text-pink-600" },
-    { icon: FaLinkedin, label: "LinkedIn", href: "#", color: "hover:text-blue-700" },
-    { icon: FaGithub, label: "GitHub", href: "#", color: "hover:text-gray-800" }
+    { icon: FaDiscord, label: "Discord", href: "https://discord.gg/3jbpEubWRA", color: "hover:text-blue-600" },
+    { icon: FaInstagram, label: "Instagram", href: "https://www.instagram.com/mulearn.scet/", color: "hover:text-pink-600" },
+    { icon: FaLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/mulearn/", color: "hover:text-blue-700" },
+    { icon: FaGithub, label: "GitHub", href: "https://github.com/gtech-mulearn", color: "hover:text-gray-800" }
   ]
 
   return (
     <section ref={ref} className="py-20 bg-gradient-to-b from-cornsilk-800 to-cornsilk-700" id="contact">
-  <div className="max-w-7xl mx-auto px-6">
+  <div className=" ax-w-7xl mx-auto px-6 overflow-x-hidden">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl font-bold text-pakistan-green mb-6">
+          <h2 className="text-5xl font-bold text-pakistan-green mb-6 ">
             Get In Touch
           </h2>
           <p className="text-xl text-pakistan-green-600 max-w-3xl mx-auto">
@@ -198,7 +198,7 @@ const ContactSection = () => {
                   <motion.a
                     key={index}
                     href={social.href}
-                    className={`bg-white bg-opacity-20 w-12 h-12 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all duration-300 ${social.color}`}
+                    className={`bg-orange-500 bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all duration-300 ${social.color}`}
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}
                     title={social.label}
@@ -214,7 +214,7 @@ const ContactSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 1.0 }}
-              className="bg-tigers-eye-100 rounded-xl p-6 border border-tigers-eye-200"
+              className="rounded-xl p-6 border border-tigers-eye-200"
             >
               <h4 className="text-xl font-bold text-pakistan-green mb-3">
                 Ready to Join?
@@ -223,6 +223,7 @@ const ContactSection = () => {
                 Jump into our Discord community and start learning with us today!
               </p>
               <motion.button
+                onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
                 className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
