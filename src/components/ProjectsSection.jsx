@@ -9,52 +9,60 @@ const ProjectsSection = () => {
 
   const projects = [
     {
-      title: "AI Workshop Series",
-      description: "Comprehensive workshops covering machine learning, deep learning, and AI applications in real-world scenarios.",
+      title: "Art of Teaching",
+      description: "µLearn is returning with Art of Teaching to pay tribute to educators who shape the next generation.",
       icon: FaBrain,
-      tags: ["Machine Learning", "Python", "TensorFlow"],
-      status: "Ongoing",
-      gradient: "from-tigers-eye to-earth-yellow"
+      tags: ["Teaching", "Career Labs", "Campus"],
+      status: "Completed",
+      gradient: "from-tigers-eye to-earth-yellow",
+      link: "https://mulearn.org/artofteaching"
     },
     {
-      title: "Web Development Bootcamp",
+      title: "Web Development IG",
       description: "Full-stack web development program covering modern frameworks, databases, and deployment strategies.",
       icon: FaCode,
       tags: ["React", "Node.js", "MongoDB"],
-      status: "Completed",
-      gradient: "from-dark-moss-green to-pakistan-green"
+      status: "Ongoing",
+      gradient: "from-dark-moss-green to-pakistan-green",
+      link: "https://learn.mulearn.org/webmobile",
+      join: "https://app.mulearn.org/dashboard/interestgroups/9b8aaf7f-16a0-4a66-ae53-79b8c25e5faa"
     },
     {
       title: "Open Source Contributions",
       description: "Community-driven projects where students contribute to open source repositories and build their portfolios.",
       icon: FaGithub,
-      tags: ["Open Source", "Git", "Collaboration"],
+      tags: ["Open Source", "FossHack", "Collaboration"],
       status: "Active",
-      gradient: "from-earth-yellow to-tigers-eye"
+      gradient: "from-earth-yellow to-tigers-eye",
+      link: "https://learn.mulearn.org/opensource"
     },
     {
-      title: "Peer Learning Platform",
-      description: "Custom platform for facilitating micro peer groups and tracking learning progress across the community.",
+      title: "Permute",
+      description: "Perµte is the annual flagship celebration of the µLearn Foundation—an electrifying gathering that honors excellence, sparks bold ideas through thought-provoking panels, unveils visionary roadmaps, and ignites connections across a vibrant tapestry of talent and innovation.",
       icon: FaUsers,
-      tags: ["React", "Firebase", "Community"],
-      status: "In Development",
-      gradient: "from-pakistan-green to-dark-moss-green"
+      tags: ["Mentorship", "Skill Building", "Community"],
+      status: "Completed",
+      gradient: "from-pakistan-green to-dark-moss-green",
+      link: "https://permute.mulearn.org/"
     },
     {
-      title: "Tech Talk Series",
-      description: "Regular tech talks by industry experts, alumni, and community members sharing their experiences and insights.",
+      title: "Cyber Security",
+      description: "Having an extra layer of security is always an advantage in the current world. The best way to prevent a cyber attack is to learn how it works and block all the loopholes that allow it.",
       icon: FaLaptop,
-      tags: ["Speaking", "Industry", "Networking"],
-      status: "Monthly",
-      gradient: "from-tigers-eye-600 to-earth-yellow-600"
+      tags: ["μChallenges", "Industry", "Analysis"],
+      status: "Active",
+      gradient: "from-tigers-eye-600 to-earth-yellow-600",
+      link: "https://learn.mulearn.org/cybersec",
+      join: "https://app.mulearn.org/dashboard/interestgroups/3a74725e-a05a-418b-a275-39d68ad9a416"
     },
     {
-      title: "Hackathon Training",
-      description: "Intensive training sessions preparing students for competitive programming and hackathon participation.",
+      title: "Hacktober fest",
+      description: "Hacktoberfest is Digital Ocean’s annual event that seeks to encourage people to make open-source contributions throughout the month of October.",
       icon: FaCode,
       tags: ["Algorithms", "Problem Solving", "Competition"],
-      status: "Quarterly",
-      gradient: "from-dark-moss-green-600 to-pakistan-green-600"
+      status: "October-ly",
+      gradient: "from-dark-moss-green-600 to-pakistan-green-600",
+      link: "https://mulearn.org/hacktoberfest"
     }
   ]
 
@@ -107,10 +115,10 @@ const ProjectsSection = () => {
                 </div>
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="bg-white bg-opacity-20 w-12 h-12 rounded-full flex items-center justify-center">
+                    <div className="bg-auto bg-opacity-20 w-12 h-12 rounded-full flex items-center justify-center">
                       <project.icon className="text-xl" />
                     </div>
-                    <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-auto bg-opacity-20 px-3 py-1 rounded-full text-sm font-medium">
                       {project.status}
                     </span>
                   </div>
@@ -138,13 +146,21 @@ const ProjectsSection = () => {
 
                 {/* Action buttons */}
                 <div className="flex gap-3">
-                  <button className="flex-1 bg-tigers-eye hover:bg-tigers-eye-600 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center gap-2">
+                  <button 
+                    className={`${project.join ? 'flex-1' : 'w-full'} bg-tigers-eye hover:bg-tigers-eye-600 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center gap-2`}
+                    onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
+                  >                 
                     <span>Learn More</span>
                     <FaExternalLinkAlt className="text-sm" />
                   </button>
-                  <button className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-white py-2 px-4 rounded-lg font-medium transition-all duration-300">
-                    Join
-                  </button>
+                  {project.join && (
+                    <button 
+                      className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-white py-2 px-4 rounded-lg font-medium transition-all duration-300"
+                      onClick={() => window.open(project.join, "_blank", "noopener,noreferrer")}
+                    >
+                      Join
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -163,12 +179,13 @@ const ProjectsSection = () => {
               Have a Project Idea?
             </h3>
             <p className="text-xl text-pakistan-green-600 mb-6">
-              We're always looking for new and exciting projects to work on together.
+              We're always looking for new and exciting projects to work on together. We provide resources required for you to showcase and achieve your dreams.
             </p>
             <motion.button
               className="bg-gradient-to-r from-tigers-eye to-earth-yellow text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg"
               whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(188, 108, 37, 0.3)" }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = "mailto:mulearn@sahrdaya.ac.to?subject=Propose%20a%20Project"}
             >
               Propose a Project
             </motion.button>

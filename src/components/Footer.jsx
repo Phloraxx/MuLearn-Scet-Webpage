@@ -13,7 +13,7 @@ const Footer = () => {
       { label: "Contact", href: "#contact" }
     ],
     "Community": [
-      { label: "Join Discord", href: "#" },
+      { label: "Join Discord", href: "https://discord.gg/3jbpEubWRA" },
       { label: "Workshops", href: "#" },
       { label: "Events", href: "#" },
       { label: "Mentorship", href: "#" }
@@ -27,10 +27,10 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { icon: FaDiscord, href: "#", label: "Discord", color: "hover:text-blue-600" },
-    { icon: FaGithub, href: "#", label: "GitHub", color: "hover:text-gray-400" },
-    { icon: FaLinkedin, href: "#", label: "LinkedIn", color: "hover:text-blue-500" },
-    { icon: FaInstagram, href: "#", label: "Instagram", color: "hover:text-pink-500" }
+    { icon: FaDiscord, href: "https://discord.gg/3jbpEubWRA", label: "Discord", color: "hover:text-blue-600" },
+    { icon: FaGithub, href: "https://github.com/gtech-mulearn", label: "GitHub", color: "hover:text-gray-400" },
+    { icon: FaLinkedin, href: "https://www.linkedin.com/company/mulearn/", label: "LinkedIn", color: "hover:text-blue-500" },
+    { icon: FaInstagram, href: "https://www.instagram.com/mulearn.scet/", label: "Instagram", color: "hover:text-pink-500" }
   ]
 
   const scrollToSection = (href) => {
@@ -72,8 +72,10 @@ const Footer = () => {
                 {socialLinks.map((social, index) => (
                   <motion.a
                     key={index}
-                    href={social.href}
-                    className={`bg-white bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-300 ${social.color}`}
+                    href={social.icon === FaDiscord ? "https://discord.gg/3jbpEubWRA" : social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`bg-auto bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-300 ${social.color}`}
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}
                     title={social.label}
@@ -98,12 +100,23 @@ const Footer = () => {
               <ul className="space-y-3">
                 {links.map((link, index) => (
                   <li key={index}>
-                    <button
-                      onClick={() => scrollToSection(link.href)}
-                      className="text-gray-300 hover:text-white transition-colors duration-300 hover:translate-x-1 transform inline-block"
-                    >
-                      {link.label}
-                    </button>
+                    {link.href.startsWith('#') ? (
+                      <button
+                        onClick={() => scrollToSection(link.href)}
+                        className="text-gray-300 hover:text-white transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                      >
+                        {link.label}
+                      </button>
+                    ) : (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-300 hover:text-white transition-colors duration-300 hover:translate-x-1 transform inline-block"
+                      >
+                        {link.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -129,15 +142,16 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row w-full gap-3">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="this dont work"
                 className="flex px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-tigers-eye"
               />
               <motion.button
                 className="bg-tigers-eye hover:bg-tigers-eye-600 px-6 py-3 rounded-lg font-semibold transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
               >
-                Subscribe
+                Subscribe / Join our Discord
               </motion.button>
             </div>
           </div>
@@ -147,7 +161,7 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="border-t border-white/20">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center flex-col md:flex-row justify-between gap-4">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -155,9 +169,9 @@ const Footer = () => {
               viewport={{ once: true }}
               className="flex items-center gap-2 text-gray-300"
             >
-              <span>© {currentYear} µLearn Sahrdaya. Made with</span>
-              <FaHeart className="text-red-500 animate-pulse" />
-              <span>by the community</span>
+              <span>© {currentYear} µLearn Sahrdaya.</span><span className="flex items-center gap-1"> Made with 
+              <FaHeart className="text-red-500 custom-pulse" />
+              by <a href="https://linkedin.com/in/souravpbijoy" target="_blank" rel="noopener noreferrer">Sourav P Bijoy</a></span>
             </motion.div>
             
             <motion.div
@@ -167,8 +181,8 @@ const Footer = () => {
               viewport={{ once: true }}
               className="flex items-center gap-2 text-gray-300"
             >
-              <FaCode className="text-tigers-eye" />
-              <span>Built with React & Tailwind CSS</span>
+              <FaCode className="text-tigers-eye custom-ping" />
+              <span>Mulearn Scet Tech Team</span>
             </motion.div>
           </div>
         </div>

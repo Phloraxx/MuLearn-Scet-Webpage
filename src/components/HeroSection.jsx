@@ -68,6 +68,7 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <motion.button
+            onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
             className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -81,6 +82,7 @@ const HeroSection = () => {
             className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-cornsilk px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => window.open('https://mulearn.org/', '_blank')}
           >
             Learn More
           </motion.button>
@@ -89,15 +91,15 @@ const HeroSection = () => {
 
       {/* Floating illustration */}
       <motion.div
-        className="absolute transform -bottom-1/5 lg:block"
+        className="absolute transform -bottom-1/4"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 1 }}
+        transition={{ delay: 1.2, duration: 3 }}
       >
         <motion.img
           src="/assets/illustration.webp"
           alt="Learning illustration"
-          className="object-contain h-128"
+          className="object-contain h-120"
           animate={{ y: [0, -20, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />

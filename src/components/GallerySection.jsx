@@ -1,12 +1,44 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { FaExpand, FaTimes } from 'react-icons/fa'
 
 const GallerySection = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, threshold: 0.1 })
   const [selectedImage, setSelectedImage] = useState(null)
+
+const Counter = ({ end, duration = 1200 }) => {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, threshold: 0.1 })
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    if (!isInView) return
+    let start = 0
+    const endNum = parseInt(end.replace(/\D/g, '')) // Remove non-digits
+    const increment = endNum / (duration / 16)
+    let frame
+    const step = () => {
+      start += increment
+      if (start < endNum) {
+        setCount(Math.floor(start))
+        frame = requestAnimationFrame(step)
+      } else {
+        setCount(endNum)
+      }
+    }
+    frame = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(frame)
+  }, [end, duration, isInView])
+
+  return (
+    <span ref={ref}>
+      {count}
+      {end.replace(/\d+/g, '')}
+    </span>
+  )
+}
 
   // Gallery images from the assets
   const galleryImages = [
@@ -139,7 +171,7 @@ const GallerySection = () => {
           {[
             { number: "50+", label: "Events Organized" },
             { number: "1000+", label: "Students Reached" },
-            { number: "25+", label: "Workshops Conducted" },
+            { number: "141814+", label: "Total Karma" },
             { number: "15+", label: "Industry Experts" }
           ].map((stat, index) => (
             <div key={index} className="text-center">
@@ -149,7 +181,7 @@ const GallerySection = () => {
                 animate={isInView ? { scale: 1 } : {}}
                 transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
               >
-                {stat.number}
+                <Counter end={stat.number} duration={12000 + index * 200} />
               </motion.div>
               <div className="text-pakistan-green-600 font-medium">{stat.label}</div>
             </div>

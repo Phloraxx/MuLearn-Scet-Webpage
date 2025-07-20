@@ -91,3 +91,11 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-pakistan-green);
 }
+
+.custom-pulse {
+  animation: pulse 0.7s cubic-bezier(0.2, 0, 0.6, 1) infinite;
+}
+
+.custom-ping {
+  animation: ping 2s cubic-bezier(0.5, 0, 1, 0.5) infinite;
+}

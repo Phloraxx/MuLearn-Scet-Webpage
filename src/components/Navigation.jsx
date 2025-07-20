@@ -73,6 +73,7 @@ const Navigation = () => {
             ))}
             
             <motion.button
+              onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
               className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -121,6 +122,7 @@ const Navigation = () => {
             
             <div className="px-4 pt-2">
               <motion.button
+                onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
                 className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
