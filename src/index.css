@@ -56,6 +56,18 @@
   --color-tigers-eye-700: #e3a570;
   --color-tigers-eye-800: #ecc3a0;
   --color-tigers-eye-900: #f6e1cf;
+
+  /* Light Purple Theme Colors */
+  --color-light-purple: #c4c8f8;
+  --color-light-purple-100: #f8f9ff;
+  --color-light-purple-200: #e8ebfd;
+  --color-light-purple-300: #d8dcfb;
+  --color-light-purple-400: #c4c8f8;
+  --color-light-purple-500: #a8adf5;
+  --color-light-purple-600: #8c92f2;
+  --color-light-purple-700: #7077ef;
+  --color-light-purple-800: #5461ec;
+  --color-light-purple-900: #374ce9;
 }
 
 /* Custom fonts and base styles */
