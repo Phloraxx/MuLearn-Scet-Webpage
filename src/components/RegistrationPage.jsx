@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { GoogleLogin } from '@react-oauth/google'
 import { FaCheckCircle, FaTimesCircle, FaSpinner, FaUser, FaEnvelope, FaPhone, FaGraduationCap, FaIdCard, FaHashtag, FaSignOutAlt } from 'react-icons/fa'
-import { createOrder, getProducts } from '../utils/woocommerceApi'
+import { createOrder, getProducts, checkExistingRegistration } from '../utils/woocommerceApi'
 
 const RegistrationPage = () => {
   const [user, setUser] = useState(null)
@@ -21,11 +21,12 @@ const RegistrationPage = () => {
   const [registrationStatus, setRegistrationStatus] = useState('')
   const [productStock, setProductStock] = useState(null)
   const [stockLoading, setStockLoading] = useState(false)
+  const [checkingExistingRegistration, setCheckingExistingRegistration] = useState(false)
 
   // Workshop details - FREE WORKSHOP
   const workshopDetails = {
     title: "Commit to Git",
-    productId: 1443,
+    productId: 1433,
     price: 0,
     currency: "INR",
     duration: "2 Days",
@@ -111,6 +112,24 @@ const RegistrationPage = () => {
         email: userData.email,
         fullName: userData.name
       }))
+      
+      // Check if user is already registered
+      setCheckingExistingRegistration(true)
+      try {
+        const isAlreadyRegistered = await checkExistingRegistration(userData.email, workshopDetails.productId)
+        if (isAlreadyRegistered) {
+          setRegistrationStatus('already_registered')
+          setCurrentStep(4)
+          return
+        }
+      } catch (checkError) {
+        console.warn('Could not check existing registration, proceeding with normal flow:', checkError)
+        // Show a brief info message that we couldn't check
+        setError('Could not verify existing registration status. You can proceed with registration - any duplicates will be detected.')
+        setTimeout(() => setError(''), 5000) // Clear after 5 seconds
+      } finally {
+        setCheckingExistingRegistration(false)
+      }
       
       setCurrentStep(2)
     } catch (err) {
@@ -202,7 +221,7 @@ const RegistrationPage = () => {
         payment_method: 'free',
         payment_method_title: 'Free Registration',
         set_paid: true, // Since it's free, mark as paid
-        status: 'processing',
+        status: 'completed',
         billing: {
           first_name: registrationData.fullName.split(' ')[0],
           last_name: registrationData.fullName.split(' ').slice(1).join(' ') || '',
@@ -262,6 +281,14 @@ const RegistrationPage = () => {
       
       console.log('WordPress response:', response)
       
+      // Check if the response indicates user already purchased
+      if (response && response.code === 'woocommerce_rest_customer_already_purchased') {
+        setRegistrationStatus('already_registered')
+        setCurrentStep(4)
+        setError('')
+        return
+      }
+      
       if (response && response.id) {
         setRegistrationStatus('success')
         setCurrentStep(4)
@@ -275,13 +302,25 @@ const RegistrationPage = () => {
           registrationDate: new Date().toISOString()
         }))
       } else {
-        throw new Error('Invalid response from WordPress')
+        throw new Error('Registration completed but no order ID received')
       }
       
     } catch (err) {
       console.error('Registration error:', err)
-      setError(`Registration failed: ${err.message}. Please try again or contact support.`)
-      setRegistrationStatus('failed')
+      console.error('Error status:', err.status)
+      console.error('Error type:', typeof err.status)
+
+      // Handle specific error status codes
+      if (err.status === 420) {
+        console.log('Handling 420 error - already registered')
+        setRegistrationStatus('already_registered')
+        setCurrentStep(4)
+        setError('')
+      } else {
+        console.log('Handling other error:', err.message)
+        setError(`Registration failed: ${err.message}. Please try again or contact support.`)
+        setRegistrationStatus('failed')
+      }
     } finally {
       setLoading(false)
     }
@@ -296,6 +335,7 @@ const RegistrationPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-6"
           >
+            <h2 className="text-2xl font-bold text-purple-600">Welcome to Workshop Registration</h2>
             {/* Stock Status */}
             {stockLoading ? (
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -349,7 +389,6 @@ const RegistrationPage = () => {
                     <span>Switch Account</span>
                   </button>
                 </div>
-                
                 {productStock?.inStock ? (
                   <button
                     onClick={() => setCurrentStep(2)}
@@ -368,17 +407,23 @@ const RegistrationPage = () => {
               </div>
             ) : (
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-purple-600">Welcome to Free Workshop Registration</h2>
-                <p className="text-gray-600">Please login with your Google account to continue with your free registration</p>
+                <p className="text-gray-600">Please login with your Sahrdaya Google account to continue with your registration</p>
                 
                 {productStock?.inStock ? (
                   <div className="flex justify-center">
-                    <GoogleLogin
-                      onSuccess={handleGoogleSuccess}
-                      onError={handleGoogleError}
-                      theme="outline"
-                      size="large"
-                    />
+                    {loading || checkingExistingRegistration ? (
+                      <div className="flex items-center space-x-2 text-purple-600">
+                        <FaSpinner className="animate-spin" />
+                        <span>{checkingExistingRegistration ? 'Checking registration status...' : 'Processing login...'}</span>
+                      </div>
+                    ) : (
+                      <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={handleGoogleError}
+                        theme="outline"
+                        size="large"
+                      />
+                    )}
                   </div>
                 ) : (
                   <div className="bg-red-50 p-4 rounded-lg border border-red-200">
@@ -407,7 +452,7 @@ const RegistrationPage = () => {
           >
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-bold text-purple-600">Complete Your Details</h2>
-              <p className="text-gray-600">Please provide additional information for your free registration</p>
+              <p className="text-gray-600">Please provide additional information for your registration</p>
               
               {/* User info with logout option */}
               {user && (
@@ -513,9 +558,7 @@ const RegistrationPage = () => {
                     <option value="2nd Year">2nd Year</option>
                     <option value="3rd Year">3rd Year</option>
                     <option value="4th Year">4th Year</option>
-                    <option value="Postgraduate">Postgraduate</option>
                     <option value="Faculty">Faculty</option>
-                    <option value="Other">Other</option>
                   </select>
                 </div>
 
@@ -524,15 +567,20 @@ const RegistrationPage = () => {
                     <FaGraduationCap className="inline mr-2" />
                     Department *
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="department"
                     value={registrationData.department}
                     onChange={handleInputChange}
-                    placeholder="e.g., Computer Science"
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     required
-                  />
+                  >
+                    <option value="">Select Department</option>
+                    <option value="CS">Computer Science (CS)</option>
+                    <option value="BM">Biomedical Engineering (BM)</option>
+                    <option value="EEE">Electrical & Electronics Engineering (EEE)</option>
+                    <option value="EC">Electronics & Communication (EC)</option>
+                    <option value="BT">Biotechnology (BT)</option>
+                  </select>
                 </div>
 
                 <div className="md:col-span-2">
@@ -559,7 +607,7 @@ const RegistrationPage = () => {
                 type="submit"
                 className="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-300"
               >
-                Complete Free Registration
+                Complete Registration
               </button>
             </form>
           </motion.div>
@@ -573,20 +621,22 @@ const RegistrationPage = () => {
             className="space-y-6"
           >
             <div className="text-center space-y-2">
-              <h2 className="text-2xl font-bold text-purple-600">Confirm Your Registration</h2>
-              <p className="text-gray-600">Review your details and confirm your free workshop registration</p>
+              <h2 className="text-2xl font-bold text-purple-600">
+                Almost there, {registrationData.fullName.split(' ')[0]}! 🎉
+              </h2>
+              <p className="text-gray-600">
+                You're just one click away from securing your spot in this amazing workshop!
+              </p>
             </div>
 
             <div className="bg-purple-50 p-6 rounded-lg space-y-4">
-              <h3 className="text-lg font-semibold text-purple-600">Workshop Summary</h3>
+              <h3 className="text-lg font-semibold text-purple-600">
+                🎯 Your Workshop Adventure Awaits!
+              </h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>Workshop:</span>
                   <span className="font-medium">{workshopDetails.title}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Duration:</span>
-                  <span className="font-medium">{workshopDetails.duration}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Date:</span>
@@ -596,16 +646,28 @@ const RegistrationPage = () => {
                   <span>Venue:</span>
                   <span className="font-medium">{workshopDetails.venue}</span>
                 </div>
+                <div className="flex justify-between">
+                  <span>Duration:</span>
+                  <span className="font-medium">{workshopDetails.duration}</span>
+                </div>
                 <hr className="my-2" />
                 <div className="flex justify-between text-lg font-bold">
                   <span>Registration Fee:</span>
-                  <span className="text-green-600 text-xl">FREE</span>
+                  <span className="text-green-600 text-xl">FREE 🎁</span>
                 </div>
+              </div>
+              <div className="bg-white p-3 rounded-lg border-l-4 border-purple-400">
+                <p className="text-sm text-purple-700">
+                  <strong>Hey {registrationData.fullName.split(' ')[0]}!</strong> This workshop is completely free, 
+                  but your enthusiasm and participation are priceless! 💜
+                </p>
               </div>
             </div>
 
             <div className="bg-purple-50 p-6 rounded-lg space-y-2">
-              <h3 className="text-lg font-semibold text-purple-600">Registration Details</h3>
+              <h3 className="text-lg font-semibold text-purple-600">
+                📝 {registrationData.fullName.split(' ')[0]}'s Registration Details
+              </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                 <div><strong>Name:</strong> {registrationData.fullName}</div>
                 <div><strong>Email:</strong> {registrationData.email}</div>
@@ -615,26 +677,37 @@ const RegistrationPage = () => {
                 <div><strong>Department:</strong> {registrationData.department}</div>
                 <div><strong>MuLearn ID:</strong> {registrationData.mulearnId}</div>
               </div>
+              <div className="bg-white p-3 rounded-lg mt-3 border border-purple-200">
+                <p className="text-xs text-purple-600">
+                  <strong>✨ Looking good, {registrationData.fullName.split(' ')[0]}!</strong> 
+                  All your details are in order. Ready to dive into the world of Git? 🚀
+                </p>
+              </div>
             </div>
 
             <button
               onClick={confirmRegistration}
               disabled={loading}
-              className="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-4 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg transform hover:scale-105"
             >
               {loading ? (
-                <FaSpinner className="animate-spin" />
+                <>
+                  <FaSpinner className="animate-spin" />
+                  <span>Securing {registrationData.fullName.split(' ')[0]}'s spot...</span>
+                </>
               ) : (
-                <FaCheckCircle />
+                <>
+                  <FaCheckCircle />
+                  <span>Yes, Reserve My Spot! 🎯</span>
+                </>
               )}
-              {loading ? 'Confirming Registration...' : 'Confirm Free Registration'}
             </button>
 
             <button
               onClick={() => setCurrentStep(2)}
               className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-6 rounded-lg font-medium transition-colors duration-300"
             >
-              Back to Edit Details
+              ← Wait, let me double-check my details
             </button>
           </motion.div>
         )
@@ -650,31 +723,94 @@ const RegistrationPage = () => {
               {registrationStatus === 'success' ? (
                 <>
                   <FaCheckCircle className="text-6xl text-green-500 mx-auto" />
-                  <h2 className="text-2xl font-bold text-purple-600">Registration Successful!</h2>
+                  <h2 className="text-2xl font-bold text-purple-600">
+                    🎉 Woohoo, {registrationData.fullName.split(' ')[0]}!
+                  </h2>
+                  <p className="text-lg font-medium text-green-600">
+                    You're officially registered for {workshopDetails.title}!
+                  </p>
                   <p className="text-gray-600">
-                    Your free registration for {workshopDetails.title} has been confirmed.
-                    You will receive a confirmation email shortly.
+                    Your confirmation email is on its way to your inbox. 
+                    Get ready for an awesome learning experience! 🚀
                   </p>
                   <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                     <p className="text-green-800">
-                      🎉 Welcome aboard! Your seat is reserved for this FREE workshop.
-                      Workshop details and joining instructions will be sent to your email.
+                      🎉 Welcome to the team, {registrationData.fullName.split(' ')[0]}! 
+                      Your seat is reserved and we can't wait to see you there.
+                      This is going to be an incredible journey into the world of Git!
                     </p>
                     {localStorage.getItem('workshopOrderId') && (
                       <p className="text-green-700 text-sm mt-2">
-                        Registration ID: #{localStorage.getItem('workshopOrderId')}
+                        Your Registration ID: #{localStorage.getItem('workshopOrderId')} 
+                        (Keep this handy! 📝)
                       </p>
                     )}
                   </div>
                   <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                    <h4 className="font-semibold text-purple-800 mb-2">What's Next?</h4>
+                    <h4 className="font-semibold text-purple-800 mb-2">
+                      🎯 What's Next for {registrationData.fullName.split(' ')[0]}?
+                    </h4>
                     <ul className="text-purple-700 text-sm space-y-1">
-                      <li>• Check your email for confirmation details</li>
-                      <li>• Join our WhatsApp group for updates</li>
-                      <li>• Mark your calendar: {workshopDetails.date}</li>
-                      <li>• Prepare your laptop for hands-on sessions</li>
+                      <li>• 📧 Check your email for all the exciting details</li>
+                      <li>• 💬 Join our WhatsApp group for live updates and fun</li>
+                      <li>• 📅 Mark your calendar: {workshopDetails.date}</li>
+                      <li>• 💻 Get your laptop ready for hands-on coding magic</li>
+                      <li>• ☕ Bring your enthusiasm (and maybe some coffee)!</li>
                     </ul>
                   </div>
+                </>
+              ) : registrationStatus === 'already_registered' ? (
+                <>
+                  <FaCheckCircle className="text-6xl text-blue-500 mx-auto" />
+                  <h2 className="text-2xl font-bold text-blue-600">
+                    Hey {user?.name ? user.name.split(' ')[0] : 'there'}! 👋
+                  </h2>
+                  <p className="text-lg font-medium text-blue-600">
+                    You're already registered for {workshopDetails.title}!
+                  </p>
+                  <p className="text-gray-600">
+                    Your registration is confirmed and your seat is reserved.
+                    No need to register again - you're all set! 🎊
+                  </p>
+                  <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <p className="text-blue-800">
+                      ✅ Your registration is active, {user?.name ? user.name.split(' ')[0] : 'friend'}! 
+                      If you haven't received a confirmation email, please check your spam folder 
+                      or contact a MuLearn execom member.
+                    </p>
+                  </div>
+                  <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <h4 className="font-semibold text-green-800 mb-2">
+                      🎉 You're All Set, {user?.name ? user.name.split(' ')[0] : 'Champion'}!
+                    </h4>
+                    <p className="text-green-700 text-sm">
+                      Your seat is confirmed for this workshop. We're excited to see you there 
+                      and can't wait to learn together! 🚀
+                    </p>
+                  </div>
+                  <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                    <h4 className="font-semibold text-purple-800 mb-2">Workshop Details</h4>
+                    <ul className="text-purple-700 text-sm space-y-1">
+                      <li>• Date: {workshopDetails.date}</li>
+                      <li>• Venue: {workshopDetails.venue}</li>
+                      <li>• Duration: {workshopDetails.duration}</li>
+                      <li>• Type: Workshop</li>
+                    </ul>
+                  </div>
+                  <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <p className="text-yellow-800 text-sm">
+                      💡 Need to update your registration details? No worries! 
+                      Just reach out to Sourav P Bijoy with your email address 
+                      and we'll help you make any necessary changes. We're here to help! 😊
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center space-x-2 mx-auto"
+                  >
+                    <FaSignOutAlt />
+                    <span>Register with Different Account</span>
+                  </button>
                 </>
               ) : (
                 <>
@@ -711,7 +847,7 @@ const RegistrationPage = () => {
       <motion.div 
         className="absolute inset-0"
         initial={{ scale: 1.1, opacity: 0 }}
-        animate={{ scale: 1, opacity: 0.3 }}
+        animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
       >
         <img 
@@ -726,7 +862,7 @@ const RegistrationPage = () => {
       
       {/* Floating particles effect */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        {[...Array(60)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-purple-400/30 rounded-full"
@@ -739,7 +875,7 @@ const RegistrationPage = () => {
               opacity: [0, 1, 0],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: 12 + Math.random() * 2,
               repeat: Infinity,
               delay: Math.random() * 2,
             }}

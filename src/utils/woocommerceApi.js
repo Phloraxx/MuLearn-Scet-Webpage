@@ -27,8 +27,22 @@ export const createOrder = async (orderData) => {
       body: JSON.stringify(orderData),
     })
 
+    // Handle specific status codes
+    if (response.status === 420) {
+      // User already registered for this event
+      const errorData = await response.json().catch(() => ({}))
+      const error = new Error('User already registered for this event')
+      error.status = 420
+      error.data = errorData
+      throw error
+    }
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const errorData = await response.json().catch(() => ({}))
+      const error = new Error(`HTTP error! status: ${response.status}`)
+      error.status = response.status
+      error.data = errorData
+      throw error
     }
 
     return await response.json()
@@ -111,6 +125,39 @@ export const createCustomer = async (customerData) => {
   } catch (error) {
     console.error('Error creating customer:', error)
     throw error
+  }
+}
+
+// Check if user is already registered for a specific product
+export const checkExistingRegistration = async (email, productId) => {
+  try {
+    // Add timeout to prevent hanging
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+    
+    const response = await fetch(`${API_BASE_URL}/orders?customer=${email}&product=${productId}&status=processing,completed,on-hold`, {
+      headers: getAuthHeaders(),
+      signal: controller.signal
+    })
+
+    clearTimeout(timeoutId)
+
+    if (!response.ok) {
+      // If we can't check, return false to allow registration attempt
+      console.warn('Could not check existing registration:', response.status)
+      return false
+    }
+
+    const orders = await response.json()
+    return orders && orders.length > 0
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      console.warn('Registration check timed out')
+    } else {
+      console.error('Error checking existing registration:', error)
+    }
+    // If we can't check, return false to allow registration attempt
+    return false
   }
 }
 
