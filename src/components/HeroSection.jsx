@@ -91,7 +91,7 @@ const HeroSection = () => {
 
       {/* Floating illustration */}
       <motion.div
-        className="absolute transform -bottom-1/4"
+        className="absolute transform -bottom-1/5"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 3 }}
@@ -100,7 +100,7 @@ const HeroSection = () => {
           src="/assets/illustration.webp"
           alt="Learning illustration"
           className="object-contain h-120"
-          animate={{ y: [0, -20, 0] }}
+          animate={{ y: [0, 20, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>
