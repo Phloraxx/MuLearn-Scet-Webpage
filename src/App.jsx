@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Navigation from './components/Navigation'
 import HeroSection from './components/HeroSection'
@@ -9,6 +10,7 @@ import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import LoadingScreen from './components/LoadingScreen'
+import RegistrationPage from './components/RegistrationPage'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -16,6 +18,23 @@ function App() {
   const handleLoadingComplete = () => {
     setIsLoading(false)
   }
+
+  const HomePage = () => (
+    <>
+      <Navigation />
+      <main>
+        <div id="home">
+          <HeroSection />
+        </div>
+        <AboutSection />
+        <ProjectsSection />
+        <GallerySection />
+        <ContactSection />
+      </main>
+      <Footer />
+      <ScrollToTop />
+    </>
+  )
 
   return (
     <div className="min-h-screen">
@@ -26,20 +45,10 @@ function App() {
       </AnimatePresence>
       
       {!isLoading && (
-        <>
-          <Navigation />
-          <main>
-            <div id="home">
-              <HeroSection />
-            </div>
-            <AboutSection />
-            <ProjectsSection />
-            <GallerySection />
-            <ContactSection />
-          </main>
-          <Footer />
-          <ScrollToTop />
-        </>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RegistrationPage />} />
+        </Routes>
       )}
     </div>
   )

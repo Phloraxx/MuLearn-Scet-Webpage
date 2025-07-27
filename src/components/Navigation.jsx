@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { FaBars, FaTimes, FaDiscord } from 'react-icons/fa'
 import MuLearnLogo from './MuLearnLogo'
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +26,11 @@ const Navigation = () => {
   ]
 
   const scrollToSection = (href) => {
+    if (location.pathname !== '/') {
+      window.location.href = `/${href}`
+      return
+    }
+    
     const element = document.querySelector(href)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
@@ -49,11 +56,13 @@ const Navigation = () => {
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
           >
-            <MuLearnLogo 
-              size="small" 
-              className="text-pakistan-green"
-            />
-            <span className="text-lg font-semibold text-tigers-eye">Sahrdaya</span>
+            <Link to="/" className="flex items-center gap-2">
+              <MuLearnLogo 
+                size="small" 
+                className="text-pakistan-green"
+              />
+              <span className="text-lg font-semibold text-tigers-eye">Sahrdaya</span>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -72,9 +81,19 @@ const Navigation = () => {
               </motion.button>
             ))}
             
+            <Link to="/register">
+              <motion.button
+                className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Register Workshop
+              </motion.button>
+            </Link>
+            
             <motion.button
               onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
-              className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
+              className="bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-2 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -120,10 +139,21 @@ const Navigation = () => {
               </motion.button>
             ))}
             
-            <div className="px-4 pt-2">
+            <div className="px-4 pt-2 space-y-2">
+              <Link to="/register">
+                <motion.button
+                  className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Register Workshop
+                </motion.button>
+              </Link>
+              
               <motion.button
                 onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
-                className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300"
+                className="w-full bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
