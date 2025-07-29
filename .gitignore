@@ -24,7 +24,10 @@ dist-ssr
 *.sln
 *.sw?
 
+CLOUDFLARE_WORKER_SETUP.md
+
 WorkshopRegistrationPlan.md
+MEET_THE_TEAM_SECTION_PLAN.md
 
 .env
 REGISTRATION_SETUP.md
