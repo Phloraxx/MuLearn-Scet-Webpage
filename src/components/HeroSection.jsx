@@ -1,18 +1,24 @@
 import { motion } from 'framer-motion'
 import { FaDiscord, FaArrowRight } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 import MuLearnLogo from './MuLearnLogo'
 
 const HeroSection = () => {
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-cornsilk via-cornsilk-600 to-earth-yellow-800">
       {/* Background SVG */}
-      <div className="absolute inset-0 opacity-30">
+      <motion.div 
+        className="absolute inset-0"
+        initial={{ scale: 1.3, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 3, ease: "easeOut" }}
+      >
         <img 
           src="/assets/blob-scene-haikei.svg" 
           alt="Background" 
           className="w-full h-full object-cover"
         />
-      </div>
+      </motion.div>
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
@@ -67,16 +73,17 @@ const HeroSection = () => {
           transition={{ delay: 0.9, duration: 0.8 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <motion.button
-            onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
-            className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FaDiscord className="text-xl" />
-            Join Our Discord
-            <FaArrowRight className="text-sm" />
-          </motion.button>
+          <Link to="/register">
+            <motion.button
+              className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaArrowRight className="text-xl" />
+              Register Workshop
+              <FaArrowRight className="text-sm" />
+            </motion.button>
+          </Link>
           
           <motion.button
             className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-cornsilk px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
