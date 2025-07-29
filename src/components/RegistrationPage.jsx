@@ -762,20 +762,7 @@ const RegistrationPage = () => {
                       </p>
                     )}
                   </div>
-                  <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                    <h4 className="font-semibold text-purple-800 mb-2">
-                      🎯 What's Next for {registrationData.fullName.split(' ')[0]}?
-                    </h4>
-                    <ul className="text-purple-700 text-sm space-y-1">
-                      <li>• 📧 Check your email for all the exciting details</li>
-                      <li>• 💬 Join our WhatsApp group for live updates and fun</li>
-                      <li>• 📅 Mark your calendar: {workshopDetails.date}</li>
-                      <li>• 💻 Get your hands ready for hands-on coding magic</li>
-                      <li>• ☕ Bring your enthusiasm (and maybe some coffee)!</li>
-                    </ul>
-                  </div>
-                  
-                  {/* WhatsApp Group Join Button */}
+                                    {/* WhatsApp Group Join Button */}
                   <div className="bg-green-50 p-4 rounded-lg border border-green-200 text-center">
                     <h4 className="font-semibold text-green-800 mb-3">
                       🎉 Join Our Workshop WhatsApp Group!
@@ -792,6 +779,18 @@ const RegistrationPage = () => {
                       <FaWhatsapp className="text-xl" />
                       Join WhatsApp Group
                     </motion.button>
+                  </div>
+                  <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                    <h4 className="font-semibold text-purple-800 mb-2">
+                      🎯 What's Next for {registrationData.fullName.split(' ')[0]}?
+                    </h4>
+                    <ul className="text-purple-700 text-sm space-y-1">
+                      <li>• 📧 Check your email for all the exciting details</li>
+                      <li>• 💬 Join our WhatsApp group for live updates and fun</li>
+                      <li>• 📅 Mark your calendar: {workshopDetails.date}</li>
+                      <li>• 💻 Get your hands ready for hands-on coding magic</li>
+                      <li>• ☕ Bring your enthusiasm (and maybe some coffee)!</li>
+                    </ul>
                   </div>
                 </>
               ) : registrationStatus === 'already_registered' ? (
