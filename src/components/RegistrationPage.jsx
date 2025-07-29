@@ -126,6 +126,7 @@ const RegistrationPage = () => {
         console.warn('Could not check existing registration, proceeding with normal flow:', checkError)
         // Show a brief info message that we couldn't check
         setError('Could not verify existing registration status. You can proceed with registration - any duplicates will be detected.')
+        setTimeout(scrollToTop, 100)
         setTimeout(() => setError(''), 5000) // Clear after 5 seconds
       } finally {
         setCheckingExistingRegistration(false)
@@ -134,6 +135,7 @@ const RegistrationPage = () => {
       setCurrentStep(2)
     } catch (err) {
       setError('Failed to process Google login. Please try again.')
+      setTimeout(scrollToTop, 100)
     } finally {
       setLoading(false)
     }
@@ -160,6 +162,7 @@ const RegistrationPage = () => {
 
   const handleGoogleError = () => {
     setError('Google login failed. Please try again.')
+    setTimeout(scrollToTop, 100)
   }
 
   const handleInputChange = (e) => {
@@ -170,11 +173,19 @@ const RegistrationPage = () => {
     }))
   }
 
+  const scrollToTop = () => {
+    // Try multiple methods to ensure scrolling works
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }
+
   const validateForm = () => {
     const required = ['fullName', 'srno', 'phone', 'year', 'department', 'mulearnId']
     for (let field of required) {
       if (!registrationData[field].trim()) {
         setError(`Please fill in your ${field.replace(/([A-Z])/g, ' $1').toLowerCase().replace('srno', 'SR Number').replace('mulearnid', 'MuLearn ID')}`)
+        setTimeout(scrollToTop, 100) // Small delay to ensure error is rendered first
         return false
       }
     }
@@ -183,12 +194,14 @@ const RegistrationPage = () => {
     const phoneRegex = /^[6-9]\d{9}$/
     if (!phoneRegex.test(registrationData.phone)) {
       setError('Please enter a valid 10-digit Indian phone number')
+      setTimeout(scrollToTop, 100)
       return false
     }
 
     // Validate MuLearn ID format (assuming it should be alphanumeric)
     if (registrationData.mulearnId.length < 3) {
       setError('Please enter a valid MuLearn ID')
+      setTimeout(scrollToTop, 100)
       return false
     }
     
@@ -212,6 +225,7 @@ const RegistrationPage = () => {
       // Check stock again before proceeding
       if (productStock && !productStock.inStock) {
         setError('Sorry, this workshop is out of stock.')
+        setTimeout(scrollToTop, 100)
         setLoading(false)
         return
       }
@@ -320,6 +334,8 @@ const RegistrationPage = () => {
         console.log('Handling other error:', err.message)
         setError(`Registration failed: ${err.message}. Please try again or contact support.`)
         setRegistrationStatus('failed')
+        // Scroll to top to show error message
+        setTimeout(scrollToTop, 100)
       }
     } finally {
       setLoading(false)

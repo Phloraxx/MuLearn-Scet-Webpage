@@ -65,22 +65,27 @@ const Navigation = () => {
             </Link>
           </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item, index) => (
-              <motion.button
-                key={index}
-                onClick={() => scrollToSection(item.href)}
-                className={`font-medium transition-colors duration-300 hover:text-tigers-eye ${
-                  isScrolled ? 'text-pakistan-green' : 'text-pakistan-green'
-                }`}
-                whileHover={{ y: -2 }}
-                whileTap={{ y: 0 }}
-              >
-                {item.label}
-              </motion.button>
-            ))}
-            
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden md:flex items-center justify-center flex-1">
+            <div className="flex items-center gap-8">
+              {navItems.map((item, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => scrollToSection(item.href)}
+                  className={`font-medium transition-colors duration-300 hover:text-tigers-eye ${
+                    isScrolled ? 'text-pakistan-green' : 'text-pakistan-green'
+                  }`}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ y: 0 }}
+                >
+                  {item.label}
+                </motion.button>
+              ))}
+            </div>
+          </div>
+          
+          {/* Right Side - Register Button */}
+          <div className="hidden md:flex items-center">
             <Link to="/register">
               <motion.button
                 className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
@@ -91,6 +96,7 @@ const Navigation = () => {
               </motion.button>
             </Link>
             
+           {/*
             <motion.button
               onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
               className="bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-2 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
@@ -99,8 +105,10 @@ const Navigation = () => {
             >
               <FaDiscord />
               Join Discord
-            </motion.button>
+            </motion.button>*/}
           </div>
+          
+          
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
@@ -139,7 +147,7 @@ const Navigation = () => {
               </motion.button>
             ))}
             
-            <div className="px-4 pt-2 space-y-2">
+            <div className="px-4 pt-2 space-y-4">
               <Link to="/register">
                 <motion.button
                   className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
@@ -150,7 +158,7 @@ const Navigation = () => {
                   Register Workshop
                 </motion.button>
               </Link>
-              
+              {/*
               <motion.button
                 onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
                 className="w-full bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300"
@@ -159,7 +167,7 @@ const Navigation = () => {
               >
                 <FaDiscord />
                 Join Discord
-              </motion.button>
+              </motion.button>*/}
             </div>
           </div>
         </motion.div>
