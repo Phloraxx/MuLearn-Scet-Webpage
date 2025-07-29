@@ -41,11 +41,32 @@ const RegistrationPage = () => {
     if (savedUser) {
       try {
         const userData = JSON.parse(savedUser)
+        
+        // If it's an old saved user without parsed name, parse it now
+        if (!userData.actualName && userData.name) {
+          const fullNameFromGoogle = userData.name
+          let actualName = fullNameFromGoogle
+          let srNumber = ''
+          
+          const nameMatch = fullNameFromGoogle.match(/^(.+?)\s+(SCT\d+|\d{5,})$/i)
+          if (nameMatch) {
+            actualName = nameMatch[1].trim()
+            srNumber = nameMatch[2].toUpperCase()
+          }
+          
+          userData.actualName = actualName
+          userData.srNumber = srNumber
+          
+          // Update localStorage with parsed data
+          localStorage.setItem('workshopUser', JSON.stringify(userData))
+        }
+        
         setUser(userData)
         setRegistrationData(prev => ({
           ...prev,
           email: userData.email,
-          fullName: userData.name
+          fullName: userData.actualName || userData.name,
+          srno: userData.srNumber || ''
         }))
         setCurrentStep(2)
       } catch (err) {
@@ -96,9 +117,23 @@ const RegistrationPage = () => {
       // Decode the JWT token to get user info
       const decoded = JSON.parse(atob(credentialResponse.credential.split('.')[1]))
       
+      // Parse name to extract actual name and SR number
+      const fullNameFromGoogle = decoded.name
+      let actualName = fullNameFromGoogle
+      let srNumber = ''
+      
+      // Check if the name contains SR number pattern (assuming format like "John Doe SCT12345" or "John Doe 12345")
+      const nameMatch = fullNameFromGoogle.match(/^(.+?)\s+(SCT\d+|\d{5,})$/i)
+      if (nameMatch) {
+        actualName = nameMatch[1].trim()
+        srNumber = nameMatch[2].toUpperCase()
+      }
+      
       const userData = {
         email: decoded.email,
-        name: decoded.name,
+        name: decoded.name, // Keep original name for display
+        actualName: actualName, // Parsed name
+        srNumber: srNumber, // Extracted SR number
         picture: decoded.picture,
         googleId: decoded.sub
       }
@@ -110,7 +145,8 @@ const RegistrationPage = () => {
       setRegistrationData(prev => ({
         ...prev,
         email: userData.email,
-        fullName: userData.name
+        fullName: actualName,
+        srno: srNumber
       }))
       
       // Check if user is already registered
@@ -374,7 +410,7 @@ const RegistrationPage = () => {
                 </p>
                 {productStock.quantity !== null && productStock.inStock && (
                   <p className="text-green-600 text-sm">
-                    {productStock.quantity} seats remaining
+                    Around {productStock.quantity} seats remaining
                   </p>
                 )}
               </div>
@@ -469,6 +505,16 @@ const RegistrationPage = () => {
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-bold text-purple-600">Complete Your Details</h2>
               <p className="text-gray-600">Please provide additional information for your registration</p>
+              
+              {/* Auto-fill info */}
+              {user && (user.actualName !== user.name || user.srNumber) && (
+                <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                  <p className="text-sm text-blue-700">
+                    ✨ We've automatically filled your name and SR number from your Google account. 
+                    Please verify the details below are correct.
+                  </p>
+                </div>
+              )}
               
               {/* User info with logout option */}
               {user && (
