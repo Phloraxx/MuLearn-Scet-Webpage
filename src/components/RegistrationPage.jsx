@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { GoogleLogin } from '@react-oauth/google'
-import { FaCheckCircle, FaTimesCircle, FaSpinner, FaUser, FaEnvelope, FaPhone, FaGraduationCap, FaIdCard, FaHashtag, FaSignOutAlt } from 'react-icons/fa'
+import { FaCheckCircle, FaTimesCircle, FaSpinner, FaUser, FaEnvelope, FaPhone, FaGraduationCap, FaIdCard, FaHashtag, FaSignOutAlt, FaWhatsapp } from 'react-icons/fa'
 import { createOrder, getProducts, checkExistingRegistration } from '../utils/woocommerceApi'
 
 const RegistrationPage = () => {
@@ -29,8 +29,8 @@ const RegistrationPage = () => {
     productId: 1433,
     price: 0,
     currency: "INR",
-    duration: "2 Days",
-    date: "August 15-16, 2025",
+    duration: "1 Day",
+    date: "Monday, August 04, 2025",
     venue: "Sahrdaya College of Engineering & Technology",
     isFree: true
   }
@@ -770,9 +770,28 @@ const RegistrationPage = () => {
                       <li>• 📧 Check your email for all the exciting details</li>
                       <li>• 💬 Join our WhatsApp group for live updates and fun</li>
                       <li>• 📅 Mark your calendar: {workshopDetails.date}</li>
-                      <li>• 💻 Get your laptop ready for hands-on coding magic</li>
+                      <li>• 💻 Get your hands ready for hands-on coding magic</li>
                       <li>• ☕ Bring your enthusiasm (and maybe some coffee)!</li>
                     </ul>
+                  </div>
+                  
+                  {/* WhatsApp Group Join Button */}
+                  <div className="bg-green-50 p-4 rounded-lg border border-green-200 text-center">
+                    <h4 className="font-semibold text-green-800 mb-3">
+                      🎉 Join Our Workshop WhatsApp Group!
+                    </h4>
+                    <p className="text-green-700 text-sm mb-4">
+                      Stay connected with fellow participants, get important updates, and share your learning journey!
+                    </p>
+                    <motion.button
+                      onClick={() => window.open('https://chat.whatsapp.com/ECY5zCuIf2r0vbUVLBRIC2', '_blank')}
+                      className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all duration-300 mx-auto shadow-lg"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaWhatsapp className="text-xl" />
+                      Join WhatsApp Group
+                    </motion.button>
                   </div>
                 </>
               ) : registrationStatus === 'already_registered' ? (
@@ -827,6 +846,25 @@ const RegistrationPage = () => {
                     <FaSignOutAlt />
                     <span>Register with Different Account</span>
                   </button>
+                  
+                  {/* WhatsApp Group Join Button for Already Registered Users */}
+                  <div className="bg-green-50 p-4 rounded-lg border border-green-200 text-center mt-4">
+                    <h4 className="font-semibold text-green-800 mb-3">
+                      💬 Join Our Workshop WhatsApp Group!
+                    </h4>
+                    <p className="text-green-700 text-sm mb-4">
+                      Stay updated with workshop announcements and connect with other participants!
+                    </p>
+                    <motion.button
+                      onClick={() => window.open('https://chat.whatsapp.com/ECY5zCuIf2r0vbUVLBRIC2', '_blank')}
+                      className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all duration-300 mx-auto shadow-lg"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaWhatsapp className="text-xl" />
+                      Join WhatsApp Group
+                    </motion.button>
+                  </div>
                 </>
               ) : (
                 <>
@@ -837,7 +875,7 @@ const RegistrationPage = () => {
                   </p>
                   <div className="bg-red-50 p-4 rounded-lg border border-red-200">
                     <p className="text-red-800 text-sm">
-                      If the problem persists, please contact our support team with the error details.
+                      If the problem persists, please contact 6282883870 with the error details.
                     </p>
                   </div>
                   <button
