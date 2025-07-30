@@ -8,10 +8,69 @@ A modern, responsive website for **µLearn Sahrdaya**, the education club of Sah
 - **Responsive Layout**: Fully responsive design that works on all devices
 - **Smooth Animations**: Beautiful animations using Framer Motion
 - **Interactive Elements**: Hover effects, smooth scrolling, and interactive components
+- **Workshop Registration**: Google OAuth-based registration system with WooCommerce backend
+- **Task Management System**: Personalized task dashboard for workshop participants
 - **Gallery**: Dynamic image gallery with lightbox functionality
 - **Contact Form**: Functional contact form with validation
 - **Loading Screen**: Animated loading screen for better user experience
 - **Custom Color Palette**: Integrated custom color scheme from brand guidelines
+
+## 🎯 Workshop & Task Management
+
+### Registration Flow
+1. **Google Authentication**: Students login with their Sahrdaya Google account
+2. **Registration Check**: Automatic verification if student is already registered
+3. **Smart Redirect**: Already registered students are redirected to tasks page
+4. **New Registration**: Complete registration flow for new students
+
+### Task Dashboard Features
+- **Three Learning Tasks**:
+  1. **Intro to Command Line** (Easy) - https://learn.mulearn.org/challenge/intro-to-command-line
+  2. **Intro to GitHub** (Medium) - https://learn.mulearn.org/challenge/intro-to-github  
+  3. **GitHub Enablement Task** (INSANE HARD) - https://github.com/gtech-mulearn/Github-Enablment-Task
+
+- **Progress Tracking**: Visual progress bar and completion status
+- **GitHub Integration**: Students submit repository links for verification
+- **WordPress Backend**: All submissions are stored in WooCommerce for tracking
+- **Persistent Storage**: Task progress saved locally and synced with backend
+- **Real-time Status Updates**: Tasks reflect admin feedback (approved/rejected/pending)
+- **Resubmission System**: Students can resubmit rejected tasks with updated repositories
+
+### User Experience
+- **Automatic Redirects**: Seamless flow between registration and tasks
+- **Session Persistence**: Login state maintained across browser sessions  
+- **Real-time Validation**: GitHub URL validation and submission feedback
+- **Mobile Optimized**: Full functionality on all devices
+
+## 🔧 Admin Panel
+
+### Admin Access
+- **Secure Login**: Password-protected admin portal (`/admin`)
+- **Admin Password**: `WASDQWE`
+- **Task Review System**: Comprehensive dashboard for managing submissions
+
+### Admin Features
+- **Submission Overview**: View all student task submissions in a table format
+- **Status Management**: Approve tasks or flag them for retry
+- **Filtering & Search**: Filter by status (pending/approved/rejected) and search by student details
+- **Real-time Stats**: Dashboard showing total submissions, pending reviews, approved, and rejected tasks
+- **GitHub Integration**: Direct links to student repositories for quick review
+- **WordPress Backend**: All status updates stored in WooCommerce for persistence
+
+### Admin Workflow
+1. Navigate to `/admin` and login with admin password
+2. View dashboard with submission statistics
+3. Review individual task submissions
+4. Click "Approve" for correct submissions or "Flag" for retry
+5. Use filters to focus on specific status types
+6. Search functionality for finding specific students or tasks
+
+### Task Status Workflow
+1. **Student Submission**: Task submitted → Status: "Under Review 🔍"
+2. **Admin Review**: Admin approves or flags for retry
+3. **Approved**: Task marked as "Approved ✅" → Student sees completion
+4. **Rejected**: Task marked as "Needs Resubmission ⚠️" → Student can resubmit
+5. **Resubmission**: Student submits updated repository → Back to review
 
 ## 🛠️ Technologies Used
 
@@ -19,6 +78,8 @@ A modern, responsive website for **µLearn Sahrdaya**, the education club of Sah
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS v4
 - **Animations**: Framer Motion
+- **Authentication**: Google OAuth
+- **Backend**: WordPress/WooCommerce via Cloudflare Workers
 - **Icons**: React Icons
 - **UI Components**: Headless UI
 
@@ -38,7 +99,12 @@ mulearn-portfolio/
 │   │   ├── Navigation.jsx
 │   │   ├── Footer.jsx
 │   │   ├── LoadingScreen.jsx
-│   │   └── ScrollToTop.jsx
+│   │   ├── ScrollToTop.jsx
+│   │   ├── RegistrationPage.jsx  # Workshop registration
+│   │   ├── TasksPage.jsx         # Task management dashboard
+│   │   └── AdminPage.jsx         # Admin panel for task review
+│   ├── utils/
+│   │   └── woocommerceApi.js    # Backend API integration
 │   ├── App.jsx           # Main application component
 │   ├── main.jsx         # Application entry point
 │   └── index.css        # Global styles and Tailwind imports
