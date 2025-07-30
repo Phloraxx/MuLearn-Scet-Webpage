@@ -1,13 +1,29 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { FaBars, FaTimes, FaDiscord } from 'react-icons/fa'
+import { FaBars, FaTimes, FaDiscord, FaTasks, FaTrophy } from 'react-icons/fa'
 import MuLearnLogo from './MuLearnLogo'
+import { getCurrentUser } from '../utils/userUtils'
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [user, setUser] = useState(null)
   const location = useLocation()
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Check if user is logged in
+  useEffect(() => {
+    const userData = getCurrentUser()
+    setUser(userData)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,17 +100,42 @@ const Navigation = () => {
             </div>
           </div>
           
-          {/* Right Side - Register Button */}
-          <div className="hidden md:flex items-center">
-            <Link to="/register">
+          {/* Right Side - Register Button or Tasks Link */}
+          <div className="hidden md:flex items-center space-x-3">
+            {/* Leaderboard Link - Always visible */}
+            <Link to="/leaderboard">
               <motion.button
-                className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
+                className="border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white px-4 py-2 rounded-full font-semibold transition-all duration-300 flex items-center space-x-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Register Workshop
+                <FaTrophy />
+                <span>Leaderboard</span>
               </motion.button>
             </Link>
+            
+            {user ? (
+              <Link to="/tasks">
+                <motion.button
+                  className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 flex items-center space-x-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaTasks />
+                  <span>My Tasks</span>
+                </motion.button>
+              </Link>
+            ) : (
+              <Link to="/register">
+                <motion.button
+                  className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Register Workshop
+                </motion.button>
+              </Link>
+            )}
             
            {/*
             <motion.button
@@ -148,16 +189,43 @@ const Navigation = () => {
             ))}
             
             <div className="px-4 pt-2 space-y-4">
-              <Link to="/register">
+              {/* Leaderboard Link - Always visible */}
+              <Link to="/leaderboard">
                 <motion.button
-                  className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                  className="w-full border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Register Workshop
+                  <FaTrophy />
+                  <span>Leaderboard</span>
                 </motion.button>
               </Link>
+              
+              {user ? (
+                <Link to="/tasks">
+                  <motion.button
+                    className="w-full bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <FaTasks />
+                    <span>My Tasks</span>
+                  </motion.button>
+                </Link>
+              ) : (
+                <Link to="/register">
+                  <motion.button
+                    className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Register Workshop
+                  </motion.button>
+                </Link>
+              )}
               {/*
               <motion.button
                 onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}

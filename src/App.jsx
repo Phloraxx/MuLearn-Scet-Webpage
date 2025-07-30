@@ -11,6 +11,9 @@ import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import LoadingScreen from './components/LoadingScreen'
 import RegistrationPage from './components/RegistrationPage'
+import TasksPage from './components/TasksPage'
+import AdminPage from './components/AdminPage'
+import LeaderboardPage from './components/LeaderboardPage'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -48,6 +51,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/tasks" element={<TasksPage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
         </Routes>
       )}
     </div>

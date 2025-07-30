@@ -29,8 +29,8 @@ const RegistrationPage = () => {
     productId: 1433,
     price: 0,
     currency: "INR",
-    duration: "1 Day",
-    date: "Monday, August 04, 2025",
+    duration: "2 Hours",
+    date: "Friday, July 31st, 2025",
     venue: "Sahrdaya College of Engineering & Technology",
     isFree: true
   }
@@ -41,6 +41,22 @@ const RegistrationPage = () => {
     if (savedUser) {
       try {
         const userData = JSON.parse(savedUser)
+        
+        // Check if user is already registered for the workshop
+        const checkAndRedirect = async () => {
+          try {
+            const isAlreadyRegistered = await checkExistingRegistration(userData.email, workshopDetails.productId)
+            if (isAlreadyRegistered) {
+              // Redirect to tasks page if already registered
+              window.location.href = '/tasks'
+              return
+            }
+          } catch (err) {
+            console.warn('Could not verify registration status on load:', err)
+          }
+        }
+        
+        checkAndRedirect()
         
         // If it's an old saved user without parsed name, parse it now
         if (!userData.actualName && userData.name) {
@@ -154,8 +170,8 @@ const RegistrationPage = () => {
       try {
         const isAlreadyRegistered = await checkExistingRegistration(userData.email, workshopDetails.productId)
         if (isAlreadyRegistered) {
-          setRegistrationStatus('already_registered')
-          setCurrentStep(4)
+          // Redirect to tasks page instead of showing registration success
+          window.location.href = '/tasks'
           return
         }
       } catch (checkError) {
@@ -333,16 +349,12 @@ const RegistrationPage = () => {
       
       // Check if the response indicates user already purchased
       if (response && response.code === 'woocommerce_rest_customer_already_purchased') {
-        setRegistrationStatus('already_registered')
-        setCurrentStep(4)
-        setError('')
+        // Redirect to tasks page for already registered users
+        window.location.href = '/tasks'
         return
       }
       
       if (response && response.id) {
-        setRegistrationStatus('success')
-        setCurrentStep(4)
-        
         // Store order ID for reference
         localStorage.setItem('workshopOrderId', response.id)
         localStorage.setItem('workshopRegistrationData', JSON.stringify({
@@ -351,6 +363,10 @@ const RegistrationPage = () => {
           orderNumber: response.number,
           registrationDate: new Date().toISOString()
         }))
+
+        // Redirect to tasks page after successful registration
+        window.location.href = '/tasks'
+        return
       } else {
         throw new Error('Registration completed but no order ID received')
       }
@@ -362,10 +378,10 @@ const RegistrationPage = () => {
 
       // Handle specific error status codes
       if (err.status === 420) {
-        console.log('Handling 420 error - already registered')
-        setRegistrationStatus('already_registered')
-        setCurrentStep(4)
-        setError('')
+        console.log('Handling 420 error - already registered, redirecting to tasks')
+        // Redirect to tasks page for already registered users
+        window.location.href = '/tasks'
+        return
       } else {
         console.log('Handling other error:', err.message)
         setError(`Registration failed: ${err.message}. Please try again or contact support.`)
