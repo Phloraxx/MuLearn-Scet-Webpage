@@ -302,13 +302,13 @@ const TasksPage = () => {
                 </div>
               </div>
               <div className="flex items-center space-x-4">
-                <Link 
-                  to="/register"
+                <button 
+                  onClick={() => window.open('https://app.mulearn.org', '_blank')}
                   className="text-purple-600 hover:text-purple-800 text-sm flex items-center space-x-1"
                 >
                   <FaUser />
-                  <span>Registration</span>
-                </Link>
+                  <span>Register to MuLearn</span>
+                </button>
                 <button
                   onClick={handleLogout}
                   className="text-red-600 hover:text-red-800 text-sm flex items-center space-x-1"
