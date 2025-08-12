@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { FaDiscord, FaArrowRight } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
 import MuLearnLogo from './MuLearnLogo'
 
 const HeroSection = () => {
@@ -73,17 +72,16 @@ const HeroSection = () => {
           transition={{ delay: 0.9, duration: 0.8 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <Link to="/register">
-            <motion.button
-              className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FaArrowRight className="text-xl" />
-              Register Workshop
-              <FaArrowRight className="text-sm" />
-            </motion.button>
-          </Link>
+          <motion.button
+            className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => window.open('https://app.mulearn.org', '_blank')}
+          >
+            <FaArrowRight className="text-xl" />
+            Register to MuLearn
+            <FaArrowRight className="text-sm" />
+          </motion.button>
           
           <motion.button
             className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-cornsilk px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
