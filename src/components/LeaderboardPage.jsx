@@ -168,13 +168,13 @@ const LeaderboardPage = () => {
                   <FaRocket />
                   <span>Tasks</span>
                 </Link>
-                <Link 
-                  to="/register"
+                <button 
+                  onClick={() => window.open('https://app.mulearn.org', '_blank')}
                   className="text-green-600 hover:text-green-800 text-sm flex items-center space-x-1 transition-colors"
                 >
                   <FaUser />
-                  <span>Join Workshop</span>
-                </Link>
+                  <span>Register to MuLearn</span>
+                </button>
               </div>
             </div>
             
@@ -337,9 +337,12 @@ const LeaderboardPage = () => {
         >
           <p className="text-sm">
             🌟 This is a public leaderboard showing all participant progress. 
-            <Link to="/register" className="text-purple-600 hover:text-purple-800 ml-1 font-medium">
-              Join the workshop
-            </Link>
+            <button 
+              onClick={() => window.open('https://app.mulearn.org', '_blank')}
+              className="text-purple-600 hover:text-purple-800 ml-1 font-medium underline"
+            >
+              Register to MuLearn
+            </button>
             {" "}to see your name here!
           </p>
         </motion.div>

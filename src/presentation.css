@@ -1,0 +1,188 @@
+/* Presentation Mode Styles */
+
+/* Smooth scroll behavior for the presentation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Presentation container with snap scrolling */
+.presentation-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: auto;
+  height: 100vh;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Each section snaps to full screen */
+.section {
+  scroll-snap-align: start;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Hide scrollbar for cleaner presentation */
+.presentation-container::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Ensure text is crisp and readable on projectors */
+.section * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* High contrast shadows for better projector visibility */
+.section h1,
+.section h2,
+.section p {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Animated gradients for dynamic backgrounds */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 10s ease infinite;
+}
+
+/* Floating animation for icons */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(1deg); }
+  50% { transform: translateY(-5px) rotate(0deg); }
+  75% { transform: translateY(-15px) rotate(-1deg); }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Pulse effect for emphasis */
+@keyframes pulse-glow {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Slide-in animations */
+@keyframes slide-in-left {
+  0% { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  0% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-up {
+  0% { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.slide-in-left {
+  animation: slide-in-left 0.8s ease-out forwards;
+}
+
+.slide-in-right {
+  animation: slide-in-right 0.8s ease-out forwards;
+}
+
+.slide-in-up {
+  animation: slide-in-up 0.8s ease-out forwards;
+}
+
+/* Navigation dots styling */
+.nav-dots {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-dot.active {
+  background: white;
+  transform: scale(1.3);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.nav-dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+/* Progress indicator */
+.progress-indicator {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Responsive adjustments for projectors */
+@media (min-width: 1024px) {
+  .section h1 {
+    font-size: clamp(4rem, 8vw, 12rem);
+  }
+  
+  .section h2 {
+    font-size: clamp(2rem, 4vw, 6rem);
+  }
+  
+  .section p {
+    font-size: clamp(1.5rem, 3vw, 4rem);
+  }
+}
+
+/* High contrast mode for better projector visibility */
+@media (prefers-contrast: high) {
+  .section {
+    background: #000 !important;
+    color: #fff !important;
+  }
+  
+  .section * {
+    text-shadow: none !important;
+    font-weight: 900 !important;
+  }
+}

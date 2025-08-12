@@ -126,15 +126,14 @@ const Navigation = () => {
                 </motion.button>
               </Link>
             ) : (
-              <Link to="/register">
-                <motion.button
-                  className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Register Workshop
-                </motion.button>
-              </Link>
+              <motion.button
+                onClick={() => window.open('https://app.mulearn.org', '_blank')}
+                className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Register to MuLearn
+              </motion.button>
             )}
             
            {/*
@@ -215,16 +214,17 @@ const Navigation = () => {
                   </motion.button>
                 </Link>
               ) : (
-                <Link to="/register">
-                  <motion.button
-                    className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Register Workshop
-                  </motion.button>
-                </Link>
+                <motion.button
+                  onClick={() => {
+                    window.open('https://app.mulearn.org', '_blank')
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Register to MuLearn
+                </motion.button>
               )}
               {/*
               <motion.button
