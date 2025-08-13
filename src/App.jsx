@@ -1,4 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+// Component to redirect /games to Google Forms
+const ExternalGamesRedirect = () => {
+  useEffect(() => {
+    window.location.replace('https://forms.gle/YYtD819isHKyNMzE7');
+  }, []);
+  return null;
+};
 import { Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import Navigation from './components/Navigation'
@@ -54,7 +61,11 @@ function App() {
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
+          {/* Redirect /games to external Google Form */}
+          <Route path="/games" element={<ExternalGamesRedirect />} />
         </Routes>
+
+
       )}
     </div>
   )
