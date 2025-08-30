@@ -71,8 +71,8 @@ const TasksPage = () => {
   useEffect(() => {
     const user = getCurrentUser()
     if (!user) {
-      // Redirect to registration if not logged in
-      window.location.href = '/register'
+      // Redirect to home if not logged in
+      window.location.href = '/'
       return
     }
 
@@ -324,7 +324,7 @@ const TasksPage = () => {
               <div className="flex items-center justify-between mb-2">
                 <h2 className="text-lg font-semibold text-purple-700 flex items-center space-x-2">
                   <FaTasks />
-                  <span>Workshop Tasks Progress</span>
+                  <span>MuLearn Tasks Progress</span>
                 </h2>
                 <div className="flex items-center space-x-2 text-purple-600">
                   <FaTrophy />
@@ -604,7 +604,7 @@ const TasksPage = () => {
             <FaTrophy className="text-6xl mx-auto mb-4 text-yellow-300" />
             <h2 className="text-3xl font-bold mb-4">🎉 Congratulations! 🎉</h2>
             <p className="text-lg">
-              You've completed all workshop tasks! You're now officially a Git champion! 🏆
+              You've completed all MuLearn tasks! You're now officially a Git champion! 🏆
             </p>
             <p className="text-sm mt-2 opacity-90">
               Keep up the amazing work and continue your learning journey!
