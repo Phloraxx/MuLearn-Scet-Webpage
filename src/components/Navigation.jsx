@@ -1,29 +1,13 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { FaBars, FaTimes, FaDiscord, FaTasks, FaTrophy } from 'react-icons/fa'
+import { FaBars, FaTimes, FaDiscord } from 'react-icons/fa'
 import MuLearnLogo from './MuLearnLogo'
-import { getCurrentUser } from '../utils/userUtils'
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [user, setUser] = useState(null)
   const location = useLocation()
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Check if user is logged in
-  useEffect(() => {
-    const userData = getCurrentUser()
-    setUser(userData)
-  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,43 +84,17 @@ const Navigation = () => {
             </div>
           </div>
           
-          {/* Right Side - Register Button or Tasks Link */}
+          {/* Right Side - Join MuLearn Button */}
           <div className="hidden md:flex items-center space-x-3">
-            {/* Leaderboard Link - Always visible */}
-            <Link to="/leaderboard">
-              <motion.button
-                className="border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white px-4 py-2 rounded-full font-semibold transition-all duration-300 flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FaTrophy />
-                <span>Leaderboard</span>
-              </motion.button>
-            </Link>
+            <motion.button
+              onClick={() => window.open('https://app.mulearn.org', '_blank')}
+              className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Join MuLearn
+            </motion.button>
             
-            {user ? (
-              <Link to="/tasks">
-                <motion.button
-                  className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 flex items-center space-x-2"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <FaTasks />
-                  <span>My Tasks</span>
-                </motion.button>
-              </Link>
-            ) : (
-              <motion.button
-                onClick={() => window.open('https://app.mulearn.org', '_blank')}
-                className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Register to MuLearn
-              </motion.button>
-            )}
-            
-           {/*
             <motion.button
               onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
               className="bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-2 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
@@ -145,7 +103,7 @@ const Navigation = () => {
             >
               <FaDiscord />
               Join Discord
-            </motion.button>*/}
+            </motion.button>
           </div>
           
           
@@ -188,54 +146,30 @@ const Navigation = () => {
             ))}
             
             <div className="px-4 pt-2 space-y-4">
-              {/* Leaderboard Link - Always visible */}
-              <Link to="/leaderboard">
-                <motion.button
-                  className="w-full border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <FaTrophy />
-                  <span>Leaderboard</span>
-                </motion.button>
-              </Link>
-              
-              {user ? (
-                <Link to="/tasks">
-                  <motion.button
-                    className="w-full bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <FaTasks />
-                    <span>My Tasks</span>
-                  </motion.button>
-                </Link>
-              ) : (
-                <motion.button
-                  onClick={() => {
-                    window.open('https://app.mulearn.org', '_blank')
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Register to MuLearn
-                </motion.button>
-              )}
-              {/*
               <motion.button
-                onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
+                onClick={() => {
+                  window.open('https://app.mulearn.org', '_blank')
+                  setIsMobileMenuOpen(false)
+                }}
+                className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Join MuLearn
+              </motion.button>
+              
+              <motion.button
+                onClick={() => {
+                  window.open('https://discord.gg/3jbpEubWRA', '_blank')
+                  setIsMobileMenuOpen(false)
+                }}
                 className="w-full bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <FaDiscord />
                 Join Discord
-              </motion.button>*/}
+              </motion.button>
             </div>
           </div>
         </motion.div>

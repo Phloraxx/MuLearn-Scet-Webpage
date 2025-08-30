@@ -180,10 +180,10 @@ const LeaderboardPage = () => {
             
             <div className="text-center">
               <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
-                🏆 Workshop Leaderboard
+                🏆 MuLearn Leaderboard
               </h1>
               <p className="text-gray-600">
-                Public leaderboard showing points earned by completing tasks in the MuLearn Forward AI Workshop
+                Public leaderboard showing points earned by completing MuLearn tasks and challenges
               </p>
               <p className="text-sm text-gray-500 mt-1">
                 Task 1: 1 point • Task 2: 2 points • Task 3: 5 points

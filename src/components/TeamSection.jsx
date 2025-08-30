@@ -22,7 +22,7 @@ const TeamSection = () => {
     {
       name: "Sandhwana Rose Shaju",
       role: "Campus Co-Lead",
-      image: "/assets/team/Sandhwana Rose Shaju.jpg",
+      image: "/assets/team/Sandhwana Rose Shaju.png",
       social: {
         instagram: "https://www.instagram.com/san_d_rosee/",
         linkedin: "#", // Placeholder

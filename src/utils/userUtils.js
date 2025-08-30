@@ -1,4 +1,4 @@
-// Utility functions for user authentication and registration management
+// Utility functions for user authentication and task management
 
 /**
  * Get current logged in user data
@@ -6,7 +6,7 @@
  */
 export const getCurrentUser = () => {
   try {
-    const savedUser = localStorage.getItem('workshopUser')
+    const savedUser = localStorage.getItem('muLearnUser')
     if (savedUser) {
       return JSON.parse(savedUser)
     }
@@ -23,33 +23,6 @@ export const getCurrentUser = () => {
  */
 export const isUserLoggedIn = () => {
   return getCurrentUser() !== null
-}
-
-/**
- * Get user's registration data
- * @returns {Object|null} Registration data or null if not found
- */
-export const getRegistrationData = () => {
-  try {
-    const savedData = localStorage.getItem('workshopRegistrationData')
-    if (savedData) {
-      return JSON.parse(savedData)
-    }
-    return null
-  } catch (error) {
-    console.error('Error getting registration data:', error)
-    return null
-  }
-}
-
-/**
- * Check if user has completed registration
- * @returns {boolean} True if user has completed registration
- */
-export const hasCompletedRegistration = () => {
-  const registrationData = getRegistrationData()
-  const orderId = localStorage.getItem('workshopOrderId')
-  return registrationData !== null && orderId !== null
 }
 
 /**
@@ -110,11 +83,9 @@ export const hasCompletedAllTasks = () => {
  * Clear all user data (logout)
  */
 export const clearUserData = () => {
-  localStorage.removeItem('workshopUser')
-  localStorage.removeItem('workshopOrderId')
-  localStorage.removeItem('workshopRegistrationData')
+  localStorage.removeItem('muLearnUser')
   
-  // Clear task progress for all users (optional - you might want to keep this)
+  // Clear task progress for current user
   const user = getCurrentUser()
   if (user) {
     localStorage.removeItem(`taskProgress_${user.email}`)
@@ -159,31 +130,19 @@ export const getTaskSubmissionStatus = async (email, taskId) => {
 }
 
 /**
- * Check if user should be redirected to tasks
- * @returns {boolean} True if user should go to tasks page
- */
-export const shouldRedirectToTasks = () => {
-  return isUserLoggedIn() && hasCompletedRegistration()
-}
-
-/**
  * Redirect user to appropriate page based on their status
  */
 export const redirectToAppropriatePage = () => {
   if (!isUserLoggedIn()) {
-    window.location.href = '/register'
-  } else if (hasCompletedRegistration()) {
-    window.location.href = '/tasks'
+    window.location.href = '/'
   } else {
-    window.location.href = '/register'
+    window.location.href = '/tasks'
   }
 }
 
 export default {
   getCurrentUser,
   isUserLoggedIn,
-  getRegistrationData,
-  hasCompletedRegistration,
   getTaskProgress,
   saveTaskProgress,
   getCompletedTasksCount,
@@ -192,6 +151,5 @@ export default {
   getUserDisplayName,
   getUserFirstName,
   getTaskSubmissionStatus,
-  shouldRedirectToTasks,
   redirectToAppropriatePage
 }

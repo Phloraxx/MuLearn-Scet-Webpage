@@ -1,6 +1,6 @@
-// Secure API utility functions - calls Cloudflare Worker instead of direct WooCommerce
+// Secure API utility functions - calls Cloudflare Worker instead of direct WooCommerce for task management
 
-const API_BASE_URL = import.meta.env.VITE_WORKER_URL || 'https://mulearn-workshop-backend.your-subdomain.workers.dev/api/woocommerce'
+const API_BASE_URL = import.meta.env.VITE_WORKER_URL || 'https://mulearn-task-backend.your-subdomain.workers.dev/api/woocommerce'
 
 // Simple cache for API responses with improved management
 const apiCache = new Map()
@@ -134,16 +134,6 @@ export const updateOrderStatus = async (orderId, status) => {
   }
 }
 
-// Get products (workshops)
-export const getProducts = async () => {
-  try {
-    return await makeApiCall('/products')
-  } catch (error) {
-    console.error('Error fetching products:', error)
-    throw error
-  }
-}
-
 // Create a customer
 export const createCustomer = async (customerData) => {
   try {
@@ -157,169 +147,57 @@ export const createCustomer = async (customerData) => {
   }
 }
 
-// Check if user is already registered for a specific product
-export const checkExistingRegistration = async (email, productId) => {
-  try {
-    // Add timeout to prevent hanging
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
-    
-    const result = await makeApiCall(
-      `/orders?customer=${encodeURIComponent(email)}&product=${productId}&status=processing,completed,on-hold`,
-      { signal: controller.signal }
-    )
+// Task-related API calls
 
-    clearTimeout(timeoutId)
-    return result && result.length > 0
-  } catch (error) {
-    if (error.name === 'AbortError') {
-      console.warn('Registration check timed out')
-    } else {
-      console.error('Error checking existing registration:', error)
-    }
-    // If we can't check, return false to allow registration attempt
-    return false
-  }
-}
-
-// Workshop-specific API calls
-
-// Find user's existing workshop registration order - Optimized with caching
-const findUserOrder = async (email) => {
-  return getCachedData(`user_order_${email}`, async () => {
-    try {
-      // Get recent orders (WooCommerce API doesn't support filtering by customer email directly)
-      const result = await makeApiCall(`/orders?per_page=50&status=processing,completed,on-hold`)
-      
-      if (result && result.length > 0) {
-        // Filter by billing email and exclude task submission orders
-        const workshopOrder = result.find(order => {
-          // Check if billing email matches
-          const emailMatches = order.billing && order.billing.email && 
-            order.billing.email.toLowerCase() === email.toLowerCase()
-          
-          if (!emailMatches) return false
-          
-          // Exclude task submission orders by checking if it has workshop-related line items
-          const metaData = order.meta_data || []
-          const isTaskSubmission = metaData.some(meta => meta.key === 'submission_type' && meta.value === 'workshop_task')
-          
-          // Return true if it's not a task submission and has line items
-          return !isTaskSubmission && order.line_items && order.line_items.length > 0
-        })
-        
-        return workshopOrder || null
-      }
-      
-      return null
-    } catch (error) {
-      console.error('Error finding user order:', error)
-      return null
-    }
-  })
-}
-
-// Register for workshop
-export const registerForWorkshop = async (registrationData) => {
+// Submit task completion with direct order creation for tasks
+export const submitTaskCompletion = async (taskData) => {
+  // Create a new order specifically for task submission
   const orderData = {
-    payment_method: 'razorpay',
-    payment_method_title: 'Razorpay',
-    set_paid: false,
+    payment_method: 'Task Submission',
+    payment_method_title: 'Task Submission',
+    set_paid: true,
+    status: 'processing',
     billing: {
-      first_name: registrationData.fullName.split(' ')[0],
-      last_name: registrationData.fullName.split(' ').slice(1).join(' ') || '',
-      email: registrationData.email,
-      phone: registrationData.phone,
-    },
-    shipping: {
-      first_name: registrationData.fullName.split(' ')[0],
-      last_name: registrationData.fullName.split(' ').slice(1).join(' ') || '',
+      first_name: taskData.studentName.split(' ')[0] || 'Student',
+      last_name: taskData.studentName.split(' ').slice(1).join(' ') || '',
+      email: taskData.studentEmail,
     },
     line_items: [
       {
-        product_id: 1, // Replace with actual workshop product ID
+        name: `Task: ${taskData.taskTitle}`,
         quantity: 1,
+        total: '0'
       }
     ],
     meta_data: [
       {
-        key: 'college',
-        value: registrationData.college
+        key: 'submission_type',
+        value: 'task_submission'
       },
       {
-        key: 'year',
-        value: registrationData.year
+        key: 'task_id',
+        value: taskData.taskId
       },
       {
-        key: 'department',
-        value: registrationData.department
+        key: 'task_title',
+        value: taskData.taskTitle
       },
       {
-        key: 'workshop_type',
-        value: 'Forward AI Workshop'
+        key: 'github_url',
+        value: taskData.githubUrl
+      },
+      {
+        key: 'submitted_at',
+        value: new Date().toISOString()
+      },
+      {
+        key: 'is_resubmission',
+        value: taskData.isResubmission || false
       }
     ]
   }
 
-  return await createOrder(orderData)
-}
-
-// Handle payment verification
-export const verifyPayment = async (orderId, paymentData) => {
-  try {
-    return await makeApiCall(`/orders/${orderId}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        status: 'processing',
-        transaction_id: paymentData.transactionId,
-        meta_data: [
-          {
-            key: 'payment_verified',
-            value: 'true'
-          },
-          {
-            key: 'payment_method_details',
-            value: JSON.stringify(paymentData)
-          }
-        ]
-      })
-    })
-  } catch (error) {
-    console.error('Error verifying payment:', error)
-    throw error
-  }
-}
-
-// Submit task completion by adding order note to existing order
-export const submitTaskCompletion = async (taskData) => {
-  // First, find the user's existing workshop registration order
-  const existingOrder = await findUserOrder(taskData.studentEmail)
-  
-  if (!existingOrder) {
-    throw new Error('No workshop registration found. Please register for the workshop first.')
-  }
-
-  // Create order note with task submission data
-  const noteData = {
-    note: JSON.stringify({
-      type: 'task_submission',
-      taskId: taskData.taskId,
-      taskTitle: taskData.taskTitle,
-      githubUrl: taskData.githubUrl,
-      submittedAt: new Date().toISOString(),
-      status: taskData.status || 'pending',
-      isResubmission: taskData.isResubmission || false,
-      studentEmail: taskData.studentEmail,
-      studentName: taskData.studentName
-    }),
-    customer_note: false,
-    added_by_user: false
-  }
-
-  const result = await makeApiCall(`/orders/${existingOrder.id}/notes`, {
-    method: 'POST',
-    body: JSON.stringify(noteData)
-  })
+  const order = await createOrder(orderData)
 
   // Clear relevant caches after new submission
   console.log('🗑️ OPTIMIZATION: Clearing caches after task submission')
@@ -327,123 +205,67 @@ export const submitTaskCompletion = async (taskData) => {
   clearUserCache(taskData.studentEmail) // Clear user-specific data
 
   return {
-    id: result.id,
-    orderId: existingOrder.id,
+    id: order.id,
+    orderId: order.id,
     taskId: taskData.taskId,
     status: 'submitted'
   }
 }
 
-// Get all task submissions (admin function) - Highly Optimized version with aggressive caching
-// OPTIMIZATION: This function makes many API calls (1 + N orders), so it's heavily cached
-// Cache duration is longer since admin data doesn't change frequently
+// Get all task submissions (admin function) - Optimized for new order-based approach
 export const getTaskSubmissions = async () => {
   return getCachedData('task_submissions', async () => {
     try {
-      console.log('🚀 OPTIMIZATION: Fetching task submissions with batched processing to minimize API load')
+      console.log('🚀 OPTIMIZATION: Fetching task submissions from orders')
       const startTime = performance.now()
       
-      // Get all workshop orders (excluding task submission orders)
+      // Get all orders that are task submissions
       const result = await makeApiCall('/orders?per_page=100&status=processing,completed,on-hold')
       
       console.log(`📊 Initial API call: Fetched ${result.length} orders`)
       
       const taskSubmissions = []
       
-      // Process orders in larger batches for better performance
-      const batchSize = 15 // Increased from 10 to 15 for better throughput
-      let totalNoteCalls = 0
-      
-      for (let i = 0; i < result.length; i += batchSize) {
-        const batch = result.slice(i, i + batchSize)
-        console.log(`🔄 Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(result.length/batchSize)} (${batch.length} orders)`)
+      // Filter for task submission orders only
+      result.forEach(order => {
+        const metaData = order.meta_data || []
+        const isTaskSubmission = metaData.some(meta => meta.key === 'submission_type' && meta.value === 'task_submission')
         
-        // Process batch concurrently
-        const batchPromises = batch.map(async (order) => {
-          // Skip orders that were task submission orders (old system)
-          const metaData = order.meta_data || []
-          const isOldTaskOrder = metaData.some(meta => meta.key === 'submission_type' && meta.value === 'workshop_task')
-          if (isOldTaskOrder) return []
+        if (isTaskSubmission) {
+          // Extract task data from meta_data
+          const taskId = metaData.find(meta => meta.key === 'task_id')?.value
+          const taskTitle = metaData.find(meta => meta.key === 'task_title')?.value
+          const githubUrl = metaData.find(meta => meta.key === 'github_url')?.value
+          const submittedAt = metaData.find(meta => meta.key === 'submitted_at')?.value
+          const isResubmission = metaData.find(meta => meta.key === 'is_resubmission')?.value || false
           
-          try {
-            // Get order notes
-            totalNoteCalls++
-            const notes = await makeApiCall(`/orders/${order.id}/notes`)
-            
-            // Process all notes at once to extract both submissions and admin reviews
-            const taskNotes = notes.filter(note => {
-              try {
-                const noteData = JSON.parse(note.note)
-                return noteData.type === 'task_submission'
-              } catch {
-                return false
-              }
-            })
-            
-            const adminNotes = notes.filter(note => {
-              try {
-                const noteData = JSON.parse(note.note)
-                return noteData.type === 'admin_review'
-              } catch {
-                return false
-              }
-            })
-            
-            // Create admin status lookup map
-            const adminStatusMap = {}
-            adminNotes.forEach(note => {
-              try {
-                const adminData = JSON.parse(note.note)
-                const key = `${adminData.taskId}`
-                if (!adminStatusMap[key] || new Date(note.date_created) > new Date(adminStatusMap[key].reviewedAt)) {
-                  adminStatusMap[key] = adminData
-                }
-              } catch (err) {
-                console.error('Error parsing admin note:', err)
-              }
-            })
-            
-            // Process task submissions with admin status
-            const orderSubmissions = []
-            taskNotes.forEach(note => {
-              try {
-                const taskData = JSON.parse(note.note)
-                const adminStatus = adminStatusMap[taskData.taskId] || { status: 'pending' }
-                
-                orderSubmissions.push({
-                  id: note.id,
-                  orderId: order.id,
-                  date_created: note.date_created,
-                  billing: order.billing,
-                  ...taskData,
-                  adminStatus: adminStatus
-                })
-              } catch (err) {
-                console.error('Error parsing task note:', err)
-              }
-            })
-            
-            return orderSubmissions
-          } catch (err) {
-            console.error(`Error fetching notes for order ${order.id}:`, err)
-            return []
+          // Get admin status from order status
+          let adminStatus = { status: 'pending' }
+          if (order.status === 'completed') {
+            adminStatus = { status: 'approved' }
+          } else if (order.status === 'cancelled') {
+            adminStatus = { status: 'rejected' }
           }
-        })
-        
-        const batchResults = await Promise.all(batchPromises)
-        batchResults.forEach(orderSubmissions => {
-          taskSubmissions.push(...orderSubmissions)
-        })
-        
-        // Reduced delay for better performance
-        if (i + batchSize < result.length) {
-          await new Promise(resolve => setTimeout(resolve, 50)) // Reduced from 100ms to 50ms
+          
+          taskSubmissions.push({
+            id: order.id,
+            orderId: order.id,
+            date_created: order.date_created,
+            billing: order.billing,
+            taskId: taskId,
+            taskTitle: taskTitle,
+            githubUrl: githubUrl,
+            submittedAt: submittedAt,
+            isResubmission: isResubmission,
+            studentEmail: order.billing?.email,
+            studentName: `${order.billing?.first_name} ${order.billing?.last_name}`.trim(),
+            adminStatus: adminStatus
+          })
         }
-      }
+      })
       
       const endTime = performance.now()
       console.log(`✅ Task submissions loaded in ${(endTime - startTime).toFixed(2)}ms`)
-      console.log(`📊 Total API calls: ${totalNoteCalls + 1} (1 orders call + ${totalNoteCalls} notes calls)`)
       console.log(`📋 Total submissions found: ${taskSubmissions.length}`)
       
       return taskSubmissions
@@ -451,55 +273,40 @@ export const getTaskSubmissions = async () => {
       console.error('Error fetching task submissions:', error)
       throw error
     }
-  })
+  }, ADMIN_CACHE_DURATION)
 }
 
-// Helper function to get admin status for a specific task
-const getTaskAdminStatus = async (orderId, taskId) => {
-  try {
-    const notes = await makeApiCall(`/orders/${orderId}/notes`)
-    
-    // Find the latest admin status note for this task
-    const adminNotes = notes.filter(note => {
-      try {
-        const noteData = JSON.parse(note.note)
-        return noteData.type === 'admin_review' && noteData.taskId === taskId
-      } catch {
-        return false
-      }
-    }).sort((a, b) => new Date(b.date_created) - new Date(a.date_created))
-    
-    if (adminNotes.length > 0) {
-      return JSON.parse(adminNotes[0].note)
-    }
-    
-    return { status: 'pending' }
-  } catch (error) {
-    console.error('Error getting admin status:', error)
-    return { status: 'pending' }
-  }
-}
-
-// Update task submission status (admin function)
+// Update task submission status (admin function) - Now updates order status directly
 export const updateTaskStatus = async (orderId, taskId, statusData) => {
   try {
-    // Add admin review note to the order
-    const noteData = {
-      note: JSON.stringify({
-        type: 'admin_review',
-        taskId: taskId,
-        status: statusData.status,
-        notes: statusData.notes || '',
-        reviewedBy: statusData.reviewedBy || 'Admin',
-        reviewedAt: statusData.reviewedAt || new Date().toISOString()
-      }),
-      customer_note: false,
-      added_by_user: false
+    // Map task status to order status
+    let orderStatus = 'processing' // pending
+    if (statusData.status === 'approved') {
+      orderStatus = 'completed'
+    } else if (statusData.status === 'rejected') {
+      orderStatus = 'cancelled'
     }
-
-    const result = await makeApiCall(`/orders/${orderId}/notes`, {
-      method: 'POST',
-      body: JSON.stringify(noteData)
+    
+    // Update the order status and add admin feedback
+    const result = await makeApiCall(`/orders/${orderId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        status: orderStatus,
+        meta_data: [
+          {
+            key: 'admin_feedback',
+            value: statusData.notes || ''
+          },
+          {
+            key: 'reviewed_by',
+            value: statusData.reviewedBy || 'Admin'
+          },
+          {
+            key: 'reviewed_at',
+            value: statusData.reviewedAt || new Date().toISOString()
+          }
+        ]
+      })
     })
     
     // Clear all relevant caches after updating task status
@@ -513,55 +320,49 @@ export const updateTaskStatus = async (orderId, taskId, statusData) => {
   }
 }
 
-// Get task submission status for a specific user and task - Optimized
+// Get task submission status for a specific user and task - Now uses direct order lookup
 export const getTaskSubmissionStatus = async (userEmail, taskId) => {
   try {
-    // Find the user's workshop order
-    const userOrder = await findUserOrder(userEmail)
+    // Get all orders and find task submission orders for this user and task
+    const result = await makeApiCall('/orders?per_page=50&status=processing,completed,on-hold,cancelled')
     
-    if (!userOrder) {
-      return null
-    }
-
-    // Get order notes once
-    const notes = await makeApiCall(`/orders/${userOrder.id}/notes`)
-    
-    // Find the task submission note
-    const taskSubmissionNote = notes.find(note => {
-      try {
-        const noteData = JSON.parse(note.note)
-        return noteData.type === 'task_submission' && noteData.taskId === taskId
-      } catch {
-        return false
-      }
+    const taskOrder = result.find(order => {
+      // Check if it's a task submission for this user and task
+      const metaData = order.meta_data || []
+      const isTaskSubmission = metaData.some(meta => meta.key === 'submission_type' && meta.value === 'task_submission')
+      const matchesTask = metaData.some(meta => meta.key === 'task_id' && meta.value === taskId)
+      const matchesUser = order.billing?.email?.toLowerCase() === userEmail.toLowerCase()
+      
+      return isTaskSubmission && matchesTask && matchesUser
     })
     
-    if (!taskSubmissionNote) {
+    if (!taskOrder) {
       return null
     }
     
-    const taskData = JSON.parse(taskSubmissionNote.note)
+    // Extract data from order
+    const metaData = taskOrder.meta_data || []
+    const githubUrl = metaData.find(meta => meta.key === 'github_url')?.value || ''
+    const submittedAt = metaData.find(meta => meta.key === 'submitted_at')?.value || taskOrder.date_created
+    const adminFeedback = metaData.find(meta => meta.key === 'admin_feedback')?.value || ''
+    const reviewedAt = metaData.find(meta => meta.key === 'reviewed_at')?.value || null
     
-    // Find the latest admin review note for this task from the same notes array
-    const adminNotes = notes.filter(note => {
-      try {
-        const noteData = JSON.parse(note.note)
-        return noteData.type === 'admin_review' && noteData.taskId === taskId
-      } catch {
-        return false
-      }
-    }).sort((a, b) => new Date(b.date_created) - new Date(a.date_created))
-    
-    const adminStatus = adminNotes.length > 0 ? JSON.parse(adminNotes[0].note) : { status: 'pending' }
+    // Map order status to task status
+    let status = 'pending'
+    if (taskOrder.status === 'completed') {
+      status = 'approved'
+    } else if (taskOrder.status === 'cancelled') {
+      status = 'rejected'
+    }
     
     return {
-      id: taskSubmissionNote.id,
-      orderId: userOrder.id,
-      status: adminStatus.status || 'pending',
-      adminNotes: adminStatus.notes || '',
-      reviewedAt: adminStatus.reviewedAt || null,
-      githubUrl: taskData.githubUrl || '',
-      submittedAt: taskData.submittedAt || taskSubmissionNote.date_created
+      id: taskOrder.id,
+      orderId: taskOrder.id,
+      status: status,
+      adminNotes: adminFeedback,
+      reviewedAt: reviewedAt,
+      githubUrl: githubUrl,
+      submittedAt: submittedAt
     }
   } catch (error) {
     console.error('Error getting task submission status:', error)
@@ -570,66 +371,52 @@ export const getTaskSubmissionStatus = async (userEmail, taskId) => {
 }
 
 // Get ALL task submission statuses for a user in a single optimized call
-// OPTIMIZATION: This replaces multiple individual getTaskSubmissionStatus calls
-// Previously: N tasks × (1 findUserOrder + 1 getNotes) = 2N API calls
-// Now: 1 findUserOrder + 1 getNotes = 2 API calls total
-// Reduces 100+ API calls to just 2 for typical usage
+// Now works with direct order lookup instead of workshop registration dependency
 export const getUserTaskStatuses = async (userEmail, taskIds = []) => {
   return getCachedData(`user_task_statuses_${userEmail}`, async () => {
     try {
-      // Find the user's workshop order
-      const userOrder = await findUserOrder(userEmail)
+      // Get all orders and filter for task submissions by this user
+      const result = await makeApiCall('/orders?per_page=100&status=processing,completed,on-hold,cancelled')
       
-      if (!userOrder) {
-        return {}
-      }
-
-      // Get order notes once
-      const notes = await makeApiCall(`/orders/${userOrder.id}/notes`)
-      
-      // Process all task submissions and admin reviews
-      const taskSubmissions = {}
-      const adminReviews = {}
-      
-      // Group notes by type and task ID
-      notes.forEach(note => {
-        try {
-          const noteData = JSON.parse(note.note)
-          
-          if (noteData.type === 'task_submission') {
-            taskSubmissions[noteData.taskId] = {
-              note,
-              data: noteData
-            }
-          } else if (noteData.type === 'admin_review') {
-            const taskId = noteData.taskId
-            if (!adminReviews[taskId] || new Date(note.date_created) > new Date(adminReviews[taskId].note.date_created)) {
-              adminReviews[taskId] = {
-                note,
-                data: noteData
-              }
-            }
-          }
-        } catch (err) {
-          // Skip invalid notes
-        }
+      const userTaskOrders = result.filter(order => {
+        // Check if it's a task submission for this user
+        const metaData = order.meta_data || []
+        const isTaskSubmission = metaData.some(meta => meta.key === 'submission_type' && meta.value === 'task_submission')
+        const matchesUser = order.billing?.email?.toLowerCase() === userEmail.toLowerCase()
+        
+        return isTaskSubmission && matchesUser
       })
       
-      // Combine submissions with their admin status
       const taskStatuses = {}
       
-      Object.keys(taskSubmissions).forEach(taskId => {
-        const submission = taskSubmissions[taskId]
-        const adminReview = adminReviews[taskId]
+      // Process each task order
+      userTaskOrders.forEach(order => {
+        const metaData = order.meta_data || []
+        const taskId = metaData.find(meta => meta.key === 'task_id')?.value
         
-        taskStatuses[taskId] = {
-          id: submission.note.id,
-          orderId: userOrder.id,
-          status: adminReview ? adminReview.data.status : 'pending',
-          adminNotes: adminReview ? adminReview.data.notes || '' : '',
-          reviewedAt: adminReview ? adminReview.data.reviewedAt : null,
-          githubUrl: submission.data.githubUrl || '',
-          submittedAt: submission.data.submittedAt || submission.note.date_created
+        if (taskId) {
+          const githubUrl = metaData.find(meta => meta.key === 'github_url')?.value || ''
+          const submittedAt = metaData.find(meta => meta.key === 'submitted_at')?.value || order.date_created
+          const adminFeedback = metaData.find(meta => meta.key === 'admin_feedback')?.value || ''
+          const reviewedAt = metaData.find(meta => meta.key === 'reviewed_at')?.value || null
+          
+          // Map order status to task status
+          let status = 'pending'
+          if (order.status === 'completed') {
+            status = 'approved'
+          } else if (order.status === 'cancelled') {
+            status = 'rejected'
+          }
+          
+          taskStatuses[taskId] = {
+            id: order.id,
+            orderId: order.id,
+            status: status,
+            adminNotes: adminFeedback,
+            reviewedAt: reviewedAt,
+            githubUrl: githubUrl,
+            submittedAt: submittedAt
+          }
         }
       })
       
