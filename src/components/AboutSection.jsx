@@ -7,19 +7,6 @@ const AboutSection = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, threshold: 0.2 })
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.2,
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    })
-  }
-
   return (
     <section ref={ref} className="py-20 bg-cornsilk-800 overflow-x-hidden" id="about">
       <div className="max-w-7xl mx-auto px-6">
@@ -37,79 +24,125 @@ const AboutSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div className="grid md:grid-cols-2 gap-12 items-start mb-16">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
+            className="space-y-8"
           >
-            <h3 className="text-3xl font-bold text-dark-moss-green mb-6">Our Mission</h3>
-            <p className="text-lg text-pakistan-green-600 mb-6 leading-relaxed">
-              To create a thriving ecosystem of self-driven learners, empowering students to develop 
-              industry-relevant skills, collaborate on exciting projects, and contribute to real-world solutions.
-            </p>
-            <p className="text-lg text-pakistan-green-600 leading-relaxed">
-              We are here to assist you in breaking through the echo chambers and free you from the 
-              shackles you have grounded yourself in.
-            </p>
+            <div>
+              <h3 className="text-3xl font-bold text-dark-moss-green mb-6">Our Mission</h3>
+              <p className="text-lg text-pakistan-green-600 mb-6 leading-relaxed">
+                To create a thriving ecosystem of self-driven learners, empowering students to develop 
+                industry-relevant skills, collaborate on exciting projects, and contribute to real-world solutions.
+              </p>
+              <p className="text-lg text-pakistan-green-600 leading-relaxed">
+                We are here to assist you in breaking through the echo chambers and free you from the 
+                shackles you have grounded yourself in.
+              </p>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="relative"
+            >
+              <div className="bg-gradient-to-br from-tigers-eye-200 to-earth-yellow-200 rounded-2xl p-8 shadow-xl">
+                <div className="bg-white rounded-xl p-6">
+                  <h4 className="text-2xl font-bold text-pakistan-green mb-4">
+                    Join Our Community
+                  </h4>
+                  <p className="text-pakistan-green-600 mb-4">
+                    Connect with like-minded learners and start your journey today.
+                  </p>
+                  <div className="flex items-center gap-3 text-tigers-eye font-semibold">
+                    <FaUsers className="text-xl" />
+                    <span>1000+ Active Members</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative"
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex justify-center items-center"
           >
-            <div className="bg-gradient-to-br from-tigers-eye-200 to-earth-yellow-200 rounded-2xl p-8 shadow-xl">
-              <div className="bg-white rounded-xl p-6">
-                <h4 className="text-2xl font-bold text-pakistan-green mb-4">
-                  Join Our Community
-                </h4>
-                <p className="text-pakistan-green-600 mb-4">
-                  Connect with like-minded learners and start your journey today.
-                </p>
-                <div className="flex items-center gap-3 text-tigers-eye font-semibold">
-                  <FaUsers className="text-xl" />
-                  <span>1000+ Active Members</span>
+            <div className="relative">
+              {/* Phone Frame */}
+              <div className="relative bg-gray-900 rounded-[3rem] p-2 shadow-2xl">
+                <div className="relative bg-black rounded-[2.5rem] p-1">
+                  <div className="relative bg-white rounded-[2rem] overflow-hidden">
+                    {/* Notch */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-black rounded-b-xl w-32 h-6 z-10"></div>
+                    
+                    {/* Video Container */}
+                    <div className="relative w-80 h-[640px] bg-black rounded-[2rem] overflow-hidden">
+                      <video
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                      >
+                        <source src="/assets/fwdaiworkshop (2)/orientation.mp4" type="video/mp4" />
+                        <div className="flex items-center justify-center h-full bg-gradient-to-br from-pakistan-green to-dark-moss-green text-white text-center p-8">
+                          <div>
+                            <FaRocket className="text-6xl mb-4 mx-auto opacity-80" />
+                            <p className="text-lg font-semibold mb-2">Video Not Supported</p>
+                            <p className="text-sm opacity-90">Please upgrade your browser to view our orientation experience</p>
+                          </div>
+                        </div>
+                      </video>
+                      
+                      {/* Video Overlay with Logo/Text */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-6 opacity-0 hover:opacity-75 active:opacity-75">
+                        <div className="text-white">
+                          <h3 className="text-2xl font-bold mb-2">µLearn Experience</h3>
+                          <p className="text-sm opacity-90">Discover our learning journey</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                
+                {/* Phone Details */}
+                <div className="absolute -right-1 top-20 bg-gray-900 w-1 h-12 rounded-l"></div>
+                <div className="absolute -right-1 top-36 bg-gray-900 w-1 h-8 rounded-l"></div>
+                <div className="absolute -right-1 top-48 bg-gray-900 w-1 h-8 rounded-l"></div>
+                <div className="absolute -left-1 top-24 bg-gray-900 w-1 h-16 rounded-r"></div>
               </div>
+              
+              {/* Floating Elements Around Phone */}
+              <motion.div
+                className="absolute -top-4 -right-4 bg-tigers-eye text-white rounded-full p-3"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <FaRocket className="text-xl" />
+              </motion.div>
+              
+              <motion.div
+                className="absolute -bottom-4 -left-4 bg-pakistan-green text-white rounded-full p-3"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity }}
+              >
+                <FaUsers className="text-xl" />
+              </motion.div>
+              
+              <motion.div
+                className="absolute top-1/2 -left-8 bg-dark-moss-green text-white rounded-full p-3"
+                animate={{ x: [0, -5, 0] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <FaLightbulb className="text-xl" />
+              </motion.div>
             </div>
           </motion.div>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: FaLightbulb,
-              title: "Innovation",
-              description: "Fostering creative thinking and innovative solutions to real-world challenges."
-            },
-            {
-              icon: FaUsers,
-              title: "Peer Learning",
-              description: "Learning together through micro peer groups and collaborative projects."
-            },
-            {
-              icon: FaRocket,
-              title: "Growth",
-              description: "Accelerating personal and professional growth through hands-on experience."
-            }
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              custom={index}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              variants={cardVariants}
-              className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border-l-4 border-tigers-eye"
-            >
-              <div className="bg-tigers-eye-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <item.icon className="text-2xl text-tigers-eye" />
-              </div>
-              <h4 className="text-xl font-bold text-pakistan-green mb-4">{item.title}</h4>
-              <p className="text-pakistan-green-600 leading-relaxed">{item.description}</p>
-            </motion.div>
-          ))}
         </div>
 
         <motion.div

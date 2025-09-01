@@ -133,8 +133,7 @@ const TeamSection = () => {
             Meet Our Team
           </h2>
           <p className="text-xl text-pakistan-green-700 max-w-3xl mx-auto">
-            The passionate individuals driving innovation and learning at MuLearn SCET. 
-            Click through to meet each team member.
+            The passionate individuals driving innovation and learning at MuLearn SCET.
           </p>
         </motion.div>
 
@@ -285,16 +284,16 @@ const TeamSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-tigers-eye/20 to-pakistan-green/20 rounded-full blur-3xl scale-110"></div>
                 
                 {/* Main Image Container */}
-                <div className="relative w-96 h-[400px] sm:h-96 mx-auto">
+                <div className="relative w-vh h-vh sm:h-96 mx-auto">
                   {/* Background container */}
-                  <div className="w-full h-95 sm:h-69 bg-gradient-to-br from-tigers-eye/30 to-pakistan-green/30  border-8 border-white shadow-2xl mt-20"></div>
+                  <div className="w-vh max-w-[50vh] h-70 sm:h-69 bg-gradient-to-br from-tigers-eye/30 to-pakistan-green/30  border-8 border-white shadow-2xl mt-20"></div>
                   
                   {/* Image popping out above the container - cropped to show only top portion */}
-                  <div className="absolute bottom-7 sm:bottom-29 left-2 overflow-hidden">
+                  <div className="absolute bottom-2 sm:bottom-29 left-2 overflow-hidden">
                     <motion.img
                       src={currentMember.image}
                       alt={currentMember.name}
-                      className="w-92 h-full sm:h-full object-cover object-bottom"
+                      className="w-full max-w-78 h-vh sm:h-full sm:w-100 object-cover object-bottom"
                       onError={(e) => {
                         e.target.src = '/assets/team/placeholder.jpg';
                       }}

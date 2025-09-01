@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
-import { FaExpand, FaTimes } from 'react-icons/fa'
+import { FaExpand, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 const GallerySection = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, threshold: 0.1 })
   const [selectedImage, setSelectedImage] = useState(null)
+  const [currentSlide, setCurrentSlide] = useState(0)
 
 const Counter = ({ end, duration = 1200 }) => {
   const ref = useRef(null)
@@ -39,6 +40,18 @@ const Counter = ({ end, duration = 1200 }) => {
     </span>
   )
 }
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % galleryImages.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length)
+  }
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index)
+  }
 
   // Gallery images from the assets
   const galleryImages = [
@@ -128,7 +141,7 @@ const Counter = ({ end, duration = 1200 }) => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
           {galleryImages.map((image, index) => (
             <motion.div
@@ -160,6 +173,92 @@ const Counter = ({ end, duration = 1200 }) => {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Mobile Carousel */}
+        <div className="md:hidden relative">
+          {/* Carousel Container */}
+          <div className="overflow-hidden rounded-xl">
+            <motion.div
+              className="flex transition-transform duration-300 ease-in-out"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {galleryImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="w-full flex-shrink-0"
+                >
+                  <motion.div
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}
+                    className="relative group cursor-pointer overflow-hidden rounded-xl shadow-lg bg-white mx-2"
+                    onClick={() => setSelectedImage(image)}
+                  >
+                    <div className="aspect-square overflow-hidden">
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                    </div>
+                    
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                      <div className="p-4 text-white w-full">
+                        <h3 className="font-semibold text-sm mb-2">{image.title}</h3>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs opacity-80">Click to expand</span>
+                          <FaExpand className="text-sm" />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg z-10 hover:bg-gray-50 transition-colors duration-200"
+            aria-label="Previous image"
+          >
+            <FaChevronLeft className="text-pakistan-green text-lg" />
+          </button>
+          
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg z-10 hover:bg-gray-50 transition-colors duration-200"
+            aria-label="Next image"
+          >
+            <FaChevronRight className="text-pakistan-green text-lg" />
+          </button>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {galleryImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                  index === currentSlide
+                    ? 'bg-tigers-eye scale-110'
+                    : 'bg-tigers-eye-700 hover:bg-tigers-eye-300'
+                }`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Image counter */}
+          <div className="text-center mt-4">
+            <span className="text-pakistan-green-600 text-sm">
+              {currentSlide + 1} / {galleryImages.length}
+            </span>
+          </div>
+        </div>
 
         {/* Stats Section */}
         <motion.div
