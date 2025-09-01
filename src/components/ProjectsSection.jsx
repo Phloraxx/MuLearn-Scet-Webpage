@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { FaCode, FaLaptop, FaBrain, FaUsers, FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { useRef, useState } from 'react'
+import { FaCode, FaLaptop, FaBrain, FaUsers, FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 const ProjectsSection = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, threshold: 0.1 })
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   const projects = [
     {
@@ -80,6 +81,18 @@ const ProjectsSection = () => {
     })
   }
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % projects.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + projects.length) % projects.length)
+  }
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index)
+  }
+
   return (
     <section ref={ref} className="py-20 bg-gradient-to-b from-cornsilk-700 to-cornsilk-800" id="projects">
       <div className="max-w-7xl mx-auto px-6">
@@ -97,7 +110,7 @@ const ProjectsSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={index}
@@ -165,6 +178,120 @@ const ProjectsSection = () => {
               </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Mobile Carousel */}
+        <div className="md:hidden relative">
+          {/* Carousel Container */}
+          <div className="overflow-hidden rounded-xl">
+            <motion.div
+              className="flex transition-transform duration-300 ease-in-out"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {projects.map((project, index) => (
+                <div
+                  key={index}
+                  className="w-full flex-shrink-0"
+                >
+                  <motion.div
+                    initial="hidden"
+                    animate={isInView ? "visible" : "hidden"}
+                    variants={cardVariants}
+                    className="bg-white rounded-xl overflow-hidden shadow-lg mx-2"
+                  >
+                    {/* Header with gradient */}
+                    <div className={`bg-gradient-to-r ${project.gradient} p-6 text-white relative overflow-hidden`}>
+                      <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+                        <project.icon className="w-full h-full" />
+                      </div>
+                      <div className="relative z-10">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="bg-auto bg-opacity-20 w-12 h-12 rounded-full flex items-center justify-center">
+                            <project.icon className="text-xl" />
+                          </div>
+                          <span className="bg-auto bg-opacity-20 px-3 py-1 rounded-full text-sm font-medium">
+                            {project.status}
+                          </span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <p className="text-pakistan-green-600 mb-4 leading-relaxed">
+                        {project.description}
+                      </p>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.tags.map((tag, tagIndex) => (
+                          <span
+                            key={tagIndex}
+                            className="bg-cornsilk-600 text-pakistan-green px-3 py-1 rounded-full text-sm font-medium"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Action buttons */}
+                      <div className="flex gap-3">
+                        <button 
+                          className={`${project.join ? 'flex-1' : 'w-full'} bg-tigers-eye hover:bg-tigers-eye-600 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center gap-2`}
+                          onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
+                        >                 
+                          <span>Learn More</span>
+                          <FaExternalLinkAlt className="text-sm" />
+                        </button>
+                        {project.join && (
+                          <button 
+                            className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-white py-2 px-4 rounded-lg font-medium transition-all duration-300"
+                            onClick={() => window.open(project.join, "_blank", "noopener,noreferrer")}
+                          >
+                            Join
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg z-10 hover:bg-gray-50 transition-colors duration-200"
+            aria-label="Previous project"
+          >
+            <FaChevronLeft className="text-pakistan-green text-lg" />
+          </button>
+          
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg z-10 hover:bg-gray-50 transition-colors duration-200"
+            aria-label="Next project"
+          >
+            <FaChevronRight className="text-pakistan-green text-lg" />
+          </button>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {projects.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                  index === currentSlide
+                    ? 'bg-tigers-eye scale-110'
+                    : 'bg-tigers-eye-800 hover:bg-tigers-eye-300 '
+                }`}
+                aria-label={`Go to project ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Call to action */}
