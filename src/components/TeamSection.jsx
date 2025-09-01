@@ -286,14 +286,14 @@ const TeamSection = () => {
                 {/* Main Image Container */}
                 <div className="relative w-vh h-vh sm:h-96 mx-auto">
                   {/* Background container */}
-                  <div className="w-vh max-w-[50vh] h-70 sm:h-69 bg-gradient-to-br from-tigers-eye/30 to-pakistan-green/30  border-8 border-white shadow-2xl mt-20"></div>
+                  <div className="w-82 max-w-[415px] h-70 sm:h-full sm:w-full bg-gradient-to-br from-tigers-eye/30 to-pakistan-green/30  border-8 border-white shadow-2xl mt-20"></div>
                   
                   {/* Image popping out above the container - cropped to show only top portion */}
-                  <div className="absolute bottom-2 sm:bottom-29 left-2 overflow-hidden">
+                  <div className="absolute bottom-2 left-2 overflow-hidden">
                     <motion.img
                       src={currentMember.image}
                       alt={currentMember.name}
-                      className="w-full max-w-78 h-vh sm:h-full sm:w-100 object-cover object-bottom"
+                      className="w-78 max-w-100 h-vh sm:max-w-full sm:h-full sm:w-100 object-cover object-bottom"
                       onError={(e) => {
                         e.target.src = '/assets/team/placeholder.jpg';
                       }}

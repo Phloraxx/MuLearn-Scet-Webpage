@@ -96,9 +96,9 @@ const HeroSection = () => {
 
       {/* Floating illustration */}
       <motion.div
-        className="absolute transform -bottom-1/5"
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
+        className="absolute transform -bottom-1/5 sm:-bottom-1/6"
+        initial={{ opacity: 0, y: 0 }}
+        animate={{ opacity: 1, y: 100 }}
         transition={{ delay: 1.2, duration: 3 }}
       >
         <motion.img
