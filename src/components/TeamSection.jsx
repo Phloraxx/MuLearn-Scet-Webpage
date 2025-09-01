@@ -34,7 +34,7 @@ const TeamSection = () => {
     {
       name: "Nandhana Biju",
       role: "General Lead",
-      image: "/assets/team/Nandhana Biju.jpg",
+      image: "/assets/team/Nandhana Biju.png",
       social: {
         instagram: "https://www.instagram.com/nan_dhaaaaah/",
         linkedin: "#", // Placeholder
@@ -45,7 +45,7 @@ const TeamSection = () => {
     {
       name: "Sourav P Bijoy",
       role: "Tech Lead",
-      image: "/assets/team/Sourav P Bijoy_.jpg",
+      image: "/assets/team/Sourav P Bijoy_.png",
       social: {
         instagram: "https://www.instagram.com/souravpbijoy/",
         linkedin: "#", // Placeholder
@@ -67,7 +67,7 @@ const TeamSection = () => {
     {
       name: "Niya rose Joseph",
       role: "Content Lead",
-      image: "/assets/team/Niya_rose_Joseph.jpg",
+      image: "/assets/team/Niya_rose_Joseph.png",
       social: {
         instagram: "https://www.instagram.com/niya._.joseph/",
         linkedin: "#", // Placeholder
@@ -285,12 +285,16 @@ const TeamSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-tigers-eye/20 to-pakistan-green/20 rounded-full blur-3xl scale-110"></div>
                 
                 {/* Main Image Container */}
-                <div className="relative w-96 h-96 mx-auto">
-                  <div className="w-full h-full rounded-3xl overflow-hidden border-8 border-white shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200">
+                <div className="relative w-96 h-[400px] sm:h-96 mx-auto">
+                  {/* Background container */}
+                  <div className="w-full h-95 sm:h-69 bg-gradient-to-br from-tigers-eye/30 to-pakistan-green/30  border-8 border-white shadow-2xl mt-20"></div>
+                  
+                  {/* Image popping out above the container - cropped to show only top portion */}
+                  <div className="absolute bottom-7 sm:bottom-29 left-2 overflow-hidden">
                     <motion.img
                       src={currentMember.image}
                       alt={currentMember.name}
-                      className="w-full h-full object-cover"
+                      className="w-92 h-full sm:h-full object-cover object-bottom"
                       onError={(e) => {
                         e.target.src = '/assets/team/placeholder.jpg';
                       }}
@@ -302,7 +306,7 @@ const TeamSection = () => {
                   
                   {/* Floating Decorative Elements */}
                   <motion.div
-                    className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-r from-tigers-eye to-earth-yellow rounded-full shadow-xl"
+                    className="absolute top-4 -right-6 w-12 h-12 bg-gradient-to-r from-tigers-eye to-earth-yellow rounded-full shadow-xl"
                     animate={{
                       rotate: [0, 360],
                       scale: [1, 1.1, 1]
