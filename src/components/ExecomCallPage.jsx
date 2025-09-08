@@ -8,7 +8,25 @@ const ExecomCallPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8 pt-24">
+      {/* Custom CSS for iframe scrollbars */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .no-scroll-iframe {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+          }
+          .no-scroll-iframe iframe {
+            overflow: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer 10+ */
+          }
+          .no-scroll-iframe iframe::-webkit-scrollbar {
+            display: none; /* WebKit */
+          }
+        }
+      `}</style>
+      
+      <div className="container mx-auto px-1 py-8 pt-20">
         {/* Back Button */}
         <Link 
           to="/" 
@@ -53,25 +71,23 @@ const ExecomCallPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center"
+          transition={{ duration: 2, delay: 0.2 }}
+          className="w-full"
         >
-          <div className="w-full max-w-4xl">
-            <div className="bg-white rounded-xl shadow-lg p-4 md:p-8">
-              <div className="flex justify-center">
-                <iframe 
-                  src="https://docs.google.com/forms/d/e/1FAIpQLSc6kyeUcirqierR9OnZo54vdIQ-n9eGsJNRQ4xf7NX_XVonmw/viewform?embedded=true" 
-                  width="100%" 
-                  height="2145" 
-                  frameBorder="0" 
-                  marginHeight="0" 
-                  marginWidth="0"
-                  className="w-full max-w-[640px] rounded-lg"
-                  title="μLearn Execom Application Form"
-                >
-                  Loading…
-                </iframe>
-              </div>
+          <div className="w-full">
+            <div className="bg-white drop-shadow-2xl no-scroll-iframe">
+              <iframe 
+                src="https://docs.google.com/forms/d/e/1FAIpQLSc6kyeUcirqierR9OnZo54vdIQ-n9eGsJNRQ4xf7NX_XVonmw/viewform?embedded=true" 
+                width="100%=" 
+                height="2145" 
+                frameBorder="0" 
+                marginHeight="0" 
+                marginWidth="0"
+                className="w-full"
+                title="μLearn Execom Application Form"
+              >
+                Loading…
+              </iframe>
             </div>
           </div>
         </motion.div>
