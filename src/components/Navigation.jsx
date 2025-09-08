@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { FaBars, FaTimes, FaDiscord } from 'react-icons/fa'
+import { FaBars, FaTimes, FaUserPlus } from 'react-icons/fa'
 import MuLearnLogo from './MuLearnLogo'
 
 const Navigation = () => {
@@ -26,16 +26,21 @@ const Navigation = () => {
   ]
 
   const scrollToSection = (href) => {
+    // Close mobile menu first
+    setIsMobileMenuOpen(false)
+    
     if (location.pathname !== '/') {
       window.location.href = `/${href}`
       return
     }
     
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-    setIsMobileMenuOpen(false)
+    // Add a small delay to ensure mobile menu closes before scrolling
+    setTimeout(() => {
+      const element = document.querySelector(href)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 100)
   }
 
   return (
@@ -96,13 +101,13 @@ const Navigation = () => {
             </motion.button>
             
             <motion.button
-              onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
+              onClick={() => window.location.href = '/req'}
               className="bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-2 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <FaDiscord />
-              Join Discord
+              <FaUserPlus />
+              Execom Registration
             </motion.button>
           </div>
           
@@ -160,15 +165,15 @@ const Navigation = () => {
               
               <motion.button
                 onClick={() => {
-                  window.open('https://discord.gg/3jbpEubWRA', '_blank')
                   setIsMobileMenuOpen(false)
+                  window.location.href = '/req'
                 }}
                 className="w-full bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <FaDiscord />
-                Join Discord
+                <FaUserPlus />
+                Execom Registration
               </motion.button>
             </div>
           </div>

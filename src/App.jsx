@@ -15,6 +15,7 @@ import ProjectsSection from './components/ProjectsSection'
 import GallerySection from './components/GallerySection'
 import TeamSection from './components/TeamSection'
 import TestTeamPage from './components/TestTeamPage'
+import ExecomCallPage from './components/ExecomCallPage'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import LoadingScreen from './components/LoadingScreen'
@@ -55,6 +56,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/test-team" element={<TestTeamPage />} />
+          <Route path="/req" element={<ExecomCallPage />} />
           {/* Redirect /games to external Google Form */}
           <Route path="/games" element={<ExternalGamesRedirect />} />
         </Routes>
