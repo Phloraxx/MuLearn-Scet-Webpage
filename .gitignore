@@ -35,3 +35,5 @@ REGISTRATION_SETUP.md
 wrangler.toml
 worker.js
 CLOUDFLARE_WORKER_SETUP.md
+
+appwrite/

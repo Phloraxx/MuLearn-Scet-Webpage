@@ -19,6 +19,7 @@ import ExecomCallPage from './components/ExecomCallPage'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import LoadingScreen from './components/LoadingScreen'
+import KarmaWarPage from './components/KarmaWar/KarmaWarPage'
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
@@ -57,6 +58,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/test-team" element={<TestTeamPage />} />
           <Route path="/req" element={<ExecomCallPage />} />
+          <Route path="/karma-war" element={<KarmaWarPage />} />
           {/* Redirect /games to external Google Form */}
           <Route path="/games" element={<ExternalGamesRedirect />} />
         </Routes>

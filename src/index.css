@@ -68,6 +68,45 @@
   --color-light-purple-700: #7077ef;
   --color-light-purple-800: #5461ec;
   --color-light-purple-900: #374ce9;
+
+  /* Karma War Colors */
+  --color-primary: #7C7CE0;
+  --color-secondary: #1A202C;
+  --color-retro-gray: #D1D5DB;
+  --color-screen-blue: #283E56;
+  --color-background-light: #E5E5E5;
+  --color-background-dark: #111827;
+  --color-accent-dark: #0F172A;
+
+  /* Karma War Fonts */
+  --font-display: "Anton", sans-serif;
+  --font-retro: "Bebas Neue", cursive;
+  --font-mono: "Share Tech Mono", monospace;
+  --font-tech: "Orbitron", sans-serif;
+  --font-handwritten: "Special Elite", cursive;
+
+  /* Karma War Backgrounds */
+  --background-image-grunge-pattern: url('https://www.transparenttextures.com/patterns/concrete-wall.png');
+  --background-image-noise: url('https://www.transparenttextures.com/patterns/stardust.png');
+  
+  /* Karma War Shadows */
+  --shadow-tv: 0 0 20px rgba(0,0,0,0.6), inset 0 0 40px rgba(0,0,0,0.8);
+  --shadow-screen-glow: 0 0 15px rgba(124, 124, 224, 0.3);
+  
+  /* Karma War Animations */
+  --animate-typewriter: typewriter 2s steps(11) forwards;
+  --animate-float: float 6s ease-in-out infinite;
+  
+  @keyframes typewriter {
+    to {
+      left: 100%;
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
 }
 
 /* Custom fonts and base styles */
