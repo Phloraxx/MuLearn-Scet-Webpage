@@ -6,19 +6,26 @@ const HeroSection = () => {
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-cornsilk via-cornsilk-600 to-earth-yellow-800">
       {/* Background SVG */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0"
         initial={{ scale: 1.3, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 3, ease: "easeOut" }}
       >
-        <img 
-          src="/assets/blob-scene-haikei.svg" 
-          alt="Background" 
-          className="w-full h-full object-cover"
+        {/* Mobile Background */}
+        <img
+          src="/assets/blob-scene-haikei-mobile.svg"
+          alt="Background"
+          className="block sm:hidden w-full h-full object-cover object-center"
+        />
+        {/* Desktop Background */}
+        <img
+          src="/assets/blob-scene-haikei.svg"
+          alt="Background"
+          className="hidden sm:block w-full h-full object-cover object-center"
         />
       </motion.div>
-      
+
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
         <motion.div
@@ -33,11 +40,11 @@ const HeroSection = () => {
             animate={{ scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <MuLearnLogo 
-              size="large" 
+            <MuLearnLogo
+              size="large"
               className="text-pakistan-green mb-4"
             />
-            <motion.span 
+            <motion.span
               className="text-4xl md:text-5xl font-light text-dark-moss-green"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -48,7 +55,7 @@ const HeroSection = () => {
           </motion.div>
         </motion.div>
 
-        <motion.p 
+        <motion.p
           className="text-xl md:text-2xl text-pakistan-green-600 mb-8 font-medium"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -57,7 +64,7 @@ const HeroSection = () => {
           Empowering Students Through Peer Learning & Innovation
         </motion.p>
 
-        <motion.p 
+        <motion.p
           className="text-lg text-pakistan-green-400 mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -82,7 +89,7 @@ const HeroSection = () => {
             Register to MuLearn
             <FaArrowRight className="text-sm" />
           </motion.button>
-          
+
           <motion.button
             className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-cornsilk px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
             whileHover={{ scale: 1.05 }}
@@ -96,16 +103,16 @@ const HeroSection = () => {
 
       {/* Floating illustration */}
       <motion.div
-        className="absolute transform -bottom-1/5 sm:-bottom-1/6"
-        initial={{ opacity: 0, y: 0 }}
-        animate={{ opacity: 1, y: 100 }}
+        className="absolute transform -translate-x-1 bottom-[-8%] sm:bottom-[-10%] md:bottom-[-15%]"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 3 }}
       >
         <motion.img
           src="/assets/illustration.webp"
           alt="Learning illustration"
-          className="object-contain h-120"
-          animate={{ y: [0, 20, 0] }}
+          className="object-contain h-64 sm:h-120 md:h-120"
+          animate={{ y: [10, 20, 10] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>

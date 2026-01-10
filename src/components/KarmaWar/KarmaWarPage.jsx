@@ -241,7 +241,7 @@ const LoginForm = () => {
 
     try {
       // Replace with your actual Google Apps Script Web App URL
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzQnCuWv-Ak6YMrqCsgpcLFnfnB9mEH538S6xUUyCa5VWvELmV3w0yuhPis_5LGNHKO/exec';
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxlBFSmxeeP39ndjxwswzDflDZhpt_KmMy0LLxfmPbBl3tggZH3CcwPui-4jIuuj_mH/exec';
 
       const totalKarma =
         (Number(formData.teamLead.karma) || 0) +
@@ -319,7 +319,7 @@ const LoginForm = () => {
           onChange={(e) => handleChange(memberKey, field, e.target.value)}
           className="w-full bg-transparent border-2 border-gray-300 focus:border-primary focus:ring-0 text-secondary p-3 font-mono rounded-none transition-colors appearance-none"
         >
-          <option value="" disabled>SELECT YEAR</option>
+          <option value="" disabled>SELECT {label.toUpperCase()}</option>
           {options.map(opt => (
             <option key={opt} value={opt}>{opt}</option>
           ))}
@@ -534,7 +534,7 @@ const KarmaWarPage = () => {
 
       <BackgroundDecorations />
 
-      <main className="relative z-10 flex flex-col lg:flex-row min-h-screen items-center justify-center p-6 gap-12 lg:gap-20 pt-24 lg:pt-0">
+      <main className="relative z-10 flex flex-col lg:flex-row min-h-screen items-center justify-center p-6 gap-12 lg:gap-20 pt-24 lg:p-0">
         <HeroSection />
         <LoginForm />
       </main>
