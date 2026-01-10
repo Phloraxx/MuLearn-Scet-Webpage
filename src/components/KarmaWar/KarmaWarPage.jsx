@@ -126,14 +126,15 @@ const LoginForm = () => {
   const [success, setSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
-    teamLead: { name: '', email: '', phone: '', muid: '', muidValid: false, karma: 0, rank: 0, level: '', year: '' },
-    member2: { name: '', email: '', phone: '', muid: '', muidValid: false, karma: 0, rank: 0, level: '', year: '' },
-    member3: { name: '', email: '', phone: '', muid: '', muidValid: false, karma: 0, rank: 0, level: '', year: '' }
+    teamLead: { name: '', email: '', phone: '', muid: '', muidValid: false, karma: 0, rank: 0, level: '', year: '', department: '' },
+    member2: { name: '', email: '', phone: '', muid: '', muidValid: false, karma: 0, rank: 0, level: '', year: '', department: '' },
+    member3: { name: '', email: '', phone: '', muid: '', muidValid: false, karma: 0, rank: 0, level: '', year: '', department: '' }
   });
 
   const [validating, setValidating] = useState({
     teamLead: false,
     member2: false,
+    member3: false
   });
 
   const validateEmail = (email) => {
@@ -193,15 +194,38 @@ const LoginForm = () => {
   };
 
   const handleChange = (memberKey, field, value) => {
+    let processedValue = value;
+
+    if (field === 'muid') {
+      processedValue = value.toLowerCase();
+    } else if (field === 'phone') {
+      // Remove all non-numeric characters
+      processedValue = value.replace(/\D/g, '');
+      // If starts with 91 and length is 12, remove 91
+      if (processedValue.length > 10 && processedValue.startsWith('91')) {
+        processedValue = processedValue.substring(2);
+      }
+      // Limit to 10 chars
+      if (processedValue.length > 10) {
+        processedValue = processedValue.slice(-10);
+      }
+    }
+
     setFormData(prev => ({
       ...prev,
-      [memberKey]: { ...prev[memberKey], [field]: value }
+      [memberKey]: { ...prev[memberKey], [field]: processedValue }
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Final Validation for Member 3 (since prev steps are validated on nextStep)
+    if (!formData.member3.name || !formData.member3.year || !formData.member3.department || !formData.member3.email || !formData.member3.phone || !formData.member3.muid) {
+      setError('Please fill all Operative Bravo details');
+      return;
+    }
 
     if (!formData.teamLead.muidValid || !formData.member2.muidValid || !formData.member3.muidValid) {
       setError('Please ensure all MuIDs are valid before submitting.');
@@ -247,7 +271,7 @@ const LoginForm = () => {
 
   const nextStep = () => {
     if (step === 1) {
-      if (!formData.teamLead.name || !formData.teamLead.year || !formData.teamLead.email || !formData.teamLead.phone || !formData.teamLead.muid) {
+      if (!formData.teamLead.name || !formData.teamLead.year || !formData.teamLead.department || !formData.teamLead.email || !formData.teamLead.phone || !formData.teamLead.muid) {
         setError('Please fill all Squad Commander details');
         return;
       }
@@ -261,7 +285,7 @@ const LoginForm = () => {
       }
     }
     if (step === 2) {
-      if (!formData.member2.name || !formData.member2.year || !formData.member2.email || !formData.member2.phone || !formData.member2.muid) {
+      if (!formData.member2.name || !formData.member2.year || !formData.member2.department || !formData.member2.email || !formData.member2.phone || !formData.member2.muid) {
         setError('Please fill all Operative Alpha details');
         return;
       }
@@ -384,7 +408,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="w-full lg:w-1/3 relative z-20">
+    <div className="w-full lg:w-1/3 relative z-20 lg:scale-90">
       <div className="bg-white/80 backdrop-blur-sm border border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-lg">
         <div className="mb-6 border-b border-gray-300 pb-4">
           <div className="flex justify-between items-end">
@@ -411,30 +435,33 @@ const LoginForm = () => {
 
           {step === 1 && (
             <>
-              {renderInput('teamLead', 'name', 'Codename', 'text', 'ENTER CODENAME', 'badge')}
+              {renderInput('teamLead', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('teamLead', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
-              {renderInput('teamLead', 'email', 'Institution Email', 'email', 'USER@MULEARN.ORG', 'alternate_email')}
-              {renderInput('teamLead', 'phone', 'Comms Link (Phone)', 'tel', '+91 99999 99999', 'call')}
+              {renderSelect('teamLead', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
+              {renderInput('teamLead', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
+              {renderInput('teamLead', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('teamLead', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
             </>
           )}
 
           {step === 2 && (
             <>
-              {renderInput('member2', 'name', 'Codename', 'text', 'ENTER CODENAME', 'badge')}
+              {renderInput('member2', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('member2', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
-              {renderInput('member2', 'email', 'Institution Email', 'email', 'USER@MULEARN.ORG', 'alternate_email')}
-              {renderInput('member2', 'phone', 'Comms Link (Phone)', 'tel', '+91 99999 99999', 'call')}
+              {renderSelect('member2', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
+              {renderInput('member2', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
+              {renderInput('member2', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('member2', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
             </>
           )}
 
           {step === 3 && (
             <>
-              {renderInput('member3', 'name', 'Codename', 'text', 'ENTER CODENAME', 'badge')}
+              {renderInput('member3', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('member3', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
-              {renderInput('member3', 'email', 'Institution Email', 'email', 'USER@MULEARN.ORG', 'alternate_email')}
-              {renderInput('member3', 'phone', 'Comms Link (Phone)', 'tel', '+91 99999 99999', 'call')}
+              {renderSelect('member3', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
+              {renderInput('member3', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
+              {renderInput('member3', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('member3', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
             </>
           )}
