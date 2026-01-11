@@ -187,7 +187,7 @@ const LoginForm = () => {
     }));
 
     if (!isValid) {
-      setError(`Invalid MuID for ${memberKey === 'teamLead' ? 'Squad Commander' : memberKey}`);
+      setError(`Invalid MuID for ${memberKey === 'teamLead' ? 'Squad Commander (Team Leader)' : memberKey === 'member2' ? 'Operative Alpha (Member 2)' : 'Operative Bravo (Member 3)'}`);
     } else {
       setError('');
     }
@@ -272,29 +272,29 @@ const LoginForm = () => {
   const nextStep = () => {
     if (step === 1) {
       if (!formData.teamLead.name || !formData.teamLead.year || !formData.teamLead.department || !formData.teamLead.email || !formData.teamLead.phone || !formData.teamLead.muid) {
-        setError('Please fill all Squad Commander details');
+        setError('Please fill all Squad Commander (Team Leader) details');
         return;
       }
       if (!validateEmail(formData.teamLead.email)) {
-        setError('Squad Commander email must be a @sahrdaya.ac.in address');
+        setError('Squad Commander (Team Leader) email must be a @sahrdaya.ac.in address');
         return;
       }
       if (!formData.teamLead.muidValid) {
-        setError('Please enter a valid MuID for Squad Commander');
+        setError('Please enter a valid MuID for Squad Commander (Team Leader)');
         return;
       }
     }
     if (step === 2) {
       if (!formData.member2.name || !formData.member2.year || !formData.member2.department || !formData.member2.email || !formData.member2.phone || !formData.member2.muid) {
-        setError('Please fill all Operative Alpha details');
+        setError('Please fill all Operative Alpha (Member 2) details');
         return;
       }
       if (!validateEmail(formData.member2.email)) {
-        setError('Operative Alpha email must be a @sahrdaya.ac.in address');
+        setError('Operative Alpha (Member 2) email must be a @sahrdaya.ac.in address');
         return;
       }
       if (!formData.member2.muidValid) {
-        setError('Please enter a valid MuID for Operative Alpha');
+        setError('Please enter a valid MuID for Operative Alpha (Member 2)');
         return;
       }
     }
@@ -414,7 +414,7 @@ const LoginForm = () => {
           <div className="flex justify-between items-end">
             <div>
               <h3 className="text-2xl font-tech font-bold uppercase text-secondary">
-                {step === 1 ? 'Squad Commander' : step === 2 ? 'Operative Alpha' : 'Operative Bravo'}
+                {step === 1 ? 'Squad Commander (Team Leader)' : step === 2 ? 'Operative Alpha (Member 2)' : 'Operative Bravo (Member 3)'}
               </h3>
               <p className="text-sm font-mono text-gray-500 mt-1">Join the Karma War Ranks.</p>
             </div>
@@ -434,36 +434,36 @@ const LoginForm = () => {
           )}
 
           {step === 1 && (
-            <>
+            <div key="step1" className="step-animation">
               {renderInput('teamLead', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('teamLead', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
               {renderSelect('teamLead', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
               {renderInput('teamLead', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
               {renderInput('teamLead', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('teamLead', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
-            </>
+            </div>
           )}
 
           {step === 2 && (
-            <>
+            <div key="step2" className="step-animation">
               {renderInput('member2', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('member2', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
               {renderSelect('member2', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
               {renderInput('member2', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
               {renderInput('member2', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('member2', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
-            </>
+            </div>
           )}
 
           {step === 3 && (
-            <>
+            <div key="step3" className="step-animation">
               {renderInput('member3', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('member3', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
               {renderSelect('member3', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
               {renderInput('member3', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
               {renderInput('member3', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('member3', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
-            </>
+            </div>
           )}
 
           {step === 3 && (
@@ -493,7 +493,7 @@ const LoginForm = () => {
                 className="flex-1 bg-primary text-white font-tech font-bold py-4 uppercase tracking-widest hover:bg-opacity-90 transition-all transform hover:-translate-y-1 hover:shadow-lg relative overflow-hidden group"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  Initialize Registration <span className="material-icons-outlined">send</span>
+                  {step === 1 ? 'Initialize Registration' : 'Continue'} <span className="material-icons-outlined">send</span>
                 </span>
                 <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1s_infinite]"></div>
               </button>
@@ -504,7 +504,7 @@ const LoginForm = () => {
                 className="flex-1 bg-primary text-white font-tech font-bold py-4 uppercase tracking-widest hover:bg-opacity-90 transition-all transform hover:-translate-y-1 hover:shadow-lg relative overflow-hidden group disabled:opacity-70"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  {loading ? 'Enlisting...' : 'Initialize Registration'} <span className="material-icons-outlined">send</span>
+                  {loading ? 'Enlisting...' : 'Finalize Enlistment'} <span className="material-icons-outlined">send</span>
                 </span>
                 <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shimmer_1s_infinite]"></div>
               </button>
