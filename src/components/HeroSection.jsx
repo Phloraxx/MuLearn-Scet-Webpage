@@ -83,11 +83,10 @@ const HeroSection = () => {
             className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => window.open('https://app.mulearn.org', '_blank')}
+            onClick={() => window.open('/karma-war', '_self')}
           >
+            Register for Karma War
             <FaArrowRight className="text-xl" />
-            Register to MuLearn
-            <FaArrowRight className="text-sm" />
           </motion.button>
 
           <motion.button

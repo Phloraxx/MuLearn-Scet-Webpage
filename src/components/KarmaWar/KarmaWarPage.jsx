@@ -470,7 +470,7 @@ const LoginForm = () => {
             <div className="flex items-start gap-2 pt-2">
               <input className="mt-1 rounded border-gray-400 text-primary focus:ring-primary bg-transparent" id="terms" type="checkbox" required />
               <label className="text-xs text-gray-600 leading-tight" htmlFor="terms">
-                I accept the <a className="underline hover:text-primary" href="#">Rules of Engagement</a> and confirm I am ready for battle.
+                I accept the <a className="underline hover:text-primary" href="https://karma-war.notion.site/Karma-War-2e53764a149b800ea8dbfe89be7b1c50?source=copy_link" target="_blank">Rules of Engagement</a> and confirm I am ready for battle.
               </label>
             </div>
           )}
