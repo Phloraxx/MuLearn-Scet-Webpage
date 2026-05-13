@@ -1,4 +1,5 @@
 # µLearn Sahrdaya
+<img src="public/assets/Screenshot%202026-05-13%20153220.png" alt="µLearn learning illustration"  align="center">
 
 The official campus website for **µLearn Sahrdaya**, the peer-learning community at Sahrdaya College of Engineering & Technology, Kodakara. A single-page application that serves as the club's digital presence — featuring event showcases, team profiles, Karma War registration, a task-based learning system with review workflow and public leaderboard.
 
@@ -59,7 +60,7 @@ No external database credentials are exposed in the frontend. All API calls pass
 
 ### Hero
 
-<img src="/assets/illustration.webp" alt="µLearn learning illustration" width="320" align="right" />
+<img src="public/assets/illustration.webp" alt="µLearn learning illustration" width="320" align="right" />
 
 The landing section uses a full-viewport gradient background (`bg-gradient-to-br from-cornsilk via-cornsilk-600 to-earth-yellow-800`) with an animated SVG blob scene that fades in over 3 seconds. Two layers serve mobile (`blob-scene-haikei-mobile.svg`) and desktop (`blob-scene-haikei.svg`) via responsive breakpoints.
 
