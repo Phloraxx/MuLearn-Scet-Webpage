@@ -1,6 +1,7 @@
 // Secure API utility functions - calls Cloudflare Worker instead of direct WooCommerce for task management
 
-const API_BASE_URL = import.meta.env.VITE_WORKER_URL || 'https://mulearn-task-backend.your-subdomain.workers.dev/api/woocommerce'
+if (!import.meta.env.VITE_WORKER_URL) throw new Error('VITE_WORKER_URL environment variable is not set')
+const API_BASE_URL = import.meta.env.VITE_WORKER_URL
 
 // Simple cache for API responses with improved management
 const apiCache = new Map()

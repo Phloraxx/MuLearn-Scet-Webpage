@@ -16,7 +16,7 @@ import {
   FaRocket,
   FaHome
 } from 'react-icons/fa'
-import { getLeaderboardData, clearAdminCache } from '../utils/woocommerceApi'
+import { getLeaderboardData, clearAdminCache } from '../utils/cloudflareApi'
 
 const LeaderboardPage = () => {
   const [leaderboard, setLeaderboard] = useState([])
