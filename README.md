@@ -1,270 +1,193 @@
-# µLearn Sahrdaya Portfolio Website
+# µLearn Sahrdaya Portfolio
 
-A modern, responsive website for **µLearn Sahrdaya**, the education club of Sahrdaya College of Engineering & Technology. Built with React, Tailwind CSS, and Framer Motion to showcase the club's mission of peer learning and innovation.
+A modern, responsive portfolio website for **µLearn Sahrdaya**, the IEEE-backed peer-learning community at Sahrdaya College of Engineering & Technology, Kodakara. The platform showcases the club's activities, manages workshop registrations (Karma War), provides a task-based learning system with admin review, and includes full-screen orientation presentations for fresher events.
 
-## 🚀 Features
+## Tech Stack
 
-- **Modern Design**: Clean, professional design inspired by developer portfolios
-- **Responsive Layout**: Fully responsive design that works on all devices
-- **Smooth Animations**: Beautiful animations using Framer Motion
-- **Interactive Elements**: Hover effects, smooth scrolling, and interactive components
-- **Workshop Registration**: Google OAuth-based registration system with WooCommerce backend
-- **Task Management System**: Personalized task dashboard for workshop participants
-- **Gallery**: Dynamic image gallery with lightbox functionality
-- **Contact Form**: Functional contact form with validation
-- **Loading Screen**: Animated loading screen for better user experience
-- **Custom Color Palette**: Integrated custom color scheme from brand guidelines
+| Layer | Technology |
+|---|---|
+| **Framework** | React 19 |
+| **Build Tool** | Vite 7 |
+| **Styling** | Tailwind CSS v4 |
+| **Animation** | Framer Motion |
+| **Routing** | React Router v7 |
+| **Icons** | react-icons, lucide-react |
+| **HTTP** | Axios |
+| **UI Library** | Headless UI |
+| **Linting** | ESLint 9 |
 
-## 🎯 Workshop & Task Management
+## Features
 
-### Registration Flow
-1. **Google Authentication**: Students login with their Sahrdaya Google account
-2. **Registration Check**: Automatic verification if student is already registered
-3. **Smart Redirect**: Already registered students are redirected to tasks page
-4. **New Registration**: Complete registration flow for new students
+### Portfolio Site
+- Hero section with club branding and call-to-action
+- About section with mission, values, and community stats
+- Projects section displaying workshop series and initiatives
+- Gallery with lightbox modal and animated statistics counters
+- Team member carousel with social links
+- Contact section with form and social links
+- Multi-column footer with newsletter signup
 
-### Task Dashboard Features
-- **Three Learning Tasks**:
-  1. **Intro to Command Line** (Easy) - https://learn.mulearn.org/challenge/intro-to-command-line
-  2. **Intro to GitHub** (Medium) - https://learn.mulearn.org/challenge/intro-to-github  
-  3. **GitHub Enablement Task** (INSANE HARD) - https://github.com/gtech-mulearn/Github-Enablment-Task
+### Karma War Registration (`/karma-war`)
+- 3-step team registration form (Squad Commander + 2 Operatives)
+- Real-time MuID validation against µLearn API via Cloudflare Worker
+- Fetches karma points and rank for each MuID
+- Submits registration data to Google Sheets via Apps Script
+- Retro CRT TV and glitch-text UI theme
 
-- **Progress Tracking**: Visual progress bar and completion status
-- **GitHub Integration**: Students submit repository links for verification
-- **WordPress Backend**: All submissions are stored in WooCommerce for tracking
-- **Persistent Storage**: Task progress saved locally and synced with backend
-- **Real-time Status Updates**: Tasks reflect admin feedback (approved/rejected/pending)
-- **Resubmission System**: Students can resubmit rejected tasks with updated repositories
+### Admin Panel (`/admin`)
+- Password-protected dashboard (default: `WASDQWE`)
+- View all task submissions with status indicators
+- Approve or reject submissions
+- Filter by status and search by student details
+- Real-time submission statistics
 
-### User Experience
-- **Automatic Redirects**: Seamless flow between registration and tasks
-- **Session Persistence**: Login state maintained across browser sessions  
-- **Real-time Validation**: GitHub URL validation and submission feedback
-- **Mobile Optimized**: Full functionality on all devices
+### Task Management
+- 3 progressive tasks: Command Line (1pt), GitHub (2pts), Enablement (5pts)
+- Student submits GitHub repository URLs for review
+- Status tracking: Pending &rarr; Approved or Rejected
+- Resubmission support for rejected tasks
+- Leaderboard ranking participants by accumulated points
 
-## 🔧 Admin Panel
+### Presentation Mode (`/present`)
+- 16-slide full-screen orientation slideshow
+- Snap scrolling, keyboard navigation, animated transitions
+- Suitable for projector-based fresher presentations
 
-### Admin Access
-- **Secure Login**: Password-protected admin portal (`/admin`)
-- **Admin Password**: `WASDQWE`
-- **Task Review System**: Comprehensive dashboard for managing submissions
-
-### Admin Features
-- **Submission Overview**: View all student task submissions in a table format
-- **Status Management**: Approve tasks or flag them for retry
-- **Filtering & Search**: Filter by status (pending/approved/rejected) and search by student details
-- **Real-time Stats**: Dashboard showing total submissions, pending reviews, approved, and rejected tasks
-- **GitHub Integration**: Direct links to student repositories for quick review
-- **WordPress Backend**: All status updates stored in WooCommerce for persistence
-
-### Admin Workflow
-1. Navigate to `/admin` and login with admin password
-2. View dashboard with submission statistics
-3. Review individual task submissions
-4. Click "Approve" for correct submissions or "Flag" for retry
-5. Use filters to focus on specific status types
-6. Search functionality for finding specific students or tasks
-
-### Task Status Workflow
-1. **Student Submission**: Task submitted → Status: "Under Review 🔍"
-2. **Admin Review**: Admin approves or flags for retry
-3. **Approved**: Task marked as "Approved ✅" → Student sees completion
-4. **Rejected**: Task marked as "Needs Resubmission ⚠️" → Student can resubmit
-5. **Resubmission**: Student submits updated repository → Back to review
-
-## 🛠️ Technologies Used
-
-- **Frontend Framework**: React 19
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS v4
-- **Animations**: Framer Motion
-- **Authentication**: Google OAuth
-- **Backend**: WordPress/WooCommerce via Cloudflare Workers
-- **Icons**: React Icons
-- **UI Components**: Headless UI
-
-## 📁 Project Structure
-
-```
-mulearn-portfolio/
-├── public/
-│   └── assets/           # Static assets (images, SVGs)
-├── src/
-│   ├── components/       # React components
-│   │   ├── HeroSection.jsx
-│   │   ├── AboutSection.jsx
-│   │   ├── ProjectsSection.jsx
-│   │   ├── GallerySection.jsx
-│   │   ├── ContactSection.jsx
-│   │   ├── Navigation.jsx
-│   │   ├── Footer.jsx
-│   │   ├── LoadingScreen.jsx
-│   │   ├── ScrollToTop.jsx
-│   │   ├── RegistrationPage.jsx  # Workshop registration
-│   │   ├── TasksPage.jsx         # Task management dashboard
-│   │   └── AdminPage.jsx         # Admin panel for task review
-│   ├── utils/
-│   │   └── woocommerceApi.js    # Backend API integration
-│   ├── App.jsx           # Main application component
-│   ├── main.jsx         # Application entry point
-│   └── index.css        # Global styles and Tailwind imports
-├── index.html           # HTML template
-├── vite.config.js       # Vite configuration
-└── package.json         # Project dependencies and scripts
-```
-
-## 🎨 Design System
-
-### Color Palette
-- **Dark Moss Green**: `#606c38` - Primary brand color
-- **Pakistan Green**: `#283618` - Secondary brand color
-- **Cornsilk**: `#fefae0` - Background and light accents
-- **Earth Yellow**: `#dda15e` - Accent color
-- **Tiger's Eye**: `#bc6c25` - Call-to-action and highlights
-
-### Typography
-- **Font Family**: Inter (Google Fonts)
-- **Font Weights**: 300-900 range for various text styles
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
+
+- Node.js 18+
+- npm
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd mulearn-portfolio
-   ```
+```bash
+git clone https://github.com/mulearn-sahrdaya/mulearn-portfolio.git
+cd mulearn-portfolio
+npm install
+```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### Development
 
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
-4. **Open your browser**
-   Navigate to `http://localhost:5173`
+Opens at `http://localhost:5173`. The dev server proxies `/api/*` requests to the Cloudflare Worker backend.
 
-### Building for Production
+### Production Build
 
 ```bash
 npm run build
-```
-
-The built files will be in the `dist` directory.
-
-### Preview Production Build
-
-```bash
 npm run preview
 ```
 
-## 📝 Content Sections
+Output goes to `dist/`.
 
-### 1. Hero Section
-- Club name and tagline
-- Call-to-action buttons
-- Background illustration
-- Scroll indicator
+## Project Structure
 
-### 2. About Section
-- Club mission and philosophy
-- Core values and principles
-- Community statistics
+```
+src/
+├── main.jsx                  # Entry point with BrowserRouter
+├── App.jsx                   # Root component and route definitions
+├── index.css                 # Tailwind imports + custom theme
+├── components/
+│   ├── Navigation.jsx        # Sticky navbar with section links
+│   ├── HeroSection.jsx       # Landing hero
+│   ├── AboutSection.jsx      # Mission and stats
+│   ├── ProjectsSection.jsx   # Project cards
+│   ├── GallerySection.jsx    # Image gallery + lightbox
+│   ├── TeamSection.jsx       # Team carousel
+│   ├── ContactSection.jsx    # Contact form + social links
+│   ├── Footer.jsx            # Site footer
+│   ├── MuLearnLogo.jsx       # Reusable SVG logo
+│   ├── ScrollToTop.jsx       # Back-to-top button
+│   ├── LoadingScreen.jsx     # Animated loading overlay
+│   ├── ExecomCallPage.jsx    # Execom recruitment (Google Form)
+│   ├── KarmaWar/
+│   │   ├── KarmaWarPage.jsx  # 3-step registration form
+│   │   └── KarmaWar.css      # Glitch/CRT effects
+│   ├── TasksPage.jsx         # Task dashboard for participants
+│   ├── LeaderboardPage.jsx   # Public leaderboard
+│   ├── PresentationPage.jsx  # Orientation slideshow
+│   └── TestTeamPage.jsx      # Team layout test
+├── utils/
+│   ├── woocommerceApi.js     # WooCommerce/Cloudflare Worker client
+│   └── userUtils.js          # Auth helpers (localStorage)
+```
 
-### 3. Projects Section
-- Workshop series
-- Learning initiatives
-- Community projects
-- Interactive project cards
+```
+public/assets/
+├── team/                     # Team member photos
+├── fwdaiworkshop (2)/        # Workshop event photos + orientation.mp4
+├── favicon.png
+├── illustration.webp
+├── blob-scene-haikei.svg
+├── Scet.png
+└── colors.css / svg.txt / texts.txt
+```
 
-### 4. Gallery Section
-- Event photos
-- Workshop images
-- Community moments
-- Lightbox functionality
+```
+server/
+├── cloudflare-worker.js      # MuID validation proxy worker
+├── google-apps-script.js     # Sheets-connected form handler
+└── appwrite/functions/       # Appwrite serverless function (MuID lookup)
+```
 
-### 5. Contact Section
-- Contact form
-- Social media links
-- Location information
-- Quick action buttons
+## Design System
 
-## 🎯 Key Features Implemented
+### Colors
 
-- **Smooth Scrolling Navigation**: Seamless navigation between sections
-- **Loading Animation**: Professional loading screen with progress bar
-- **Responsive Design**: Mobile-first approach with responsive grid layouts
-- **Image Optimization**: Lazy loading and optimized image assets
-- **Interactive Animations**: Hover effects and scroll-triggered animations
-- **Form Validation**: Client-side form validation for contact form
-- **SEO Optimization**: Meta tags and semantic HTML structure
+| Token | Value | Usage |
+|---|---|---|
+| `--color-primary` | `#606c38` | Dark moss green, brand primary |
+| `--color-secondary` | `#283618` | Pakistan green |
+| `--color-light` | `#fefae0` | Cornsilk, backgrounds |
+| `--color-accent` | `#dda15e` | Earth yellow |
+| `--color-cta` | `#bc6c25` | Tiger's eye, CTAs |
 
-## 📱 Mobile Optimization
+Karma War pages use an alternate purple-based palette (`#7C7CE0` primary).
 
-- Touch-friendly navigation
-- Optimized image sizes
-- Responsive typography
-- Mobile-specific interactions
-- Performance optimizations
+### Typography
 
-## 🔧 Customization
+- **Inter** (body, 300-900 weight range via Google Fonts)
+- **Anton**, **Bebas Neue** (display/headings)
+- **Orbitron** (tech/retro elements)
+- **Share Tech Mono** (monospace)
+- **Special Elite** (handwritten accent)
 
-### Updating Colors
-Colors are defined in `src/index.css` using CSS custom properties. Update the `@theme` section to modify the color palette.
+## Routes
 
-### Adding New Sections
-1. Create a new component in `src/components/`
-2. Import and add it to `App.jsx`
-3. Update navigation if needed
+| Path | Component | Description |
+|---|---|---|
+| `/` | HomePage (inline) | Main portfolio landing page |
+| `/karma-war` | KarmaWarPage | Team registration for Karma War |
+| `/req` | ExecomCallPage | Execom application (Google Form embed) |
+| `/games` | ExternalGamesRedirect | Redirects to external Google Form |
+| `/admin` | (separate branch) | Admin dashboard for task review |
 
-### Modifying Content
-- Update text content in respective component files
-- Replace images in the `public/assets/` directory
-- Modify social links and contact information in components
+## API Architecture
 
-## 🌟 Performance Optimizations
+```
+Frontend (Vite dev server)
+  │
+  ├── /api/* ──proxy──> Cloudflare Worker ──> MuLearn API (MuID validation)
+  │
+  ├── WooCommerce API ──via──> Cloudflare Worker ──> WordPress/WooCommerce (tasks/orders)
+  │
+  └── Karma War form ──POST──> Google Apps Script ──> Google Sheets (registrations)
+```
 
-- Lazy loading for images
-- Code splitting with React lazy loading
-- Optimized bundle size with Vite
-- Efficient animation performance with Framer Motion
-- Responsive image loading
+## Scripts
 
-## 📄 License
+| Command | Description |
+|---|---|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Preview production build locally |
+| `npm run lint` | Run ESLint across the project |
 
-This project is created for µLearn Sahrdaya educational purposes.
+## License
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📞 Support
-
-For support or questions, please contact the µLearn Sahrdaya team through:
-- Discord: [Join our server]
-- Email: mulearn@sahrdaya.ac.in
-- Campus: Sahrdaya College of Engineering & Technology
-
----
-
-**Built with ❤️ by the µLearn Sahrdaya community**+ Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Educational project for µLearn Sahrdaya, Sahrdaya College of Engineering & Technology.
