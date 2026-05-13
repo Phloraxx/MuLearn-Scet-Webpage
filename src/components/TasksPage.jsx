@@ -18,7 +18,7 @@ import {
   FaExclamationTriangle,
   FaUpload
 } from 'react-icons/fa'
-import { submitTaskCompletion, getUserTaskStatuses, clearApiCache } from '../utils/woocommerceApi'
+import { submitTaskCompletion, getUserTaskStatuses, clearApiCache } from '../utils/cloudflareApi'
 import { getCurrentUser, saveTaskProgress as saveProgress, clearUserData } from '../utils/userUtils'
 
 const TasksPage = () => {

@@ -144,7 +144,7 @@ const LoginForm = () => {
 
   const validateMuId = async (muid) => {
     try {
-      const response = await fetch('https://tests.mulearnscet.in', {
+      const response = await fetch(import.meta.env.VITE_MUID_VALIDATION_URL || 'https://tests.mulearnscet.in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ muid }),
@@ -240,8 +240,7 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      // Replace with your actual Google Apps Script Web App URL
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxlBFSmxeeP39ndjxwswzDflDZhpt_KmMy0LLxfmPbBl3tggZH3CcwPui-4jIuuj_mH/exec';
+      const GOOGLE_SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
 
       const totalKarma =
         (Number(formData.teamLead.karma) || 0) +
@@ -438,7 +437,7 @@ const LoginForm = () => {
               {renderInput('teamLead', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('teamLead', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
               {renderSelect('teamLead', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
-              {renderInput('teamLead', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
+              {renderInput('teamLead', 'email', 'Institution Email', 'email', 'yourname@sahrdaya.ac.in', 'alternate_email')}
               {renderInput('teamLead', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('teamLead', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
             </div>
@@ -449,7 +448,7 @@ const LoginForm = () => {
               {renderInput('member2', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('member2', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
               {renderSelect('member2', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
-              {renderInput('member2', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
+              {renderInput('member2', 'email', 'Institution Email', 'email', 'yourname@sahrdaya.ac.in', 'alternate_email')}
               {renderInput('member2', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('member2', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
             </div>
@@ -460,7 +459,7 @@ const LoginForm = () => {
               {renderInput('member3', 'name', 'Name', 'text', 'ENTER NAME', 'badge')}
               {renderSelect('member3', 'year', 'Year of Study', ['1st Year', '2nd Year', '3rd Year', '4th Year'], 'school')}
               {renderSelect('member3', 'department', 'Department', ['CSE', 'ASH'], 'domain')}
-              {renderInput('member3', 'email', 'Institution Email', 'email', 'namesr@sahrdaya.ac.in', 'alternate_email')}
+              {renderInput('member3', 'email', 'Institution Email', 'email', 'yourname@sahrdaya.ac.in', 'alternate_email')}
               {renderInput('member3', 'phone', 'Comms Link (Phone)', 'tel', '9999999999', 'call')}
               {renderInput('member3', 'muid', 'Service ID (MuID)', 'text', 'MULEARN ID', 'fingerprint')}
             </div>
