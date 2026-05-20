@@ -11,7 +11,7 @@ export default defineConfig({
       '/api': {
         target: 'https://tests.mulearnscet.in',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '1'),
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },

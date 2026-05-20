@@ -51,6 +51,9 @@ wrangler.toml
 worker.js
 appwrite/
 
+# Orphaned team image archives
+public/assets/team/_unused/
+
 # Misc
 *.local
 .gitignore
