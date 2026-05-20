@@ -1,323 +1,152 @@
-import { motion } from 'framer-motion'
-import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
-import { FaCode, FaLaptop, FaBrain, FaUsers, FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { useRef, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const ProjectsSection = () => {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, threshold: 0.1 })
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const videoRef = useRef(null)
+  const [isMuted, setIsMuted] = useState(true)
 
-  const projects = [
-    {
-      title: "Art of Teaching",
-      description: "µLearn is returning with Art of Teaching to pay tribute to educators who shape the next generation.",
-      icon: FaBrain,
-      tags: ["Teaching", "Career Labs", "Campus"],
-      status: "Completed",
-      gradient: "from-tigers-eye to-earth-yellow",
-      link: "https://mulearn.org/artofteaching"
-    },
-    {
-      title: "Web Development IG",
-      description: "Full-stack web development program covering modern frameworks, databases, and deployment strategies.",
-      icon: FaCode,
-      tags: ["React", "Node.js", "MongoDB"],
-      status: "Ongoing",
-      gradient: "from-dark-moss-green to-pakistan-green",
-      link: "https://learn.mulearn.org/webmobile",
-      join: "https://app.mulearn.org/dashboard/interestgroups/9b8aaf7f-16a0-4a66-ae53-79b8c25e5faa"
-    },
-    {
-      title: "Open Source Contributions",
-      description: "Community-driven projects where students contribute to open source repositories and build their portfolios.",
-      icon: FaGithub,
-      tags: ["Open Source", "FossHack", "Collaboration"],
-      status: "Active",
-      gradient: "from-earth-yellow to-tigers-eye",
-      link: "https://learn.mulearn.org/opensource"
-    },
-    {
-      title: "Permute",
-      description: "Perµte is the annual flagship celebration of the µLearn Foundation—an electrifying gathering that honors excellence, sparks bold ideas through thought-provoking panels, unveils visionary roadmaps, and ignites connections across a vibrant tapestry of talent and innovation.",
-      icon: FaUsers,
-      tags: ["Mentorship", "Skill Building", "Community"],
-      status: "Completed",
-      gradient: "from-pakistan-green to-dark-moss-green",
-      link: "https://permute.mulearn.org/"
-    },
-    {
-      title: "Cyber Security",
-      description: "Having an extra layer of security is always an advantage in the current world. The best way to prevent a cyber attack is to learn how it works and block all the loopholes that allow it.",
-      icon: FaLaptop,
-      tags: ["μChallenges", "Industry", "Analysis"],
-      status: "Active",
-      gradient: "from-tigers-eye-600 to-earth-yellow-600",
-      link: "https://learn.mulearn.org/cybersec",
-      join: "https://app.mulearn.org/dashboard/interestgroups/3a74725e-a05a-418b-a275-39d68ad9a416"
-    },
-    {
-      title: "Hacktober fest",
-      description: "Hacktoberfest is Digital Ocean’s annual event that seeks to encourage people to make open-source contributions throughout the month of October.",
-      icon: FaCode,
-      tags: ["Algorithms", "Problem Solving", "Competition"],
-      status: "October-ly",
-      gradient: "from-dark-moss-green-600 to-pakistan-green-600",
-      link: "https://mulearn.org/hacktoberfest"
-    }
-  ]
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.9 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    })
+  const toggleMute = () => {
+    const video = videoRef.current
+    if (!video) return
+    video.muted = !video.muted
+    setIsMuted(video.muted)
   }
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % projects.length)
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + projects.length) % projects.length)
-  }
-
-  const goToSlide = (index) => {
-    setCurrentSlide(index)
-  }
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {})
+        } else {
+          video.pause()
+        }
+      },
+      { threshold: 0.5 }
+    )
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section ref={ref} className="py-20 bg-gradient-to-b from-cornsilk-700 to-cornsilk-800" id="projects">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-5xl font-bold text-pakistan-green mb-6">
-            Our Projects & Initiatives
-          </h2>
-          <p className="text-xl text-pakistan-green-600 max-w-3xl mx-auto">
-            Discover the exciting projects and learning opportunities that make µLearn Sahrdaya a hub of innovation and growth.
+    <section className="relative py-24 bg-gradient-to-b from-gray-900 via-gray-950 to-black overflow-hidden" id="projects">
+      {/* Noise overlay */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }}></div>
+
+      {/* Scanlines */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.04]" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)' }}></div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-20">
+          <div className="inline-block">
+            <p className="text-tigers-eye font-mono text-xs tracking-[0.3em] uppercase mb-4">// event recap</p>
+            <h2 className="text-6xl lg:text-7xl font-black tracking-tighter glitch-text text-white" data-text="KARMA WAR 2026">
+              KARMA WAR 2026
+            </h2>
+            <div className="h-px bg-gradient-to-r from-transparent via-tigers-eye to-transparent w-48 mx-auto mt-6"></div>
+          </div>
+          <p className="text-gray-300 font-mono text-sm max-w-2xl mx-auto mt-6 leading-relaxed">
+            The battle is over. The teams fought, one emerged victorious. Here's how it went down.
           </p>
-        </motion.div>
-
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              custom={index}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              variants={cardVariants}
-              whileHover={{ y: -10, scale: 1.02 }}
-              className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group"
-            >
-              {/* Header with gradient */}
-              <div className={`bg-gradient-to-r ${project.gradient} p-6 text-white relative overflow-hidden`}>
-                <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
-                  <project.icon className="w-full h-full" />
-                </div>
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="bg-auto bg-opacity-20 w-12 h-12 rounded-full flex items-center justify-center">
-                      <project.icon className="text-xl" />
-                    </div>
-                    <span className="bg-auto bg-opacity-20 px-3 py-1 rounded-full text-sm font-medium">
-                      {project.status}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <p className="text-pakistan-green-600 mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="bg-cornsilk-600 text-pakistan-green px-3 py-1 rounded-full text-sm font-medium"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Action buttons */}
-                <div className="flex gap-3">
-                  <button 
-                    className={`${project.join ? 'flex-1' : 'w-full'} bg-tigers-eye hover:bg-tigers-eye-600 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center gap-2`}
-                    onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
-                  >                 
-                    <span>Learn More</span>
-                    <FaExternalLinkAlt className="text-sm" />
-                  </button>
-                  {project.join && (
-                    <button 
-                      className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-white py-2 px-4 rounded-lg font-medium transition-all duration-300"
-                      onClick={() => window.open(project.join, "_blank", "noopener,noreferrer")}
-                    >
-                      Join
-                    </button>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
         </div>
 
-        {/* Mobile Carousel */}
-        <div className="md:hidden relative">
-          {/* Carousel Container */}
-          <div className="overflow-hidden rounded-xl">
-            <motion.div
-              className="flex transition-transform duration-300 ease-in-out"
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-            >
-              {projects.map((project, index) => (
-                <div
-                  key={index}
-                  className="w-full flex-shrink-0"
+        {/* Hero Video */}
+        <div className="max-w-5xl mx-auto mb-24">
+          <div className="relative group">
+            {/* Glow behind */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-tigers-eye/20 via-purple-500/10 to-transparent rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            {/* TV-style border */}
+            <div className="relative border border-gray-800 rounded-xl overflow-hidden shadow-2xl bg-black">
+              <div className="absolute top-2 right-4 z-20 flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                <span className="text-[10px] font-mono text-gray-500 tracking-widest uppercase">Live</span>
+              </div>
+              <div className="relative overflow-hidden" style={{ paddingBottom: '56.25%' }}>
+                <div className="absolute inset-0 pointer-events-none z-10" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px)' }}></div>
+                <video
+                  ref={videoRef}
+                  src="/assets/karmawar/kochuvid.mp4"
+                  poster="/assets/karmawar/kochuvid_Thumbnail.jpg"
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onClick={toggleMute}
+                />
+                <button
+                  onClick={toggleMute}
+                  className="absolute bottom-4 left-4 z-20 bg-black/60 hover:bg-black/80 text-white px-3 py-1.5 rounded text-xs font-mono tracking-wider transition-all"
+                  aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                  aria-pressed={!isMuted}
                 >
-                  <motion.div
-                    initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
-                    variants={cardVariants}
-                    className="bg-white rounded-xl overflow-hidden shadow-lg mx-2"
-                  >
-                    {/* Header with gradient */}
-                    <div className={`bg-gradient-to-r ${project.gradient} p-6 text-white relative overflow-hidden`}>
-                      <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
-                        <project.icon className="w-full h-full" />
-                      </div>
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="bg-auto bg-opacity-20 w-12 h-12 rounded-full flex items-center justify-center">
-                            <project.icon className="text-xl" />
-                          </div>
-                          <span className="bg-auto bg-opacity-20 px-3 py-1 rounded-full text-sm font-medium">
-                            {project.status}
-                          </span>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6">
-                      <p className="text-pakistan-green-600 mb-4 leading-relaxed">
-                        {project.description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {project.tags.map((tag, tagIndex) => (
-                          <span
-                            key={tagIndex}
-                            className="bg-cornsilk-600 text-pakistan-green px-3 py-1 rounded-full text-sm font-medium"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Action buttons */}
-                      <div className="flex gap-3">
-                        <button 
-                          className={`${project.join ? 'flex-1' : 'w-full'} bg-tigers-eye hover:bg-tigers-eye-600 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center gap-2`}
-                          onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
-                        >                 
-                          <span>Learn More</span>
-                          <FaExternalLinkAlt className="text-sm" />
-                        </button>
-                        {project.join && (
-                          <button 
-                            className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-white py-2 px-4 rounded-lg font-medium transition-all duration-300"
-                            onClick={() => window.open(project.join, "_blank", "noopener,noreferrer")}
-                          >
-                            Join
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg z-10 hover:bg-gray-50 transition-colors duration-200"
-            aria-label="Previous project"
-          >
-            <FaChevronLeft className="text-pakistan-green text-lg" />
-          </button>
-          
-          <button
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg z-10 hover:bg-gray-50 transition-colors duration-200"
-            aria-label="Next project"
-          >
-            <FaChevronRight className="text-pakistan-green text-lg" />
-          </button>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center mt-6 space-x-2">
-            {projects.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                  index === currentSlide
-                    ? 'bg-tigers-eye scale-110'
-                    : 'bg-tigers-eye-800 hover:bg-tigers-eye-300 '
-                }`}
-                aria-label={`Go to project ${index + 1}`}
-              />
-            ))}
+                  {isMuted ? '[ SOUND OFF ]' : '[ SOUND ON ]'}
+                </button>
+              </div>
+            </div>
+              <p className="text-gray-400 font-mono text-xs tracking-wider mt-4 text-center">{'>'} KARMA WAR — HIGHLIGHT REEL // 00:00</p>
           </div>
         </div>
 
-        {/* Call to action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center mt-16"
-        >
-          <div className="bg-white rounded-2xl p-8 shadow-xl border-l-4 border-tigers-eye">
-            <h3 className="text-3xl font-bold text-pakistan-green mb-4">
-              Have a Project Idea?
-            </h3>
-            <p className="text-xl text-pakistan-green-600 mb-6">
-              We're always looking for new and exciting projects to work on together. We provide resources required for you to showcase and achieve your dreams.
-            </p>
-            <motion.button
-              className="bg-gradient-to-r from-tigers-eye to-earth-yellow text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg"
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(188, 108, 37, 0.3)" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => window.location.href = "mailto:mulearn@sahrdaya.ac.to?subject=Propose%20a%20Project"}
-            >
-              Propose a Project
-            </motion.button>
+        {/* Gallery Grid */}
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-start max-w-5xl mx-auto mb-16">
+          {/* Photo Album */}
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-8 h-px bg-tigers-eye"></span>
+              <h3 className="text-white font-mono text-sm tracking-[0.2em] uppercase">Event Gallery</h3>
+            </div>
+            <div className="relative border border-gray-800 rounded-xl overflow-hidden shadow-lg bg-black group">
+              <div className="relative overflow-hidden" style={{ paddingBottom: '135%' }}>
+                <div className="absolute inset-0 pointer-events-none z-10" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px)' }}></div>
+                <iframe
+                  src="https://www.instagram.com/p/DTpIrNdkd3I/embed"
+                  className="absolute inset-0 w-full h-full"
+                  frameBorder="0"
+                  scrolling="no"
+                  allowtransparency="true"
+                  title="Karma War Photo Album"
+                />
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10"></div>
+            </div>
           </div>
-        </motion.div>
+
+          {/* More Highlights */}
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-8 h-px bg-tigers-eye"></span>
+              <h3 className="text-white font-mono text-sm tracking-[0.2em] uppercase">More Highlights</h3>
+            </div>
+            <div className="relative border border-gray-800 rounded-xl overflow-hidden shadow-lg bg-black group">
+              <div className="relative overflow-hidden" style={{ paddingBottom: '135%' }}>
+                <div className="absolute inset-0 pointer-events-none z-10" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px)' }}></div>
+                <iframe
+                  src="https://www.instagram.com/p/DTpE75dEXK6/embed"
+                  className="absolute inset-0 w-full h-full"
+                  frameBorder="0"
+                  scrolling="no"
+                  allowtransparency="true"
+                  title="Karma War Extra Highlights"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer line */}
+        <div className="text-center pt-12 border-t border-gray-800 max-w-2xl mx-auto space-y-4">
+          <p className="text-gray-400 font-mono text-xs tracking-wide">
+            // end of transmission — KARMA WAR 2026
+          </p>
+          <Link
+            to="/karma-war"
+            className="inline-block text-tigers-eye hover:text-tigers-eye-400 font-mono text-sm tracking-wider transition-colors underline underline-offset-4 decoration-tigers-eye/30"
+          >
+            Full Event Recap →
+          </Link>
+        </div>
       </div>
     </section>
   )
