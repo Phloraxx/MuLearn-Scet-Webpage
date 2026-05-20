@@ -20,7 +20,7 @@ const AboutSection = () => {
             About µLearn Sahrdaya
           </h2>
           <p className="text-xl text-pakistan-green-600 max-w-3xl mx-auto">
-            <span class="type-example">µLearn </span>is a synergic philosophy of education, with a culture of mutual learning through micro peer groups.
+            <span className="font-semibold">µLearn </span>is a synergic philosophy of education, with a culture of mutual learning through micro peer groups.
           </p>
         </motion.div>
 
@@ -89,7 +89,7 @@ const AboutSection = () => {
                         muted
                         playsInline
                       >
-                        <source src="/assets/fwdaiworkshop (2)/orientation.mp4" type="video/mp4" />
+                        <source src="/assets/fwdaiworkshop/orientation.mp4" type="video/mp4" />
                         <div className="flex items-center justify-center h-full bg-gradient-to-br from-pakistan-green to-dark-moss-green text-white text-center p-8">
                           <div>
                             <FaRocket className="text-6xl mb-4 mx-auto opacity-80" />

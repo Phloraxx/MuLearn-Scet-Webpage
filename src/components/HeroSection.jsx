@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FaDiscord, FaArrowRight } from 'react-icons/fa'
+
 import MuLearnLogo from './MuLearnLogo'
 
 const HeroSection = () => {
@@ -15,13 +15,13 @@ const HeroSection = () => {
         {/* Mobile Background */}
         <img
           src="/assets/blob-scene-haikei-mobile.svg"
-          alt="Background"
+          alt=""
           className="block sm:hidden w-full h-full object-cover object-center"
         />
         {/* Desktop Background */}
         <img
           src="/assets/blob-scene-haikei.svg"
-          alt="Background"
+          alt=""
           className="hidden sm:block w-full h-full object-cover object-center"
         />
       </motion.div>
@@ -44,14 +44,14 @@ const HeroSection = () => {
               size="large"
               className="text-pakistan-green mb-4"
             />
-            <motion.span
+            <motion.h1
               className="text-4xl md:text-5xl font-light text-dark-moss-green"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
               SahrdayaCET
-            </motion.span>
+            </motion.h1>
           </motion.div>
         </motion.div>
 
@@ -80,15 +80,13 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <motion.button
-            className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg opacity-95"
+            className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all duration-300 transform hover:scale-105 shadow-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => window.open('/karma-war', '_self')}
+            onClick={() => window.open('https://app.mulearn.org', '_blank')}
           >
-            Register for Karma War
-            <FaArrowRight className="text-xl" />
+            Join MuLearn
           </motion.button>
-
           <motion.button
             className="border-2 border-dark-moss-green text-dark-moss-green hover:bg-dark-moss-green hover:text-cornsilk px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
             whileHover={{ scale: 1.05 }}

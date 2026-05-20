@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FaHeart, FaCode, FaDiscord, FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa'
+import { FaHeart, FaCode, FaDiscord, FaGithub, FaLinkedin, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa'
 import MuLearnLogo from './MuLearnLogo'
 
 const Footer = () => {
@@ -8,21 +8,14 @@ const Footer = () => {
   const footerLinks = {
     "Quick Links": [
       { label: "About Us", href: "#about" },
-      { label: "Projects", href: "#projects" },
       { label: "Gallery", href: "#gallery" },
-      { label: "Contact", href: "#contact" }
+      { label: "Team", href: "#team" },
+      { label: "MuJourney", href: "https://app.mulearn.org/dashboard/mujourney" },
     ],
     "Community": [
       { label: "Join Discord", href: "https://discord.gg/3jbpEubWRA" },
-      { label: "Workshops", href: "#" },
-      { label: "Events", href: "#" },
-      { label: "Mentorship", href: "#" }
-    ],
-    "Resources": [
-      { label: "Learning Materials", href: "#" },
-      { label: "Project Ideas", href: "#" },
-      { label: "Tech Talks", href: "#" },
-      { label: "Career Guidance", href: "#" }
+      { label: "Join WhatsApp", href: "https://chat.whatsapp.com/IxnzOfJo4Kt3Zzg8ZBZdCl" },
+      { label: "Join MuLearn", href: "https://app.mulearn.org" },
     ]
   }
 
@@ -45,7 +38,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-br from-pakistan-green to-dark-moss-green text-white">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-6 py-16 md:py-16">
+      <div className="max-w-7xl mx-auto px-10 py-16 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
@@ -75,7 +68,7 @@ const Footer = () => {
                     href={social.icon === FaDiscord ? "https://discord.gg/3jbpEubWRA" : social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`bg-auto bg-opacity-10 w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-300 ${social.color}`}
+                    className={`bg-white/10 w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-300 ${social.color}`}
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}
                     title={social.label}
@@ -122,6 +115,37 @@ const Footer = () => {
               </ul>
             </motion.div>
           ))}
+
+          {/* Contact */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <h4 className="text-xl font-semibold mb-4 text-tigers-eye">Contact</h4>
+            <ul className="space-y-3 text-gray-300">
+              <li>
+                <a href="mailto:mulearn@sahrdaya.ac.in" className="hover:text-white transition-colors duration-300 flex items-center gap-2">
+                  <FaEnvelope className="text-tigers-eye shrink-0" />
+                  <span>mulearn@sahrdaya.ac.in</span>
+                </a>
+              </li>
+              <li className="flex items-start gap-2">
+                <FaPhone className="text-tigers-eye shrink-0 mt-1" />
+                <span>
+                  <a href="tel:+919746222670" className="hover:text-white transition-colors duration-300">+91 97462 22670</a>
+                  <div className="text-sm text-gray-400">Anil Antony</div>
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <FaMapMarkerAlt className="text-tigers-eye shrink-0 mt-1" />
+                <a href="https://maps.app.goo.gl/zeFMTMfB3fPeBNHq9" target="_blank" rel="noopener noreferrer" className="leading-relaxed whitespace-nowrap hover:text-white transition-colors duration-300">
+                  Sahrdaya College of<br />Engineering & Technology,<br />Kodakara, Thrissur, Kerala
+                </a>
+              </li>
+            </ul>
+          </motion.div>
         </div>
 
         {/* Newsletter Section */}
@@ -146,12 +170,14 @@ const Footer = () => {
                 className="flex px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-tigers-eye"
               />
               <motion.button
-                className="bg-tigers-eye hover:bg-tigers-eye-600 px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                className="bg-tigers-eye hover:bg-tigers-eye-600 px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
+                aria-label="Join our Discord (opens in new tab)"
               >
-                Subscribe / Join our Discord
+                <FaDiscord className="text-lg" />
+                Join our Discord
               </motion.button>
             </div>
           </div>
@@ -160,7 +186,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/20">
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-7xl mx-auto px-10 py-6">
           <div className="flex items-center flex-col md:flex-row justify-between gap-4">
             <motion.div
               initial={{ opacity: 0 }}

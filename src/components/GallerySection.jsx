@@ -56,42 +56,42 @@ const Counter = ({ end, duration = 1200 }) => {
   // Gallery images from the assets
   const galleryImages = [
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268416.jpeg",
+      src: "/assets/fwdaiworkshop/1742023268416.jpeg",
       alt: "Workshop Session 1",
       title: "AI Workshop - Introduction to Machine Learning"
     },
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268425.jpeg",
+      src: "/assets/fwdaiworkshop/1742023268425.jpeg",
       alt: "Workshop Session 2",
       title: "Hands-on Coding Session"
     },
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268432.jpeg",
+      src: "/assets/fwdaiworkshop/1742023268432.jpeg",
       alt: "Workshop Session 3",
       title: "Team Collaboration"
     },
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268442.jpeg",
+      src: "/assets/fwdaiworkshop/1742023268442.jpeg",
       alt: "Workshop Session 4",
       title: "Project Presentation"
     },
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268457.jpeg",
+      src: "/assets/fwdaiworkshop/1742023268457.jpeg",
       alt: "Workshop Session 6",
       title: "Technical Deep Dive"
     },
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268465.jpeg",
+      src: "/assets/fwdaiworkshop/1742023268465.jpeg",
       alt: "Workshop Session 7",
       title: "Problem Solving Session"
     },
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268486.jpeg",
+      src: "/assets/fwdaiworkshop/1742023268486.jpeg",
       alt: "Workshop Session 10",
       title: "Award Ceremony"
     },
     {
-      src: "/assets/fwdaiworkshop (2)/1742023268493.jpeg",
+      src: "/assets/fwdaiworkshop/1742023268493.jpeg",
       alt: "Workshop Session 11",
       title: "Group Photo"
     }
@@ -295,6 +295,9 @@ const Counter = ({ end, duration = 1200 }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedImage.title}
           onClick={() => setSelectedImage(null)}
         >
           <motion.div
@@ -307,6 +310,7 @@ const Counter = ({ end, duration = 1200 }) => {
             <button
               className="absolute -top-12 right-0 text-white hover:text-tigers-eye text-2xl transition-colors duration-200"
               onClick={() => setSelectedImage(null)}
+              aria-label="Close image"
             >
               <FaTimes />
             </button>

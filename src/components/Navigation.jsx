@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { FaBars, FaTimes, FaUserPlus } from 'react-icons/fa'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { FaBars, FaTimes } from 'react-icons/fa'
 import MuLearnLogo from './MuLearnLogo'
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,18 +26,22 @@ const Navigation = () => {
     { label: 'Team', href: '#team' }
   ]
 
-  const scrollToSection = (href) => {
-    // Close mobile menu first
+  const scrollToSection = (e, href) => {
+    e.preventDefault()
     setIsMobileMenuOpen(false)
-    
+    const targetId = href.replace('#', '')
     if (location.pathname !== '/') {
-      window.location.href = `/${href}`
+      navigate('/')
+      setTimeout(() => {
+        const element = document.getElementById(targetId)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
       return
     }
-    
-    // Add a small delay to ensure mobile menu closes before scrolling
     setTimeout(() => {
-      const element = document.querySelector(href)
+      const element = document.getElementById(targetId)
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
@@ -74,52 +79,41 @@ const Navigation = () => {
           <div className="hidden md:flex items-center justify-center flex-1">
             <div className="flex items-center gap-8">
               {navItems.map((item, index) => (
-                <motion.button
+                <motion.a
                   key={index}
-                  onClick={() => scrollToSection(item.href)}
-                  className={`font-medium transition-colors duration-300 hover:text-tigers-eye ${
-                    isScrolled ? 'text-pakistan-green' : 'text-pakistan-green'
-                  }`}
+                  href={item.href}
+                  onClick={(e) => scrollToSection(e, item.href)}
+                  className={`font-medium transition-colors duration-300 hover:text-tigers-eye text-pakistan-green`}
                   whileHover={{ y: -2 }}
                   whileTap={{ y: 0 }}
+                  aria-current={location.hash === item.href ? 'true' : undefined}
                 >
                   {item.label}
-                </motion.button>
+                </motion.a>
               ))}
             </div>
           </div>
           
           {/* Right Side - Join MuLearn Button */}
           <div className="hidden md:flex items-center space-x-3">
-            <motion.button
-              onClick={() => window.open('https://app.mulearn.org', '_blank')}
-              className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Join MuLearn
-            </motion.button>
-            
-            <motion.button
-              onClick={() => window.location.href = '/karma-war'}
-              className="bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-2 rounded-full font-semibold flex items-center gap-2 transition-all duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FaUserPlus />
-              Karma War Registration
-            </motion.button>
+              <motion.button
+                onClick={() => window.open('https://app.mulearn.org', '_blank')}
+                className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Join MuLearn (opens in new tab)"
+              >
+                Join MuLearn
+              </motion.button>
           </div>
-          
-          
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-2 rounded-lg transition-colors duration-300 ${
-                isScrolled ? 'text-pakistan-green' : 'text-pakistan-green'
-              }`}
+              className={`p-2 rounded-lg transition-colors duration-300 text-pakistan-green`}
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
@@ -138,16 +132,18 @@ const Navigation = () => {
         >
           <div className="py-4 space-y-4">
             {navItems.map((item, index) => (
-              <motion.button
+              <motion.a
                 key={index}
-                onClick={() => scrollToSection(item.href)}
+                href={item.href}
+                onClick={(e) => scrollToSection(e, item.href)}
                 className="block w-full text-left px-4 py-2 text-pakistan-green font-medium hover:text-tigers-eye transition-colors duration-300"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
+                aria-current={location.hash === item.href ? 'true' : undefined}
               >
                 {item.label}
-              </motion.button>
+              </motion.a>
             ))}
             
             <div className="px-4 pt-2 space-y-4">
@@ -159,21 +155,9 @@ const Navigation = () => {
                 className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                aria-label="Join MuLearn (opens in new tab)"
               >
                 Join MuLearn
-              </motion.button>
-              
-              <motion.button
-                onClick={() => {
-                  setIsMobileMenuOpen(false)
-                  window.location.href = '/karma-war'
-                }}
-                className="w-full bg-pakistan-green hover:bg-pakistan-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <FaUserPlus />
-                Karma War Registration
               </motion.button>
             </div>
           </div>
