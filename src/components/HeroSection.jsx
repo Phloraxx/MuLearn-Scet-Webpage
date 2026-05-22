@@ -51,6 +51,7 @@ const HeroSection = () => {
               transition={{ delay: 0.5, duration: 0.8 }}
             >
               SahrdayaCET
+              <span className="sr-only"> — µLearn Peer Learning Community at Sahrdaya College of Engineering & Technology, Thrissur, Kerala</span>
             </motion.h1>
           </motion.div>
         </motion.div>
