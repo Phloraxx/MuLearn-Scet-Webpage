@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -11,6 +12,10 @@ const execLeads = fullTeam.slice(0, 8)
 const igLeads = fullTeam.slice(8)
 
 const FullTeamPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
       <Navigation />
