@@ -5,6 +5,7 @@ import Navigation from './components/Navigation'
 import HeroSection from './components/HeroSection'
 import AboutSection from './components/AboutSection'
 import ProjectsSection from './components/ProjectsSection'
+import OrientationMemeSection from './components/OrientationMemeSection'
 import GallerySection from './components/GallerySection'
 import TeamSection from './components/TeamSection'
 
@@ -30,6 +31,7 @@ function App() {
           <HeroSection />
         </div>
         <AboutSection />
+        <OrientationMemeSection />
         <ProjectsSection />
         <GallerySection />
         <TeamSection />
