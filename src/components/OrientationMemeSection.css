@@ -151,24 +151,49 @@
   z-index: 10;
 }
 
-.meme-card {
-  appearance: none;
+.meme-card-slot {
   position: absolute;
   width: clamp(145px, 18vw, 230px);
   aspect-ratio: 4 / 5;
+  --card-rotate: 0deg;
+  --card-scale: 1;
+  --card-z: 8;
+}
+
+.meme-card {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transform-origin: center;
+  z-index: var(--card-z);
+}
+
+.meme-card__surface {
+  position: absolute;
+  inset: 0;
+  display: block;
   overflow: hidden;
   border: 8px solid #fffdf5;
   border-bottom-width: 17px;
   background: white;
   box-shadow: 0 18px 45px rgba(48, 41, 22, .2);
-  cursor: pointer;
+  transform: rotate(var(--card-rotate)) scale(var(--card-scale));
   transform-origin: center;
-  transition: box-shadow .3s ease;
+  transition: box-shadow .3s ease, filter .3s ease;
 }
 
-.meme-card:hover,
-.meme-card:focus-visible { box-shadow: 0 28px 65px rgba(48, 41, 22, .3); outline: none; }
+.meme-card:hover .meme-card__surface,
+.meme-card:focus-visible .meme-card__surface {
+  box-shadow: 0 28px 65px rgba(48, 41, 22, .3);
+}
+.meme-card:focus-visible { outline: none; }
 .meme-card__reality,
 .meme-card__reference,
 .meme-card__reference img { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -187,25 +212,26 @@
 .meme-card.is-reference .meme-card__reality { transform: scale(1.04); }
 .meme-card__corner {
   position: absolute;
-  right: .55rem;
-  top: .55rem;
-  width: .62rem;
-  height: .62rem;
+  right: .5rem;
+  top: .5rem;
+  width: .65rem;
+  height: .65rem;
   border-radius: 50%;
   background: var(--orange);
   border: 2px solid white;
-  z-index: 3;
-  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  z-index: 18;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.22);
 }
 
-.meme-card--one { left: 1%; top: 7%; transform: rotate(-7deg); }
-.meme-card--two { left: 16%; bottom: 1%; transform: rotate(5deg); }
-.meme-card--three { left: 26%; top: 2%; transform: rotate(-2deg); }
-.meme-card--four { right: 25%; top: 1%; transform: rotate(4deg); }
-.meme-card--five { right: 13%; bottom: 0%; transform: rotate(-5deg); }
-.meme-card--six { right: 0; top: 9%; transform: rotate(7deg); }
-.meme-card--seven { left: 0; bottom: 3%; transform: rotate(3deg); }
-.meme-card--eight { right: 0; bottom: 4%; transform: rotate(-2deg); }
+.meme-card--one { left: 0; top: 7%; --card-rotate: -6deg; --card-scale: 1.01; --card-z: 12; }
+.meme-card--two { left: 14%; bottom: 0; --card-rotate: 4deg; --card-scale: .97; --card-z: 8; }
+.meme-card--three { left: 24%; top: 1%; --card-rotate: -2deg; --card-scale: .95; --card-z: 5; }
+.meme-card--four { right: 23%; top: 0; --card-rotate: 3deg; --card-scale: .95; --card-z: 6; }
+.meme-card--five { right: 12%; bottom: 0; --card-rotate: -4deg; --card-scale: .98; --card-z: 9; }
+.meme-card--six { right: 0; top: 8%; --card-rotate: 6deg; --card-scale: 1.01; --card-z: 11; }
+.meme-card--seven { left: 0; bottom: 2%; --card-rotate: 2deg; --card-scale: 1; --card-z: 10; }
+.meme-card--eight { right: 0; bottom: 3%; --card-rotate: -2deg; --card-scale: 1.01; --card-z: 13; }
 
 .orientation-memes__instagram {
   width: max-content;
@@ -244,14 +270,16 @@
     scrollbar-width: none;
   }
   .orientation-memes__cards::-webkit-scrollbar { display: none; }
-  .meme-card,
+  .meme-card-slot,
   .meme-card--one, .meme-card--two, .meme-card--three, .meme-card--four,
   .meme-card--five, .meme-card--six, .meme-card--seven, .meme-card--eight {
     position: relative;
     inset: auto;
     flex: 0 0 min(67vw, 270px);
     width: min(67vw, 270px);
-    transform: rotate(0deg);
+    --card-rotate: 0deg;
+    --card-scale: 1;
+    --card-z: 1;
     scroll-snap-align: center;
   }
 }

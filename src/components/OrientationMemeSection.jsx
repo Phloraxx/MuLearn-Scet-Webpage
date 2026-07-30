@@ -19,25 +19,29 @@ const asset = (type, file) => `/assets/orientation/${type}/${file}`
 function MemeCard({ card, index, active, setActive, reduceMotion }) {
   const isActive = active === card.id
   return (
-    <motion.button
-      type="button"
-      className={`meme-card ${card.className} ${isActive ? 'is-reference' : ''}`}
-      onClick={() => setActive(isActive ? null : card.id)}
-      onMouseEnter={() => setActive(card.id)}
-      onMouseLeave={() => setActive(null)}
-      aria-label="Toggle original meme reference"
-      initial={reduceMotion ? false : { opacity: 0, scale: 0.88, y: 30 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.65, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={reduceMotion ? undefined : { scale: 1.035, zIndex: 30 }}
-    >
-      <img className="meme-card__reality" src={asset('photos', card.photo)} alt="Student meme recreation" loading="lazy" />
-      <span className="meme-card__reference" aria-hidden="true">
-        <img src={asset('references', card.reference)} alt="" loading="lazy" />
-      </span>
+    <div className={`meme-card-slot ${card.className}`}>
+      <motion.button
+        type="button"
+        className={`meme-card ${isActive ? 'is-reference' : ''}`}
+        onClick={() => setActive(isActive ? null : card.id)}
+        onMouseEnter={() => setActive(card.id)}
+        onMouseLeave={() => setActive(null)}
+        aria-label="Toggle original meme reference"
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.88, y: 30 }}
+        whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.65, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }}
+        whileHover={reduceMotion ? undefined : { scale: 1.035, zIndex: 16 }}
+      >
+        <span className="meme-card__surface">
+          <img className="meme-card__reality" src={asset('photos', card.photo)} alt="Student meme recreation" loading="lazy" />
+          <span className="meme-card__reference" aria-hidden="true">
+            <img src={asset('references', card.reference)} alt="" loading="lazy" />
+          </span>
+        </span>
+      </motion.button>
       <span className="meme-card__corner" aria-hidden="true" />
-    </motion.button>
+    </div>
   )
 }
 
