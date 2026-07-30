@@ -108,13 +108,15 @@ export default function OrientationMemeSection() {
             <div className="orientation-memes__reel-frame">
               <video
                 ref={videoRef}
-                src="/assets/orientation/mulearn-orientation.mp4"
                 poster="/assets/orientation/mulearn-orientation-poster.webp"
                 muted
                 loop
                 playsInline
                 preload="metadata"
-              />
+              >
+                <source src="/assets/orientation/mulearn-orientation.webm" type="video/webm; codecs=vp9,opus" />
+                <source src="/assets/orientation/mulearn-orientation.mp4" type="video/mp4" />
+              </video>
               <button type="button" className="orientation-memes__sound" onClick={toggleSound} aria-label={muted ? 'Turn sound on' : 'Turn sound off'}>
                 {muted ? <FaVolumeXmark /> : <FaVolumeHigh />}
               </button>
