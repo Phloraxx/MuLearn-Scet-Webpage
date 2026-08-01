@@ -29,7 +29,7 @@ export const SEO_ROUTES = {
     themeColor: '#283618',
     fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=optional',
     jsonLd: organization,
-    staticMarkup: `<main class="static-shell static-shell--home"><p>µLearn Sahrdaya</p><h1>Peer learning, projects and community at Sahrdaya CET</h1><p>Student-led workshops, events and collaborative learning in Thrissur, Kerala.</p></main>`
+    staticMarkup: `<div class="static-loader" role="status" aria-label="Loading µLearn Sahrdaya"><div class="static-loader__inner"><div class="static-loader__wordmark">µlearn</div><div class="static-loader__campus">Sahrdaya</div><div class="static-loader__track"><div class="static-loader__bar"></div></div><div class="static-loader__label">Loading...</div></div></div><main class="seo-fallback static-shell static-shell--home"><p>µLearn Sahrdaya</p><h1>Peer learning, projects and community at Sahrdaya CET</h1><p>Student-led workshops, events and collaborative learning in Thrissur, Kerala.</p></main>`
   },
   '/orientation-2026': {
     title: 'The Meme Archive | µLearn Orientation 2026',
@@ -46,7 +46,7 @@ export const SEO_ROUTES = {
       description: 'A curated archive of 216 meme recreations from µLearn Sahrdaya Orientation 2026.',
       isPartOf: organization
     },
-    staticMarkup: `<main class="static-shell static-shell--archive"><p>µLearn Orientation · 2026</p><h1>The Meme Archive</h1><p>216 photos · 14 memes · zero context</p><a href="#archive-wall">Enter the evidence</a></main>`
+    staticMarkup: `<main class="seo-fallback static-shell static-shell--archive"><p>µLearn Orientation · 2026</p><h1>The Meme Archive</h1><p>216 photos · 14 memes · zero context</p><a href="#archive-wall">Enter the evidence</a></main>`
   },
   '/team': {
     title: 'Our Team | µLearn Sahrdaya',
@@ -63,7 +63,7 @@ export const SEO_ROUTES = {
       url: `${SITE_URL}/team`,
       about: organization
     },
-    staticMarkup: `<main class="static-shell"><p>µLearn Sahrdaya</p><h1>Our Team</h1><p>Meet the students leading the campus community and its interest groups.</p><a href="/">Back home</a></main>`
+    staticMarkup: `<main class="seo-fallback static-shell"><p>µLearn Sahrdaya</p><h1>Our Team</h1><p>Meet the students leading the campus community and its interest groups.</p><a href="/">Back home</a></main>`
   },
   '/karma-war': {
     title: 'Karma War 2026 Event Recap | µLearn Sahrdaya',
@@ -81,7 +81,7 @@ export const SEO_ROUTES = {
       organizer: organization,
       url: `${SITE_URL}/karma-war`
     },
-    staticMarkup: `<main class="static-shell static-shell--karma"><p>µLearn Sahrdaya</p><h1>Karma War 2026</h1><p>The event is complete. View the winners and event recap.</p><a href="/">Back home</a></main>`
+    staticMarkup: `<main class="seo-fallback static-shell static-shell--karma"><p>µLearn Sahrdaya</p><h1>Karma War 2026</h1><p>The event is complete. View the winners and event recap.</p><a href="/">Back home</a></main>`
   },
   '*': {
     title: 'Page Not Found | µLearn Sahrdaya',
@@ -92,7 +92,7 @@ export const SEO_ROUTES = {
     fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=optional',
     robots: 'noindex, follow',
     jsonLd: null,
-    staticMarkup: `<main class="static-shell static-shell--404"><p>µLearn Sahrdaya</p><h1>404</h1><h2>This page wandered off.</h2><p>The link may be outdated, mistyped or lost somewhere between two sections.</p><nav><a href="/">Go home</a><a href="/orientation-2026">Open the Meme Archive</a><a href="/team">Meet the team</a></nav></main>`
+    staticMarkup: `<main class="seo-fallback static-shell static-shell--404"><p>µLearn Sahrdaya</p><h1>404</h1><h2>This page wandered off.</h2><p>The link may be outdated, mistyped or lost somewhere between two sections.</p><nav><a href="/">Go home</a><a href="/orientation-2026">Open the Meme Archive</a><a href="/team">Meet the team</a></nav></main>`
   }
 }
 

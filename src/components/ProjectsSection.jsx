@@ -101,10 +101,10 @@ const ProjectsSection = () => {
             </div>
             <InstagramPreviewCard
               href="https://www.instagram.com/p/DTpIrNdkd3I/"
-              image="/assets/karmawar/previews/karma-album-v3.webp"
+              image="/assets/karmawar/previews/karma-album-v4.webp"
               title="Photo album"
-              width={1013}
-              height={1350}
+              width={1440}
+              height={1919}
               className="aspect-[3/4]"
             />
           </div>

@@ -79,8 +79,11 @@ pass(!source.includes('SDDFDVD'), 'Indexable decorative gibberish reintroduced')
 const appSource = await content(resolve(root, 'src/App.jsx'))
 pass(appSource.includes('<LoadingScreen'), 'Branded loading screen missing')
 pass(!appSource.includes('!showLoadingScreen &&'), 'Loading screen blocks route rendering')
+pass((await content(resolve(root, 'public/loader-preflight.js'))).includes('mulearn-loading-screen-v2'), 'Loader preflight missing session check')
+pass((await content(resolve(root, 'src/seoConfig.js'))).includes('static-loader'), 'Immediate homepage loading shell missing')
+pass((await content(resolve(root, 'src/seoConfig.js'))).includes('seo-fallback'), 'SEO fallback is not protected from first-paint flash')
 
-for (const file of ['site.webmanifest', 'favicon.ico', 'assets/favicon-64.png', 'assets/apple-touch-icon.png', 'assets/og/home.webp', 'assets/og/orientation-2026.webp', 'assets/og/team.webp', 'assets/og/karma-war.webp', 'assets/karmawar/previews/karma-album-v3.webp', 'assets/karmawar/previews/karma-highlights-v3.webp', 'assets/karmawar/previews/karma-winners-v3.webp', 'font-loader.js']) pass(await exists(resolve(root, 'public', file)), `Missing public asset: ${file}`)
+for (const file of ['site.webmanifest', 'favicon.ico', 'assets/favicon-64.png', 'assets/apple-touch-icon.png', 'assets/og/home.webp', 'assets/og/orientation-2026.webp', 'assets/og/team.webp', 'assets/og/karma-war.webp', 'assets/karmawar/previews/karma-album-v4.webp', 'assets/karmawar/previews/karma-highlights-v3.webp', 'assets/karmawar/previews/karma-winners-v3.webp', 'font-loader.js', 'loader-preflight.js']) pass(await exists(resolve(root, 'public', file)), `Missing public asset: ${file}`)
 JSON.parse(await content(resolve(root, 'public/site.webmanifest')))
 
 if (failures.length) {
