@@ -6,6 +6,7 @@ import './OrientationArchivePage.css'
 
 const MANIFEST_URL = '/assets/orientation/archive/manifest.json'
 const HERO_IDS = ['003', '015', '057', '080', '109', '139', '175', '216']
+const FEATURED_IDS = ['003', '011', '139', '080', '001', '159', '057', '093', '023', '175', '037', '144', '069', '193', '121', '051', '108', '150', '208', '137', '063', '213', '181', '094']
 const BATCH_SIZE = 24
 
 const initialParams = new URLSearchParams(window.location.search)
@@ -210,7 +211,13 @@ export default function OrientationArchivePage() {
     return true
   }), [filterType, filterValue, photos])
 
-  const ordered = useMemo(() => mode === 'shuffle' ? seededOrder(filtered, shuffleSeed) : filtered, [filtered, mode, shuffleSeed])
+  const ordered = useMemo(() => {
+    if (mode === 'shuffle') return seededOrder(filtered, shuffleSeed)
+    if (filterType !== 'all' || filterValue !== 'all') return filtered
+    const featured = FEATURED_IDS.map((id) => filtered.find((photo) => photo.id === id)).filter(Boolean)
+    const featuredIds = new Set(featured.map((photo) => photo.id))
+    return [...featured, ...filtered.filter((photo) => !featuredIds.has(photo.id))]
+  }, [filtered, filterType, filterValue, mode, shuffleSeed])
   const shown = ordered.slice(0, visibleCount)
   const selected = photos.find((photo) => photo.id === selectedId) || null
   const viewerList = ordered.some((photo) => photo.id === selectedId) ? ordered : photos
@@ -253,7 +260,7 @@ export default function OrientationArchivePage() {
     <main className="orientation-archive">
       <nav className="archive-nav">
         <Link className="archive-nav__brand" to="/">µlearn <span>Sahrdaya</span></Link>
-        <div className="archive-nav__count">{manifest ? `${manifest.count} PHOTOS · ${manifest.teams.length} TEAMS` : 'LOADING ARCHIVE'}</div>
+        <div className="archive-nav__count">{manifest ? `${manifest.count} PHOTOS · ${manifest.memes.length} MEMES` : 'LOADING ARCHIVE'}</div>
         <Link className="archive-nav__back" to="/"><FaArrowLeft /> Back home</Link>
       </nav>
 
@@ -276,7 +283,7 @@ export default function OrientationArchivePage() {
         <motion.div className="archive-hero__copy" initial={reduceMotion ? false : { opacity: 0, y: 35 }} animate={reduceMotion ? undefined : { opacity: 1, y: 0 }} transition={{ duration: 0.75 }}>
           <p>µLEARN ORIENTATION · 2026</p>
           <h1 id="archive-title"><span>THE</span><span>MEME</span><span>ARCHIVE</span></h1>
-          <div className="archive-hero__facts"><span>{manifest ? `${manifest.count} PHOTOS` : 'LOADING PHOTOS'}</span><i /> <span>19 TEAMS</span><i /> <span>ZERO CONTEXT</span></div>
+          <div className="archive-hero__facts"><span>{manifest ? `${manifest.count} PHOTOS` : 'LOADING PHOTOS'}</span><i /> <span>{manifest ? `${manifest.memes.length} MEMES` : 'MEMES'}</span><i /> <span>ZERO CONTEXT</span></div>
           <a href="#archive-wall" className="archive-hero__enter">Enter the evidence <span>↓</span></a>
         </motion.div>
       </section>
