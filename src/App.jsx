@@ -1,8 +1,7 @@
-import { lazy, Suspense, useCallback, useState } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route } from 'react-router'
 import SeoManager from './components/SeoManager'
 import HashScrollHandler from './components/HashScrollHandler'
-import LoadingScreen from './components/LoadingScreen'
 import { routeModules } from './routeModules'
 
 const HomePage = lazy(routeModules.home)
@@ -15,16 +14,9 @@ function RouteFallback() {
   return <main className="route-fallback" aria-label="Loading page" aria-busy="true" />
 }
 
-const LOADER_SESSION_KEY = 'mulearn-loading-screen-v2'
-
 export default function App() {
-  const [showLoadingScreen, setShowLoadingScreen] = useState(
-    () => window.location.pathname === '/' && sessionStorage.getItem(LOADER_SESSION_KEY) !== 'true',
-  )
-
-  const finishLoading = useCallback(() => {
-    sessionStorage.setItem(LOADER_SESSION_KEY, 'true')
-    setShowLoadingScreen(false)
+  useEffect(() => {
+    window.__finishMulearnLoader?.()
   }, [])
 
   return (
@@ -40,7 +32,6 @@ export default function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
-      {showLoadingScreen && <LoadingScreen onLoadingComplete={finishLoading} />}
     </div>
   )
 }

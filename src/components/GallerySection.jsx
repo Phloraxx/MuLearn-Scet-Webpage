@@ -1,11 +1,47 @@
-import { motion as Motion } from 'framer-motion'
-import { useInView } from 'framer-motion'
+import { motion as Motion, useInView, useReducedMotion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { FaExpand, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
+const Counter = ({ end, active, duration = 1800 }) => {
+  const reducedMotion = useReducedMotion()
+  const target = Number(end.replace(/[^0-9]/g, ''))
+  const suffix = end.replace(/[0-9]/g, '')
+  const [display, setDisplay] = useState(reducedMotion ? target : 0)
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setDisplay(target)
+      return undefined
+    }
+    if (!active) return undefined
+
+    const startedAt = performance.now()
+    let frameId
+    const update = (now) => {
+      const progress = Math.min(1, (now - startedAt) / duration)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setDisplay(Math.round(target * eased))
+      if (progress < 1) frameId = requestAnimationFrame(update)
+      else setDisplay(target)
+    }
+
+    frameId = requestAnimationFrame(update)
+    return () => cancelAnimationFrame(frameId)
+  }, [active, duration, reducedMotion, target])
+
+  return (
+    <span>
+      <span aria-hidden="true">{display}{suffix}</span>
+      <span className="sr-only">{end}</span>
+    </span>
+  )
+}
+
 const GallerySection = () => {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, threshold: 0.1 })
+  const statsRef = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const statsInView = useInView(statsRef, { once: true, amount: 0.35 })
   const [selectedImage, setSelectedImage] = useState(null)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 767px)').matches)
@@ -16,8 +52,6 @@ const GallerySection = () => {
     query.addEventListener('change', update)
     return () => query.removeEventListener('change', update)
   }, [])
-
-const Counter = ({ end }) => <span>{end}</span>
 
 
   const nextSlide = () => {
@@ -240,9 +274,10 @@ const Counter = ({ end }) => <span>{end}</span>
 
         {/* Stats Section */}
         <Motion.div
+          ref={statsRef}
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          animate={statsInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.15 }}
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[
@@ -251,14 +286,14 @@ const Counter = ({ end }) => <span>{end}</span>
             { number: "141814+", label: "Total Karma" },
             { number: "15+", label: "Industry Experts" }
           ].map((stat, index) => (
-            <div key={index} className="text-center">
+            <div key={stat.label} className="text-center" data-stat-value={stat.number}>
               <Motion.div
                 className="text-4xl md:text-5xl font-bold text-tigers-eye mb-2"
                 initial={{ scale: 0 }}
-                animate={isInView ? { scale: 1 } : {}}
+                animate={statsInView ? { scale: 1 } : {}}
                 transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
               >
-                <Counter end={stat.number} />
+                <Counter end={stat.number} active={statsInView} />
               </Motion.div>
               <div className="text-pakistan-green-600 font-medium">{stat.label}</div>
             </div>

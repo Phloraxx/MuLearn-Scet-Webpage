@@ -57,7 +57,7 @@ const fullTeam = [
   {
     name: "Sourav P Bijoy",
     role: "Tech Lead",
-    image: "/assets/team/optimized/Sourav P Bijoy_-640.webp",
+    image: "/assets/team/optimized/SouravPBijoy-640.webp",
     social: {
       instagram: "https://www.instagram.com/souravpbijoy/",
       linkedin: "https://linkedin.com/in/souravpbijoy",
@@ -68,7 +68,7 @@ const fullTeam = [
   {
     name: "Abel md",
     role: "Media Lead",
-    image: "/assets/team/optimized/Abel md-640.webp",
+    image: "/assets/team/optimized/AbelMd-640.webp",
     social: {
       instagram: "https://www.instagram.com/_.abel_md._/",
       linkedin: "https://www.linkedin.com/in/abelmdmosses/",

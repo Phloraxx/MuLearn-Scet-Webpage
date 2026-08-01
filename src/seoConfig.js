@@ -29,7 +29,7 @@ export const SEO_ROUTES = {
     themeColor: '#283618',
     fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=optional',
     jsonLd: organization,
-    staticMarkup: `<div class="static-loader" role="status" aria-label="Loading µLearn Sahrdaya"><div class="static-loader__inner"><div class="static-loader__wordmark">µlearn</div><div class="static-loader__campus">Sahrdaya</div><div class="static-loader__track"><div class="static-loader__bar"></div></div><div class="static-loader__label">Loading...</div></div></div><main class="seo-fallback static-shell static-shell--home"><p>µLearn Sahrdaya</p><h1>Peer learning, projects and community at Sahrdaya CET</h1><p>Student-led workshops, events and collaborative learning in Thrissur, Kerala.</p></main>`
+    staticMarkup: `<main class="seo-fallback static-shell static-shell--home"><p>µLearn Sahrdaya</p><h1>Peer learning, projects and community at Sahrdaya CET</h1><p>Student-led workshops, events and collaborative learning in Thrissur, Kerala.</p></main>`
   },
   '/orientation-2026': {
     title: 'The Meme Archive | µLearn Orientation 2026',
