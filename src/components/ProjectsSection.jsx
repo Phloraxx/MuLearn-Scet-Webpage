@@ -101,9 +101,11 @@ const ProjectsSection = () => {
             </div>
             <InstagramPreviewCard
               href="https://www.instagram.com/p/DTpIrNdkd3I/"
-              image="/assets/karmawar/previews/karma-album-v2.webp"
+              image="/assets/karmawar/previews/karma-album-v3.webp"
               title="Photo album"
-              className="aspect-[4/5]"
+              width={1013}
+              height={1350}
+              className="aspect-[3/4]"
             />
           </div>
 
@@ -115,8 +117,10 @@ const ProjectsSection = () => {
             </div>
             <InstagramPreviewCard
               href="https://www.instagram.com/p/DTpE75dEXK6/"
-              image="/assets/karmawar/previews/karma-highlights-v2.webp"
+              image="/assets/karmawar/previews/karma-highlights-v3.webp"
               title="More highlights"
+              width={640}
+              height={1136}
               className="aspect-[4/5]"
             />
           </div>

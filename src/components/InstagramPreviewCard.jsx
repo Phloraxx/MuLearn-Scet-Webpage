@@ -1,6 +1,13 @@
 import { FaInstagram } from 'react-icons/fa6'
 
-export default function InstagramPreviewCard({ href, image, title, className = '' }) {
+export default function InstagramPreviewCard({
+  href,
+  image,
+  title,
+  width = 900,
+  height = 1100,
+  className = '',
+}) {
   return (
     <a
       href={href}
@@ -12,8 +19,8 @@ export default function InstagramPreviewCard({ href, image, title, className = '
       <img
         src={image}
         alt=""
-        width="900"
-        height="1100"
+        width={width}
+        height={height}
         loading="lazy"
         decoding="async"
         className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025] group-hover:brightness-75"

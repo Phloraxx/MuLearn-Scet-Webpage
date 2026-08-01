@@ -75,9 +75,12 @@ source += await content(resolve(root, 'src/components/KarmaWar/KarmaWarPage.jsx'
 pass(!source.includes('<iframe'), 'Third-party iframe reintroduced')
 pass(!source.includes('this dont work'), 'Fake newsletter field reintroduced')
 pass(!source.includes('SDDFDVD'), 'Indexable decorative gibberish reintroduced')
-pass(!source.includes('LoadingScreen'), 'Blocking loading screen reintroduced')
 
-for (const file of ['site.webmanifest', 'favicon.ico', 'assets/favicon-64.png', 'assets/apple-touch-icon.png', 'assets/og/home.webp', 'assets/og/orientation-2026.webp', 'assets/og/team.webp', 'assets/og/karma-war.webp', 'font-loader.js']) pass(await exists(resolve(root, 'public', file)), `Missing public asset: ${file}`)
+const appSource = await content(resolve(root, 'src/App.jsx'))
+pass(appSource.includes('<LoadingScreen'), 'Branded loading screen missing')
+pass(!appSource.includes('!showLoadingScreen &&'), 'Loading screen blocks route rendering')
+
+for (const file of ['site.webmanifest', 'favicon.ico', 'assets/favicon-64.png', 'assets/apple-touch-icon.png', 'assets/og/home.webp', 'assets/og/orientation-2026.webp', 'assets/og/team.webp', 'assets/og/karma-war.webp', 'assets/karmawar/previews/karma-album-v3.webp', 'assets/karmawar/previews/karma-highlights-v3.webp', 'assets/karmawar/previews/karma-winners-v3.webp', 'font-loader.js']) pass(await exists(resolve(root, 'public', file)), `Missing public asset: ${file}`)
 JSON.parse(await content(resolve(root, 'public/site.webmanifest')))
 
 if (failures.length) {

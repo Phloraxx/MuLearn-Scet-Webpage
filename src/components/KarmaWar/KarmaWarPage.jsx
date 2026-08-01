@@ -124,9 +124,11 @@ const CompletedBanner = () => {
           <p className="text-primary font-bold text-lg mb-3">Winners</p>
           <InstagramPreviewCard
             href="https://www.instagram.com/p/DUV0UKEkso6/"
-            image="/assets/karmawar/previews/karma-winners-v2.webp"
+            image="/assets/karmawar/previews/karma-winners-v3.webp"
             title="Karma War winners"
-            className="aspect-[4/5] border-gray-300"
+            width={1013}
+            height={1350}
+            className="aspect-[3/4] border-gray-300"
           />
         </div>
 
