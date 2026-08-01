@@ -128,11 +128,17 @@ export default function OrientationMemeSection() {
           </motion.div>
         </div>
 
-        <a className="orientation-memes__instagram" href="https://www.instagram.com/reel/DbYbImLQ9Kz/" target="_blank" rel="noreferrer">
-          <FaInstagram />
-          <span>WATCH THE REEL</span>
-          <b aria-hidden="true">↗</b>
-        </a>
+        <div className="orientation-memes__actions">
+          <a className="orientation-memes__instagram" href="https://www.instagram.com/reel/DbYbImLQ9Kz/" target="_blank" rel="noreferrer">
+            <FaInstagram />
+            <span>WATCH THE REEL</span>
+            <b aria-hidden="true">↗</b>
+          </a>
+          <a className="orientation-memes__archive" href="/orientation-2026">
+            <span>OPEN THE MEME ARCHIVE</span>
+            <b aria-hidden="true">→</b>
+          </a>
+        </div>
       </div>
     </section>
   )

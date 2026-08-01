@@ -14,9 +14,10 @@ import ScrollToTop from './components/ScrollToTop'
 import LoadingScreen from './components/LoadingScreen'
 import KarmaWarPage from './components/KarmaWar/KarmaWarPage'
 import FullTeamPage from './components/FullTeamPage'
+import OrientationArchivePage from './components/OrientationArchivePage'
 
 function App() {
-  const [isLoading, setIsLoading] = useState(() => !sessionStorage.getItem('hasLoaded'))
+  const [isLoading, setIsLoading] = useState(() => window.location.pathname === '/' && !sessionStorage.getItem('hasLoaded'))
 
   const handleLoadingComplete = () => {
     sessionStorage.setItem('hasLoaded', 'true')
@@ -54,6 +55,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/karma-war" element={<KarmaWarPage />} />
           <Route path="/team" element={<FullTeamPage />} />
+          <Route path="/orientation-2026" element={<OrientationArchivePage />} />
         </Routes>
 
 
