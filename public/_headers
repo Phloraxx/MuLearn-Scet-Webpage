@@ -46,6 +46,3 @@
 /404.html
   X-Robots-Tag: noindex
   Cache-Control: public, max-age=0, must-revalidate
-
-/font-loader.js
-  Cache-Control: public, max-age=3600, must-revalidate

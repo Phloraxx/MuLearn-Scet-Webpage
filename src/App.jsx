@@ -16,7 +16,12 @@ function RouteFallback() {
 
 export default function App() {
   useEffect(() => {
-    window.__finishMulearnLoader?.()
+    let cancelled = false
+    const fontTimeout = new Promise((resolve) => window.setTimeout(resolve, 2400))
+    Promise.race([document.fonts?.ready ?? Promise.resolve(), fontTimeout]).then(() => {
+      if (!cancelled) window.__finishMulearnLoader?.()
+    })
+    return () => { cancelled = true }
   }, [])
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { useLocation } from 'react-router'
 import { getSeoForPath } from '../seoConfig'
 
@@ -14,7 +14,7 @@ function setMeta(selector, attributes) {
 export default function SeoManager() {
   const { pathname } = useLocation()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const seo = getSeoForPath(pathname)
     document.title = seo.title
     setMeta('meta[name="description"]', { name: 'description', content: seo.description })

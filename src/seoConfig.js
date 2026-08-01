@@ -27,7 +27,7 @@ export const SEO_ROUTES = {
     canonical: `${SITE_URL}/`,
     image: `${SITE_URL}/assets/og/home.webp`,
     themeColor: '#283618',
-    fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=optional',
+    fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Share+Tech+Mono&display=swap',
     jsonLd: organization,
     staticMarkup: `<main class="seo-fallback static-shell static-shell--home"><p>µLearn Sahrdaya</p><h1>Peer learning, projects and community at Sahrdaya CET</h1><p>Student-led workshops, events and collaborative learning in Thrissur, Kerala.</p></main>`
   },
@@ -37,7 +37,7 @@ export const SEO_ROUTES = {
     canonical: `${SITE_URL}/orientation-2026`,
     image: `${SITE_URL}/assets/og/orientation-2026.webp`,
     themeColor: '#f4efdf',
-    fontHref: 'https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800;900&family=Inter:wght@600;700;800&display=optional',
+    fontHref: 'https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Mono:wght@400;500&family=Inter:wght@600;700;800&display=swap',
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -54,7 +54,7 @@ export const SEO_ROUTES = {
     canonical: `${SITE_URL}/team`,
     image: `${SITE_URL}/assets/og/team.webp`,
     themeColor: '#283618',
-    fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=optional',
+    fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
     preloadImage: { href: '/assets/team/optimized/YadhuKrishna-320.webp', srcset: '/assets/team/optimized/YadhuKrishna-320.webp 320w, /assets/team/optimized/YadhuKrishna-640.webp 640w', sizes: '(max-width: 640px) 44vw, 280px' },
     jsonLd: {
       '@context': 'https://schema.org',
@@ -71,7 +71,7 @@ export const SEO_ROUTES = {
     canonical: `${SITE_URL}/karma-war`,
     image: `${SITE_URL}/assets/og/karma-war.webp`,
     themeColor: '#7c7ce0',
-    fontHref: 'https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Special+Elite&display=optional',
+    fontHref: 'https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Special+Elite&display=swap',
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'Event',
@@ -89,7 +89,7 @@ export const SEO_ROUTES = {
     canonical: null,
     image: `${SITE_URL}/assets/og/home.webp`,
     themeColor: '#fefae0',
-    fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=optional',
+    fontHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap',
     robots: 'noindex, follow',
     jsonLd: null,
     staticMarkup: `<main class="seo-fallback static-shell static-shell--404"><p>µLearn Sahrdaya</p><h1>404</h1><h2>This page wandered off.</h2><p>The link may be outdated, mistyped or lost somewhere between two sections.</p><nav><a href="/">Go home</a><a href="/orientation-2026">Open the Meme Archive</a><a href="/team">Meet the team</a></nav></main>`

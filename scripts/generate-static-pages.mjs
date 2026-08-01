@@ -28,7 +28,7 @@ function buildHtml(seo) {
   html = replaceMeta(html, 'twitter:image', seo.image)
   html = html.replace(/<link\s+rel="canonical"[^>]*>\s*/i, seo.canonical ? `<link rel="canonical" href="${seo.canonical}" />\n    ` : '')
   html = html.replace(/<link id="route-fonts-preload"[^>]*>/i, `<link id="route-fonts-preload" rel="preload" as="style" href="${seo.fontHref}" />`)
-  html = html.replace(/<link id="route-fonts"[^>]*>/i, `<link id="route-fonts" href="${seo.fontHref}" rel="stylesheet" media="print" />`)
+  html = html.replace(/<link id="route-fonts"[^>]*>/i, `<link id="route-fonts" href="${seo.fontHref}" rel="stylesheet" />`)
   html = html.replace(/<noscript><link href="[^"]+" rel="stylesheet" \/><\/noscript>/i, `<noscript><link href="${seo.fontHref}" rel="stylesheet" /></noscript>`)
   const jsonLd = seo.jsonLd ? JSON.stringify(seo.jsonLd).replaceAll('<', '\\u003c') : ''
   html = html.replace(/<script id="route-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>/i, jsonLd ? `<script id="route-jsonld" type="application/ld+json">${jsonLd}</script>` : '')
