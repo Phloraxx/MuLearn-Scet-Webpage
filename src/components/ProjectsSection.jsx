@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
+import InstagramPreviewCard from './InstagramPreviewCard'
 
 const ProjectsSection = () => {
   const videoRef = useRef(null)
@@ -68,6 +69,7 @@ const ProjectsSection = () => {
                 <video
                   ref={videoRef}
                   src="/assets/karmawar/kochuvid.mp4"
+                  preload="none"
                   poster="/assets/karmawar/kochuvid_Thumbnail.jpg"
                   muted
                   loop
@@ -78,7 +80,7 @@ const ProjectsSection = () => {
                 <button
                   onClick={toggleMute}
                   className="absolute bottom-4 left-4 z-20 bg-black/60 hover:bg-black/80 text-white px-3 py-1.5 rounded text-xs font-mono tracking-wider transition-all"
-                  aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                  aria-label={isMuted ? 'Sound off — turn sound on' : 'Sound on — turn sound off'}
                   aria-pressed={!isMuted}
                 >
                   {isMuted ? '[ SOUND OFF ]' : '[ SOUND ON ]'}
@@ -97,20 +99,12 @@ const ProjectsSection = () => {
               <span className="w-8 h-px bg-tigers-eye"></span>
               <h3 className="text-white font-mono text-sm tracking-[0.2em] uppercase">Event Gallery</h3>
             </div>
-            <div className="relative border border-gray-800 rounded-xl overflow-hidden shadow-lg bg-black group">
-              <div className="relative overflow-hidden" style={{ paddingBottom: '135%' }}>
-                <div className="absolute inset-0 pointer-events-none z-10" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px)' }}></div>
-                <iframe
-                  src="https://www.instagram.com/p/DTpIrNdkd3I/embed"
-                  className="absolute inset-0 w-full h-full"
-                  frameBorder="0"
-                  scrolling="no"
-                  allowtransparency="true"
-                  title="Karma War Photo Album"
-                />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10"></div>
-            </div>
+            <InstagramPreviewCard
+              href="https://www.instagram.com/p/DTpIrNdkd3I/"
+              image="/assets/karmawar/previews/karma-album-v2.webp"
+              title="Photo album"
+              className="aspect-[4/5]"
+            />
           </div>
 
           {/* More Highlights */}
@@ -119,19 +113,12 @@ const ProjectsSection = () => {
               <span className="w-8 h-px bg-tigers-eye"></span>
               <h3 className="text-white font-mono text-sm tracking-[0.2em] uppercase">More Highlights</h3>
             </div>
-            <div className="relative border border-gray-800 rounded-xl overflow-hidden shadow-lg bg-black group">
-              <div className="relative overflow-hidden" style={{ paddingBottom: '135%' }}>
-                <div className="absolute inset-0 pointer-events-none z-10" style={{ background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px)' }}></div>
-                <iframe
-                  src="https://www.instagram.com/p/DTpE75dEXK6/embed"
-                  className="absolute inset-0 w-full h-full"
-                  frameBorder="0"
-                  scrolling="no"
-                  allowtransparency="true"
-                  title="Karma War Extra Highlights"
-                />
-              </div>
-            </div>
+            <InstagramPreviewCard
+              href="https://www.instagram.com/p/DTpE75dEXK6/"
+              image="/assets/karmawar/previews/karma-highlights-v2.webp"
+              title="More highlights"
+              className="aspect-[4/5]"
+            />
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion as Motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { FaArrowUp } from 'react-icons/fa'
 
@@ -28,18 +28,18 @@ const ScrollToTop = () => {
   return (
     <>
       {isVisible && (
-        <motion.button
+        <Motion.button
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-tigers-eye hover:bg-tigers-eye-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 z-40"
+          className="fixed bottom-8 right-8 bg-[#8f4c17] hover:bg-[#713b12] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 z-40"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           aria-label="Scroll to top"
         >
           <FaArrowUp />
-        </motion.button>
+        </Motion.button>
       )}
     </>
   )

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { motion as Motion } from 'framer-motion'
+import { Link } from 'react-router'
 import { FaArrowLeft } from 'react-icons/fa'
 import Navigation from './Navigation'
 import Footer from './Footer'
@@ -22,7 +22,7 @@ const FullTeamPage = () => {
       <main className="pt-24 pb-20">
         <div className="max-w-7xl mx-auto px-6">
           {/* Header */}
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -41,7 +41,7 @@ const FullTeamPage = () => {
             <p className="text-xl text-pakistan-green-700 max-w-3xl mx-auto">
               Meet everyone driving the µLearn community at Sahrdaya CET.
             </p>
-          </motion.div>
+          </Motion.div>
 
           {/* Executive Leads */}
           <div className="mb-16">
@@ -52,7 +52,7 @@ const FullTeamPage = () => {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
               {execLeads.map((member, index) => (
-                <TeamMemberCard key={index} member={member} index={index} />
+                <TeamMemberCard key={index} member={member} index={index} priority={index < 4} />
               ))}
             </div>
           </div>

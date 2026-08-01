@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
+import { FaTrophy } from 'react-icons/fa6';
+import InstagramPreviewCard from '../InstagramPreviewCard';
 import './KarmaWar.css';
 
 // --- Components ---
@@ -54,25 +56,16 @@ const TvSet = () => {
 
 const BackgroundDecorations = () => {
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30">
-      <div className="absolute top-20 left-10 transform -rotate-12">
-        <span className="material-icons-outlined text-[15rem] leading-none text-gray-600">cyclone</span>
-      </div>
-      <div className="absolute bottom-20 right-10 transform rotate-45">
-        <span className="material-icons-outlined text-[15rem] leading-none text-gray-600">savings</span>
-      </div>
-      <div className="absolute top-1/3 right-20 transform rotate-12">
-        <span className="material-icons-outlined text-[10rem] leading-none text-gray-800">star</span>
-      </div>
-      <div className="absolute top-10 left-1/3 transform -rotate-6">
-        <div className="w-28 h-14 border-8 border-black rounded-full"></div>
-      </div>
-      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-transparent border-l-4 border-b-4 border-gray-400 opacity-20 transform rotate-3"></div>
-      <div className="absolute bottom-0 left-0 w-[50rem] h-[50rem] bg-transparent border-r-4 border-t-4 border-gray-400 opacity-20 transform -rotate-2"></div>
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30" aria-hidden="true">
+      <div className="absolute top-20 left-10 h-56 w-56 -rotate-12 rounded-full border-[28px] border-gray-500/60 border-r-transparent"></div>
+      <div className="absolute bottom-24 right-16 h-40 w-40 rotate-45 border-[24px] border-gray-500/50"></div>
+      <div className="absolute top-1/3 right-24 h-28 w-28 rotate-12 rounded-full bg-gray-700/30"></div>
+      <div className="absolute top-10 left-1/3 -rotate-6 w-28 h-14 border-8 border-black rounded-full"></div>
+      <div className="absolute top-0 right-0 w-[40rem] h-[40rem] border-l-4 border-b-4 border-gray-400 opacity-20 rotate-3"></div>
+      <div className="absolute bottom-0 left-0 w-[50rem] h-[50rem] border-r-4 border-t-4 border-gray-400 opacity-20 -rotate-2"></div>
     </div>
   );
 };
-
 const Navbar = () => {
   return (
     <nav className="absolute top-0 w-full z-50 p-6 flex justify-between items-center">
@@ -110,9 +103,8 @@ const HeroSection = () => {
 
       <TvSet />
 
-      <div className="mt-8 text-[0.5rem] lg:text-[0.6rem] text-center text-gray-400 font-mono leading-tight uppercase opacity-50 max-w-md">
-        SDDFDVDVDVSDVFDFJVBKVVKDVBKSJVKDVJDKBVJBKSBCJSDBCKDBKDVBKDJVBDKVBDKVBDJ VBDKVBKDVBKVBKDVBKDBVKDBKV
-        RFIRFLIRHFLERHVERH GHRGHERGHHGRUI GHIHGRIGOERG HROGHORIUGHORIGHRIGOHRIGHRIG
+      <div className="mt-8 flex items-center gap-3 opacity-50" aria-hidden="true">
+        <span className="h-px w-20 bg-gray-500" /><span className="font-mono text-[0.6rem] tracking-[0.35em] text-gray-500">END OF TRANSMISSION</span><span className="h-px w-20 bg-gray-500" />
       </div>
     </div>
   );
@@ -122,7 +114,7 @@ const CompletedBanner = () => {
   return (
     <div className="w-full lg:w-1/3 relative z-20 lg:scale-90">
       <div className="bg-white/80 backdrop-blur-sm border border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-lg text-center">
-        <span className="material-icons-outlined text-6xl text-primary mb-4">celebration</span>
+        <FaTrophy className="mx-auto mb-4 text-6xl text-primary" aria-hidden="true" />
         <h3 className="text-3xl font-tech font-bold uppercase text-secondary mb-2">Karma War Has Ended</h3>
         <p className="text-sm font-mono text-gray-500 mb-6">
           Thank you to all squads who enlisted and fought. The battle is over.
@@ -130,16 +122,12 @@ const CompletedBanner = () => {
 
         <div className="mb-6">
           <p className="text-primary font-bold text-lg mb-3">Winners</p>
-          <div className="relative overflow-hidden rounded-lg border border-gray-300" style={{ paddingBottom: '120%' }}>
-            <iframe
-              src="https://www.instagram.com/p/DUV0UKEkso6/embed"
-              className="absolute inset-0 w-full h-full"
-              frameBorder="0"
-              scrolling="no"
-              allowtransparency="true"
-              title="Karma War Winners"
-            />
-          </div>
+          <InstagramPreviewCard
+            href="https://www.instagram.com/p/DUV0UKEkso6/"
+            image="/assets/karmawar/previews/karma-winners-v2.webp"
+            title="Karma War winners"
+            className="aspect-[4/5] border-gray-300"
+          />
         </div>
 
         <div className="space-y-3">
@@ -147,7 +135,7 @@ const CompletedBanner = () => {
             href="https://chat.whatsapp.com/IxnzOfJo4Kt3Zzg8ZBZdCl"
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full bg-primary text-white font-tech font-bold py-3 uppercase tracking-widest hover:bg-primary/90 transition-all"
+            className="block w-full bg-[#5555b8] text-white font-tech font-bold py-3 uppercase tracking-widest hover:bg-[#48489f] transition-all"
           >
             Join Community
           </a>

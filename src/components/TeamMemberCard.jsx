@@ -1,16 +1,20 @@
-import { motion } from 'framer-motion'
+import { motion as Motion } from 'framer-motion'
 import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa'
 
-const TeamMemberCard = ({ member, index = 0 }) => {
+const TeamMemberCard = ({ member, index = 0, priority = false }) => {
   const { name, role, image, social } = member
   const initials = name.split(' ').map(n => n[0]).join('').toUpperCase()
   const hasImage = image && image.trim() !== ''
+  const optimizedImage = image
+  const optimizedSmallImage = hasImage ? image.replace(/-640\.webp$/i, '-320.webp') : ''
+  const optimizedSrcSet = `${optimizedSmallImage} 320w, ${optimizedImage} 640w`
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
+    <Motion.div
+      initial={priority ? false : { opacity: 0, y: 30 }}
+      animate={priority ? { opacity: 1, y: 0 } : undefined}
+      whileInView={priority ? undefined : { opacity: 1, y: 0 }}
+      transition={priority ? undefined : { duration: 0.5, delay: index * 0.08 }}
       viewport={{ once: true }}
       className="group"
     >
@@ -20,10 +24,16 @@ const TeamMemberCard = ({ member, index = 0 }) => {
           {hasImage ? (
             <div className="absolute -top-14 left-0 right-0 bottom-0 overflow-hidden rounded-xl">
               <img
-                src={image}
+                src={optimizedImage}
+                srcSet={optimizedSrcSet}
+                sizes="(max-width: 640px) 44vw, (max-width: 1024px) 30vw, 280px"
                 alt={name}
+                width="640"
+                height="853"
                 className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
+                loading={priority ? 'eager' : 'lazy'}
+                fetchPriority={priority ? 'high' : 'auto'}
+                decoding="async"
               />
             </div>
           ) : (
@@ -82,7 +92,7 @@ const TeamMemberCard = ({ member, index = 0 }) => {
           </div>
         )}
       </div>
-    </motion.div>
+    </Motion.div>
   )
 }
 

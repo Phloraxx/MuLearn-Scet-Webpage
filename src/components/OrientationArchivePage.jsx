@@ -1,11 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { Link } from 'react-router'
+import { AnimatePresence, motion as Motion, useReducedMotion } from 'framer-motion'
 import { FaArrowLeft, FaArrowRight, FaDownload, FaInstagram, FaLink, FaXmark } from 'react-icons/fa6'
 import './OrientationArchivePage.css'
 
 const MANIFEST_URL = '/assets/orientation/archive/manifest.json'
 const HERO_IDS = ['003', '015', '057', '080', '109', '139', '175', '216']
+const HERO_PHOTOS = HERO_IDS.map((id) => ({ id, thumb: `/assets/orientation/archive/thumbs/${id}.webp` }))
+const ARCHIVE_COUNT = 216
+const MEME_COUNT = 14
 const FEATURED_IDS = ['003', '011', '139', '080', '001', '159', '057', '093', '023', '175', '037', '144', '069', '193', '121', '051', '108', '150', '208', '137', '063', '213', '181', '094']
 const BATCH_SIZE = 24
 
@@ -58,7 +61,7 @@ function ArchiveCard({ photo, index, mode, onOpen, onSeen, priority = false }) {
   }, [photo.id, onSeen])
 
   return (
-    <motion.article
+    <Motion.article
       ref={cardRef}
       className={`archive-card archive-card--${mode} ${showReference ? 'is-reference' : ''}`}
       data-photo-id={photo.id}
@@ -89,7 +92,7 @@ function ArchiveCard({ photo, index, mode, onOpen, onSeen, priority = false }) {
         aria-pressed={showReference}
         onClick={(event) => { event.stopPropagation(); setShowReference((value) => !value) }}
       />
-    </motion.article>
+    </Motion.article>
   )
 }
 
@@ -98,17 +101,18 @@ function PhotoDialog({ photo, list, onClose, onMove }) {
   const [reference, setReference] = useState(false)
   const [copied, setCopied] = useState(false)
   const touchStart = useRef(null)
-  const index = list.findIndex((item) => item.id === photo?.id)
+  const photoId = photo?.id
+  const index = list.findIndex((item) => item.id === photoId)
 
   useEffect(() => {
     const dialog = dialogRef.current
-    if (!dialog || !photo) return
+    if (!dialog || !photoId) return
     setReference(false)
     setCopied(false)
     if (!dialog.open) dialog.showModal()
     document.body.classList.add('archive-dialog-open')
     return () => document.body.classList.remove('archive-dialog-open')
-  }, [photo])
+  }, [photoId])
 
   useEffect(() => {
     const keydown = (event) => {
@@ -122,9 +126,13 @@ function PhotoDialog({ photo, list, onClose, onMove }) {
 
   if (!photo) return null
   const copyLink = async () => {
-    await navigator.clipboard.writeText(window.location.href)
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1500)
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+    } catch {
+      setCopied(false)
+      return
+    }
   }
 
   return (
@@ -180,19 +188,24 @@ export default function OrientationArchivePage() {
   const [discovered, setDiscovered] = useState(() => new Set())
 
   useEffect(() => {
-    const previousTitle = document.title
-    document.title = 'The Meme Archive · µLearn Sahrdaya'
-    return () => { document.title = previousTitle }
+    let cancelled = false
+    let started = false
+    const load = () => {
+      if (started) return
+      started = true
+      window.removeEventListener('scroll', load)
+      fetch(MANIFEST_URL)
+        .then((response) => { if (!response.ok) throw new Error('Archive failed to load'); return response.json() })
+        .then((data) => { if (!cancelled) setManifest(data) })
+        .catch((reason) => { if (!cancelled) setError(reason.message) })
+    }
+    const delay = window.innerWidth < 768 ? 2200 : 700
+    const timer = window.setTimeout(load, delay)
+    window.addEventListener('scroll', load, { once: true, passive: true })
+    return () => { cancelled = true; window.clearTimeout(timer); window.removeEventListener('scroll', load) }
   }, [])
 
-  useEffect(() => {
-    fetch(MANIFEST_URL)
-      .then((response) => { if (!response.ok) throw new Error('Archive failed to load'); return response.json() })
-      .then(setManifest)
-      .catch((reason) => setError(reason.message))
-  }, [])
-
-  const photos = manifest?.photos || []
+  const photos = useMemo(() => manifest?.photos || [], [manifest])
   const options = useMemo(() => {
     if (!manifest) return []
     if (filterType === 'team') return manifest.teams.map((team) => ({ label: team, value: slugify(team), count: photos.filter((photo) => photo.teamSlug === slugify(team)).length }))
@@ -221,7 +234,7 @@ export default function OrientationArchivePage() {
   const shown = ordered.slice(0, visibleCount)
   const selected = photos.find((photo) => photo.id === selectedId) || null
   const viewerList = ordered.some((photo) => photo.id === selectedId) ? ordered : photos
-  const heroPhotos = HERO_IDS.map((id) => photos.find((photo) => photo.id === id)).filter(Boolean)
+  const heroPhotos = HERO_PHOTOS
 
   useEffect(() => {
     updateUrl({ filterType, filterValue, mode, photo: selectedId })
@@ -260,7 +273,7 @@ export default function OrientationArchivePage() {
     <main className="orientation-archive">
       <nav className="archive-nav">
         <Link className="archive-nav__brand" to="/">µlearn <span>Sahrdaya</span></Link>
-        <div className="archive-nav__count">{manifest ? `${manifest.count} PHOTOS · ${manifest.memes.length} MEMES` : 'LOADING ARCHIVE'}</div>
+        <div className="archive-nav__count">{ARCHIVE_COUNT} PHOTOS · {MEME_COUNT} MEMES</div>
         <Link className="archive-nav__back" to="/"><FaArrowLeft /> Back home</Link>
       </nav>
 
@@ -269,23 +282,27 @@ export default function OrientationArchivePage() {
         <div className="archive-hero__orb archive-hero__orb--orange" aria-hidden="true" />
         <div className="archive-hero__photos" aria-hidden="true">
           {heroPhotos.map((photo, index) => (
-            <motion.img
+            <Motion.img
               key={photo.id}
               className={`archive-hero__photo archive-hero__photo--${index + 1}`}
               src={photo.thumb}
               alt=""
+              width="180"
+              height="230"
+              loading="lazy"
+              decoding="async"
               initial={reduceMotion ? false : { opacity: 0, y: 70, rotate: 0 }}
               animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 + index * 0.06, ease: [0.22, 1, 0.36, 1] }}
             />
           ))}
         </div>
-        <motion.div className="archive-hero__copy" initial={reduceMotion ? false : { opacity: 0, y: 35 }} animate={reduceMotion ? undefined : { opacity: 1, y: 0 }} transition={{ duration: 0.75 }}>
+        <div className="archive-hero__copy">
           <p>µLEARN ORIENTATION · 2026</p>
           <h1 id="archive-title"><span>THE</span><span>MEME</span><span>ARCHIVE</span></h1>
-          <div className="archive-hero__facts"><span>{manifest ? `${manifest.count} PHOTOS` : 'LOADING PHOTOS'}</span><i /> <span>{manifest ? `${manifest.memes.length} MEMES` : 'MEMES'}</span><i /> <span>ZERO CONTEXT</span></div>
+          <div className="archive-hero__facts"><span>{ARCHIVE_COUNT} PHOTOS</span><i /> <span>{MEME_COUNT} MEMES</span><i /> <span>ZERO CONTEXT</span></div>
           <a href="#archive-wall" className="archive-hero__enter">Enter the evidence <span>↓</span></a>
-        </motion.div>
+        </div>
       </section>
 
       <section id="archive-wall" className="archive-browser" aria-label="Orientation photo archive">
@@ -303,10 +320,10 @@ export default function OrientationArchivePage() {
           </div>
           <AnimatePresence initial={false}>
             {filterType !== 'all' && (
-              <motion.div className="archive-toolbar__options" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
+              <Motion.div className="archive-toolbar__options" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
                 <button className={filterValue === 'all' ? 'is-active' : ''} onClick={() => setFilterValue('all')}>All {filterType === 'team' ? 'teams' : 'memes'} <span>{manifest?.count}</span></button>
                 {options.map((option) => <button key={option.value} className={filterValue === option.value ? 'is-active' : ''} onClick={() => setFilterValue(option.value)}>{option.label} <span>{option.count}</span></button>)}
-              </motion.div>
+              </Motion.div>
             )}
           </AnimatePresence>
           <div className="archive-toolbar__status">

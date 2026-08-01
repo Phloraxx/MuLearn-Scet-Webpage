@@ -1,0 +1,13 @@
+{
+  "name": "µLearn Sahrdaya",
+  "short_name": "µLearn SCET",
+  "description": "Peer learning community at Sahrdaya College of Engineering & Technology.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fefae0",
+  "theme_color": "#283618",
+  "icons": [
+    { "src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/favicon.png", "sizes": "576x576", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

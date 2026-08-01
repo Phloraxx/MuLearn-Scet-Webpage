@@ -1,67 +1,33 @@
-import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import Navigation from './components/Navigation'
-import HeroSection from './components/HeroSection'
-import AboutSection from './components/AboutSection'
-import ProjectsSection from './components/ProjectsSection'
-import OrientationMemeSection from './components/OrientationMemeSection'
-import GallerySection from './components/GallerySection'
-import TeamSection from './components/TeamSection'
+import { lazy, Suspense } from 'react'
+import { Routes, Route } from 'react-router'
+import SeoManager from './components/SeoManager'
+import HashScrollHandler from './components/HashScrollHandler'
+import { routeModules } from './routeModules'
 
-import Footer from './components/Footer'
-import ScrollToTop from './components/ScrollToTop'
-import LoadingScreen from './components/LoadingScreen'
-import KarmaWarPage from './components/KarmaWar/KarmaWarPage'
-import FullTeamPage from './components/FullTeamPage'
-import OrientationArchivePage from './components/OrientationArchivePage'
+const HomePage = lazy(routeModules.home)
+const KarmaWarPage = lazy(routeModules.karma)
+const FullTeamPage = lazy(routeModules.team)
+const OrientationArchivePage = lazy(routeModules.archive)
+const NotFoundPage = lazy(routeModules.notFound)
 
-function App() {
-  const [isLoading, setIsLoading] = useState(() => window.location.pathname === '/' && !sessionStorage.getItem('hasLoaded'))
+function RouteFallback() {
+  return <main className="route-fallback" aria-label="Loading page" aria-busy="true" />
+}
 
-  const handleLoadingComplete = () => {
-    sessionStorage.setItem('hasLoaded', 'true')
-    setIsLoading(false)
-  }
-
-  const HomePage = () => (
-    <>
-      <Navigation />
-      <main>
-        <div id="home">
-          <HeroSection />
-        </div>
-        <AboutSection />
-        <OrientationMemeSection />
-        <ProjectsSection />
-        <GallerySection />
-        <TeamSection />
-      </main>
-      <Footer />
-      <ScrollToTop />
-    </>
-  )
-
+export default function App() {
   return (
     <div className="min-h-screen">
-      <AnimatePresence>
-        {isLoading && (
-          <LoadingScreen onLoadingComplete={handleLoadingComplete} />
-        )}
-      </AnimatePresence>
-      
-      {!isLoading && (
+      <SeoManager />
+      <HashScrollHandler />
+      <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/karma-war" element={<KarmaWarPage />} />
           <Route path="/team" element={<FullTeamPage />} />
           <Route path="/orientation-2026" element={<OrientationArchivePage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
-
-
-      )}
+      </Suspense>
     </div>
   )
 }
-
-export default App

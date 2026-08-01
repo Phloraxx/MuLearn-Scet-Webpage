@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion'
+import { motion as Motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import MuLearnLogo from './MuLearnLogo'
 
@@ -49,7 +49,7 @@ const Navigation = () => {
   }
 
   return (
-    <motion.nav
+    <Motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -62,7 +62,7 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <motion.div
+          <Motion.div
             className="flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
           >
@@ -71,15 +71,15 @@ const Navigation = () => {
                 size="small" 
                 className="text-pakistan-green"
               />
-              <span className="text-lg font-semibold text-tigers-eye">Sahrdaya</span>
+              <span className="text-lg font-semibold text-[#8f4c17]">Sahrdaya</span>
             </Link>
-          </motion.div>
+          </Motion.div>
 
           {/* Desktop Navigation - Centered */}
           <div className="hidden md:flex items-center justify-center flex-1">
             <div className="flex items-center gap-8">
               {navItems.map((item, index) => (
-                <motion.a
+                <Motion.a
                   key={index}
                   href={item.href}
                   onClick={(e) => scrollToSection(e, item.href)}
@@ -89,22 +89,22 @@ const Navigation = () => {
                   aria-current={location.hash === item.href ? 'true' : undefined}
                 >
                   {item.label}
-                </motion.a>
+                </Motion.a>
               ))}
             </div>
           </div>
           
           {/* Right Side - Join MuLearn Button */}
           <div className="hidden md:flex items-center space-x-3">
-              <motion.button
+              <Motion.button
                 onClick={() => window.open('https://app.mulearn.org', '_blank')}
-                className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
+                className="bg-[#8f4c17] hover:bg-[#713b12] text-white px-6 py-2 rounded-full font-semibold transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Join MuLearn (opens in new tab)"
               >
                 Join MuLearn
-              </motion.button>
+              </Motion.button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -121,7 +121,7 @@ const Navigation = () => {
         </div>
 
         {/* Mobile Menu */}
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ 
             opacity: isMobileMenuOpen ? 1 : 0, 
@@ -132,7 +132,7 @@ const Navigation = () => {
         >
           <div className="py-4 space-y-4">
             {navItems.map((item, index) => (
-              <motion.a
+              <Motion.a
                 key={index}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
@@ -143,27 +143,27 @@ const Navigation = () => {
                 aria-current={location.hash === item.href ? 'true' : undefined}
               >
                 {item.label}
-              </motion.a>
+              </Motion.a>
             ))}
             
             <div className="px-4 pt-2 space-y-4">
-              <motion.button
+              <Motion.button
                 onClick={() => {
                   window.open('https://app.mulearn.org', '_blank')
                   setIsMobileMenuOpen(false)
                 }}
-                className="w-full bg-tigers-eye hover:bg-tigers-eye-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                className="w-full bg-[#8f4c17] hover:bg-[#713b12] text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 aria-label="Join MuLearn (opens in new tab)"
               >
                 Join MuLearn
-              </motion.button>
+              </Motion.button>
             </div>
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
-    </motion.nav>
+    </Motion.nav>
   )
 }
 

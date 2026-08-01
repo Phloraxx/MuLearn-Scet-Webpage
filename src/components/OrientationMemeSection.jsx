@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { motion as Motion, useInView, useReducedMotion } from 'framer-motion'
 import { FaInstagram, FaVolumeHigh, FaVolumeXmark } from 'react-icons/fa6'
 import './OrientationMemeSection.css'
 
@@ -20,7 +20,7 @@ function MemeCard({ card, index, active, setActive, reduceMotion }) {
   const isActive = active === card.id
   return (
     <div className={`meme-card-slot ${card.className}`}>
-      <motion.button
+      <Motion.button
         type="button"
         className={`meme-card ${isActive ? 'is-reference' : ''}`}
         onClick={() => setActive(isActive ? null : card.id)}
@@ -39,7 +39,7 @@ function MemeCard({ card, index, active, setActive, reduceMotion }) {
             <img src={asset('references', card.reference)} alt="" loading="lazy" />
           </span>
         </span>
-      </motion.button>
+      </Motion.button>
       <span className="meme-card__corner" aria-hidden="true" />
     </div>
   )
@@ -73,7 +73,7 @@ export default function OrientationMemeSection() {
     <section ref={sectionRef} className="orientation-memes" aria-labelledby="orientation-memes-title">
       <div className="orientation-memes__noise" aria-hidden="true" />
       <div className="orientation-memes__inner">
-        <motion.header
+        <Motion.header
           className="orientation-memes__header"
           initial={reduceMotion ? false : { opacity: 0, y: 24 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -86,7 +86,7 @@ export default function OrientationMemeSection() {
             <i aria-hidden="true">/</i>
             <span>REALITY</span>
           </h2>
-        </motion.header>
+        </Motion.header>
 
         <div className="orientation-memes__stage">
           <div className="orientation-memes__cards" aria-label="Hand-picked meme recreations">
@@ -102,7 +102,7 @@ export default function OrientationMemeSection() {
             ))}
           </div>
 
-          <motion.div
+          <Motion.div
             className="orientation-memes__reel"
             initial={reduceMotion ? false : { opacity: 0, scale: 0.92, rotate: -2 }}
             whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1, rotate: 0 }}
@@ -116,7 +116,7 @@ export default function OrientationMemeSection() {
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
               >
                 <source src="/assets/orientation/mulearn-orientation.webm" type="video/webm; codecs=vp9,opus" />
                 <source src="/assets/orientation/mulearn-orientation.mp4" type="video/mp4" />
@@ -125,7 +125,7 @@ export default function OrientationMemeSection() {
                 {muted ? <FaVolumeXmark /> : <FaVolumeHigh />}
               </button>
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
 
         <div className="orientation-memes__actions">

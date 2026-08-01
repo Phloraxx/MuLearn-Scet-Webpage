@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion as Motion } from 'framer-motion'
 import { FaHeart, FaCode, FaDiscord, FaGithub, FaLinkedin, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa'
 import MuLearnLogo from './MuLearnLogo'
 
@@ -26,14 +26,7 @@ const Footer = () => {
     { icon: FaInstagram, href: "https://www.instagram.com/mulearn.scet/", label: "Instagram", color: "hover:text-pink-500" }
   ]
 
-  const scrollToSection = (href) => {
-    if (href.startsWith('#')) {
-      const element = document.querySelector(href)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
-  }
+
 
   return (
     <footer className="bg-gradient-to-br from-pakistan-green to-dark-moss-green text-white">
@@ -42,7 +35,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <motion.div
+            <Motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -63,7 +56,7 @@ const Footer = () => {
               {/* Social Links */}
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
-                  <motion.a
+                  <Motion.a
                     key={index}
                     href={social.icon === FaDiscord ? "https://discord.gg/3jbpEubWRA" : social.href}
                     target="_blank"
@@ -72,17 +65,18 @@ const Footer = () => {
                     whileHover={{ scale: 1.1, y: -2 }}
                     whileTap={{ scale: 0.9 }}
                     title={social.label}
+                    aria-label={`${social.label} (opens in a new tab)`}
                   >
                     <social.icon className="text-xl" />
-                  </motion.a>
+                  </Motion.a>
                 ))}
               </div>
-            </motion.div>
+            </Motion.div>
           </div>
 
           {/* Footer Links */}
           {Object.entries(footerLinks).map(([category, links], categoryIndex) => (
-            <motion.div
+            <Motion.div
               key={category}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -94,12 +88,12 @@ const Footer = () => {
                 {links.map((link, index) => (
                   <li key={index}>
                     {link.href.startsWith('#') ? (
-                      <button
-                        onClick={() => scrollToSection(link.href)}
+                      <a
+                        href={`/${link.href}`}
                         className="text-gray-300 hover:text-white transition-colors duration-300 hover:translate-x-1 transform inline-block"
                       >
                         {link.label}
-                      </button>
+                      </a>
                     ) : (
                       <a
                         href={link.href}
@@ -113,11 +107,11 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </Motion.div>
           ))}
 
           {/* Contact */}
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -145,11 +139,11 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </motion.div>
+          </Motion.div>
         </div>
 
         {/* Newsletter Section */}
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -163,32 +157,29 @@ const Footer = () => {
                 Get the latest updates about workshops, events, and learning opportunities.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row w-full gap-3">
-              <input
-                type="email"
-                placeholder="this dont work"
-                className="flex px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-tigers-eye"
-              />
-              <motion.button
-                className="bg-tigers-eye hover:bg-tigers-eye-600 px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => window.open('https://discord.gg/3jbpEubWRA', '_blank')}
-                aria-label="Join our Discord (opens in new tab)"
+            <div className="flex md:justify-end">
+              <Motion.a
+                href="https://discord.gg/3jbpEubWRA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-[#8f4c17] px-6 py-3 font-semibold text-white transition-all duration-300 hover:bg-[#713b12]"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                aria-label="Join our Discord (opens in a new tab)"
               >
                 <FaDiscord className="text-lg" />
                 Join our Discord
-              </motion.button>
+              </Motion.a>
             </div>
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
 
       {/* Bottom Bar */}
       <div className="border-t border-white/20">
         <div className="max-w-7xl mx-auto px-10 py-6">
           <div className="flex items-center flex-col md:flex-row justify-between gap-4">
-            <motion.div
+            <Motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
@@ -198,9 +189,9 @@ const Footer = () => {
               <span>© {currentYear} µLearn Sahrdaya.</span><span className="flex items-center gap-1"> Made with 
               <FaHeart className="text-red-500 custom-pulse" />
               by <a href="https://linkedin.com/in/souravpbijoy" target="_blank" rel="noopener noreferrer">Sourav P Bijoy</a></span>
-            </motion.div>
+            </Motion.div>
             
-            <motion.div
+            <Motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -209,7 +200,7 @@ const Footer = () => {
             >
               <FaCode className="text-tigers-eye custom-ping" />
               <span>Mulearn Scet Tech Team</span>
-            </motion.div>
+            </Motion.div>
           </div>
         </div>
       </div>

@@ -1,16 +1,28 @@
-import { motion } from 'framer-motion'
+import { motion as Motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { FaLightbulb, FaUsers, FaRocket } from 'react-icons/fa'
 
 const AboutSection = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, threshold: 0.2 })
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) video.play().catch(() => {})
+      else video.pause()
+    }, { threshold: 0.35 })
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section ref={ref} className="py-20 bg-cornsilk-800 overflow-x-hidden" id="about">
       <div className="max-w-7xl mx-auto px-6">
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -22,10 +34,10 @@ const AboutSection = () => {
           <p className="text-xl text-pakistan-green-600 max-w-3xl mx-auto">
             <span className="font-semibold">µLearn </span>is a synergic philosophy of education, with a culture of mutual learning through micro peer groups.
           </p>
-        </motion.div>
+        </Motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start mb-16">
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -43,7 +55,7 @@ const AboutSection = () => {
               </p>
             </div>
 
-            <motion.div
+            <Motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -57,16 +69,16 @@ const AboutSection = () => {
                   <p className="text-pakistan-green-600 mb-4">
                     Connect with like-minded learners and start your journey today.
                   </p>
-                  <div className="flex items-center gap-3 text-tigers-eye font-semibold">
+                  <div className="flex items-center gap-3 text-[#8f4c17] font-semibold">
                     <FaUsers className="text-xl" />
                     <span>1000+ Active Members</span>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </Motion.div>
+          </Motion.div>
 
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -83,11 +95,14 @@ const AboutSection = () => {
                     {/* Video Container */}
                     <div className="relative w-80 h-[640px] bg-black rounded-[2rem] overflow-hidden">
                       <video
+                        ref={videoRef}
                         className="w-full h-full object-cover"
-                        autoPlay
+                        poster="/assets/orientation/mulearn-orientation-poster.webp"
+                        preload="none"
                         loop
                         muted
                         playsInline
+                        aria-label="µLearn learning experience highlight video"
                       >
                         <source src="/assets/fwdaiworkshop/orientation.mp4" type="video/mp4" />
                         <div className="flex items-center justify-center h-full bg-gradient-to-br from-pakistan-green to-dark-moss-green text-white text-center p-8">
@@ -118,34 +133,34 @@ const AboutSection = () => {
               </div>
               
               {/* Floating Elements Around Phone */}
-              <motion.div
+              <Motion.div
                 className="absolute -top-4 -right-4 bg-tigers-eye text-white rounded-full p-3"
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
                 <FaRocket className="text-xl" />
-              </motion.div>
+              </Motion.div>
               
-              <motion.div
+              <Motion.div
                 className="absolute -bottom-4 -left-4 bg-pakistan-green text-white rounded-full p-3"
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 2.5, repeat: Infinity }}
               >
                 <FaUsers className="text-xl" />
-              </motion.div>
+              </Motion.div>
               
-              <motion.div
+              <Motion.div
                 className="absolute top-1/2 -left-8 bg-dark-moss-green text-white rounded-full p-3"
                 animate={{ x: [0, -5, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
                 <FaLightbulb className="text-xl" />
-              </motion.div>
+              </Motion.div>
             </div>
-          </motion.div>
+          </Motion.div>
         </div>
 
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.8 }}
@@ -156,15 +171,15 @@ const AboutSection = () => {
             <p className="text-xl mb-6 opacity-90">
               Join thousands of students who are already part of the µLearn revolution.
             </p>
-            <motion.button
-              className="bg-tigers-eye hover:bg-tigers-eye-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
+            <Motion.button
+              className="bg-[#8f4c17] hover:bg-[#713b12] text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
               whileHover={{ scale: 1.05 }}
               onClick={() => window.open('https://app.mulearn.org/', '_blank')}
             >
               Get Started Today
-            </motion.button>
+            </Motion.button>
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
     </section>
   )

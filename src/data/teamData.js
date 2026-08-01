@@ -2,7 +2,7 @@ const fullTeam = [
   {
     name: "Yadhu Krishna",
     role: "Campus Lead",
-    image: "/assets/team/YadhuKrishna.png",
+    image: "/assets/team/optimized/YadhuKrishna-640.webp",
     social: {
       instagram: "https://www.instagram.com/ya_d_hu.__/",
       linkedin: "https://www.linkedin.com/in/yadhukrishna-tm-8b179b330/",
@@ -13,7 +13,7 @@ const fullTeam = [
   {
     name: "Aradhana Rose",
     role: "Campus Co-Lead",
-    image: "/assets/team/AradhanaRose.png",
+    image: "/assets/team/optimized/AradhanaRose-640.webp",
     social: {
       instagram: "https://www.instagram.com/ro.s_ee/",
       linkedin: "https://www.linkedin.com/in/aradhana-rose-225900397/",
@@ -24,7 +24,7 @@ const fullTeam = [
   {
     name: "Ishan Sudarshan",
     role: "General Lead",
-    image: "/assets/team/IshanSudarshan.png",
+    image: "/assets/team/optimized/IshanSudarshan-640.webp",
     social: {
       instagram: "https://www.instagram.com/ish__n__/",
       linkedin: "https://www.linkedin.com/in/ishan-sudarsan-744b4532b/",
@@ -35,7 +35,7 @@ const fullTeam = [
   {
     name: "Jeseentha James",
     role: "General Co-Lead",
-    image: "/assets/team/JeseenthaJames.png",
+    image: "/assets/team/optimized/JeseenthaJames-640.webp",
     social: {
       instagram: null,
       linkedin: "https://in.linkedin.com/in/jeseentha-james-548830379",
@@ -46,7 +46,7 @@ const fullTeam = [
   {
     name: "Elsa Maria",
     role: "General Co-Lead",
-    image: "/assets/team/ElsaMaria.png",
+    image: "/assets/team/optimized/ElsaMaria-640.webp",
     social: {
       instagram: null,
       linkedin: "https://in.linkedin.com/in/elsa-maria06",
@@ -57,7 +57,7 @@ const fullTeam = [
   {
     name: "Sourav P Bijoy",
     role: "Tech Lead",
-    image: "/assets/team/Sourav P Bijoy_.png",
+    image: "/assets/team/optimized/Sourav P Bijoy_-640.webp",
     social: {
       instagram: "https://www.instagram.com/souravpbijoy/",
       linkedin: "https://linkedin.com/in/souravpbijoy",
@@ -68,7 +68,7 @@ const fullTeam = [
   {
     name: "Abel md",
     role: "Media Lead",
-    image: "/assets/team/Abel md.png",
+    image: "/assets/team/optimized/Abel md-640.webp",
     social: {
       instagram: "https://www.instagram.com/_.abel_md._/",
       linkedin: "https://www.linkedin.com/in/abelmdmosses/",
@@ -79,7 +79,7 @@ const fullTeam = [
   {
     name: "Alfin Bijoy",
     role: "Content Lead",
-    image: "/assets/team/AlfinBijoy.png",
+    image: "/assets/team/optimized/AlfinBijoy-640.webp",
     social: {
       instagram: "https://www.instagram.com/alfin_bijoy16/",
       linkedin: "https://www.linkedin.com/in/alfin-bijoy-35364927a/",
@@ -90,7 +90,7 @@ const fullTeam = [
   {
     name: "Yadhu Krishna",
     role: "Mobile Development Lead",
-    image: "/assets/team/YadhuKrishna.png",
+    image: "/assets/team/optimized/YadhuKrishna-640.webp",
     social: {
       instagram: "https://www.instagram.com/ya_d_hu.__/",
       linkedin: "https://www.linkedin.com/in/yadhukrishna-tm-8b179b330/",
@@ -101,7 +101,7 @@ const fullTeam = [
   {
     name: "Hisham K H",
     role: "Web Development Lead",
-    image: "/assets/team/HishamKH.png",
+    image: "/assets/team/optimized/HishamKH-640.webp",
     social: {
       instagram: null,
       linkedin: "https://in.linkedin.com/in/hisham-k-h-29061428a",
@@ -112,7 +112,7 @@ const fullTeam = [
   {
     name: "Godwin Jose",
     role: "Cybersecurity Lead",
-    image: "/assets/team/GodwinJose.png",
+    image: "/assets/team/optimized/GodwinJose-640.webp",
     social: {
       instagram: null,
       linkedin: "https://in.linkedin.com/in/godwin-jose",
@@ -123,7 +123,7 @@ const fullTeam = [
   {
     name: "Aadithya Dev",
     role: "Comic Lead",
-    image: "/assets/team/AadithyaDev.png",
+    image: "/assets/team/optimized/AadithyaDev-640.webp",
     social: {
       instagram: null,
       linkedin: "https://www.linkedin.com/in/aadithyadev-dev-456529336/",
@@ -134,7 +134,7 @@ const fullTeam = [
   {
     name: "Alfin Bijoy",
     role: "UI/UX Lead",
-    image: "/assets/team/AlfinBijoy.png",
+    image: "/assets/team/optimized/AlfinBijoy-640.webp",
     social: {
       instagram: "https://www.instagram.com/alfin_bijoy16/",
       linkedin: "https://www.linkedin.com/in/alfin-bijoy-35364927a/",
@@ -145,7 +145,7 @@ const fullTeam = [
   {
     name: "Aradhana Rose",
     role: "Strategic Leadership IG",
-    image: "/assets/team/AradhanaRose.png",
+    image: "/assets/team/optimized/AradhanaRose-640.webp",
     social: {
       instagram: "https://www.instagram.com/ro.s_ee/",
       linkedin: "https://www.linkedin.com/in/aradhana-rose-225900397/",
@@ -156,7 +156,7 @@ const fullTeam = [
   {
     name: "Ishan Manoj",
     role: "Muband Lead",
-    image: "/assets/team/IshanManoj.png",
+    image: "/assets/team/optimized/IshanManoj-640.webp",
     social: {
       instagram: null,
       linkedin: "https://www.linkedin.com/in/ishaan-manoj-051b25388/",

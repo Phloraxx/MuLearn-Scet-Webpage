@@ -1,6 +1,6 @@
 
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env, _ctx) {
     // Handle CORS
     if (request.method === "OPTIONS") {
       return new Response(null, {

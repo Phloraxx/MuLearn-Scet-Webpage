@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion'
+import { motion as Motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { FaArrowRight } from 'react-icons/fa'
 import TeamMemberCard from './TeamMemberCard'
 import fullTeam from '../data/teamData'
@@ -21,7 +21,7 @@ const TeamSection = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -33,17 +33,17 @@ const TeamSection = () => {
           <p className="text-xl text-pakistan-green-700 max-w-3xl mx-auto">
             The passionate individuals driving innovation and learning at MuLearn SCET.
           </p>
-        </motion.div>
+        </Motion.div>
 
         {/* Core Leads Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
           {coreLeads.map((member, index) => (
-            <TeamMemberCard key={index} member={member} index={index} />
+            <TeamMemberCard key={index} member={member} index={index} priority={index < 4} />
           ))}
         </div>
 
         {/* View Full Team CTA */}
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -56,7 +56,7 @@ const TeamSection = () => {
             <span>View Full Team</span>
             <FaArrowRight className="text-sm transition-transform duration-300 group-hover/link:translate-x-1" />
           </Link>
-        </motion.div>
+        </Motion.div>
       </div>
     </section>
   )
