@@ -95,9 +95,12 @@ const statsMarkup = gallerySource.slice(gallerySource.indexOf('aria-label="µLea
 pass(!statsMarkup.includes('initial={{ opacity: 0'), 'Statistics container can still be hidden before observer activation')
 pass(!statsMarkup.includes('initial={{ scale: 0'), 'Statistics values can still be hidden before observer activation')
 const indexSource = await content(resolve(root, 'index.html'))
-const loaderSource = await content(resolve(root, 'public/loader-preflight-v9.js'))
+const loaderSource = await content(resolve(root, 'public/loader-preflight-v10.js'))
 pass(loaderSource.includes('mulearn-loading-screen-v2'), 'Loader preflight missing session check')
 pass(loaderSource.includes('mulearn-intro-revealing'), 'Loader does not coordinate the root crossfade')
+pass(loaderSource.includes("inner.addEventListener('transitionend'"), 'Loader content fade is not event-driven')
+pass(loaderSource.includes("event.propertyName === 'opacity'"), 'Loader can react to the wrong transition property')
+pass(loaderSource.includes('requestAnimationFrame(() => requestAnimationFrame(startCrossfade))'), 'Loader does not allow the transparent content frame to commit before crossfade')
 pass(loaderSource.includes('is-content-exiting'), 'Loader content is not cleared before the page crossfade')
 pass(loaderSource.includes('event.target !== loader'), 'A child transition can still terminate the loader fade early')
 pass(loaderSource.slice(loaderSource.indexOf('const finishReveal'), loaderSource.indexOf('const beginReveal')).includes('unlockRoot()'), 'The page can become interactive before the fade completes')
@@ -115,7 +118,7 @@ pass(indexSource.includes('Inter:wght@300;400;500;600;700;800;900'), 'Homepage i
 pass(!indexSource.includes('display=optional'), 'Optional font loading can leave fallback typography active')
 pass((await content(resolve(root, 'src/seoConfig.js'))).includes('seo-fallback'), 'SEO fallback is not protected from first-paint flash')
 
-for (const file of ['site.webmanifest', 'favicon.ico', 'assets/favicon-64.png', 'assets/apple-touch-icon.png', 'assets/og/home.webp', 'assets/og/orientation-2026.webp', 'assets/og/team.webp', 'assets/og/karma-war.webp', 'assets/karmawar/previews/karma-album-v4.webp', 'assets/karmawar/previews/karma-highlights-v3.webp', 'assets/karmawar/previews/karma-winners-v3.webp', 'loader-preflight-v9.js']) pass(await exists(resolve(root, 'public', file)), `Missing public asset: ${file}`)
+for (const file of ['site.webmanifest', 'favicon.ico', 'assets/favicon-64.png', 'assets/apple-touch-icon.png', 'assets/og/home.webp', 'assets/og/orientation-2026.webp', 'assets/og/team.webp', 'assets/og/karma-war.webp', 'assets/karmawar/previews/karma-album-v4.webp', 'assets/karmawar/previews/karma-highlights-v3.webp', 'assets/karmawar/previews/karma-winners-v3.webp', 'loader-preflight-v10.js']) pass(await exists(resolve(root, 'public', file)), `Missing public asset: ${file}`)
 JSON.parse(await content(resolve(root, 'public/site.webmanifest')))
 
 if (failures.length) {

@@ -110,8 +110,28 @@
         requestAnimationFrame(() => requestAnimationFrame(reveal))
       }
 
-      if (reducedMotion) startCrossfade()
-      else revealTimer = window.setTimeout(startCrossfade, 150)
+      if (reducedMotion) {
+        startCrossfade()
+      } else {
+        const inner = loader?.querySelector('.static-loader__inner')
+        if (!inner) {
+          startCrossfade()
+        } else {
+          let crossfadeStarted = false
+          const launchCrossfade = () => {
+            if (crossfadeStarted) return
+            crossfadeStarted = true
+            inner.removeEventListener('transitionend', onInnerFadeEnd)
+            window.clearTimeout(revealTimer)
+            requestAnimationFrame(() => requestAnimationFrame(startCrossfade))
+          }
+          const onInnerFadeEnd = (event) => {
+            if (event.target === inner && event.propertyName === 'opacity') launchCrossfade()
+          }
+          inner.addEventListener('transitionend', onInnerFadeEnd)
+          revealTimer = window.setTimeout(launchCrossfade, 360)
+        }
+      }
     }, reducedMotion ? 0 : 110)
   }
 
