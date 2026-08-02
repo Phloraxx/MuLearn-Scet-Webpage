@@ -20,6 +20,7 @@ const HeroSection = () => {
   const mobileBackgroundRef = useRef(null)
   const desktopBackgroundRef = useRef(null)
   const illustrationRef = useRef(null)
+  const introActive = useRef(document.documentElement.classList.contains('mulearn-intro-active')).current
 
   useEffect(() => {
     if (!document.documentElement.classList.contains('mulearn-intro-active')) return undefined
@@ -60,7 +61,7 @@ const HeroSection = () => {
       {/* Background SVG */}
       <Motion.div
         className="absolute inset-0"
-        initial={{ scale: 1.3, opacity: 0 }}
+        initial={introActive ? false : { scale: 1.3, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 3, ease: "easeOut" }}
       >
@@ -83,14 +84,14 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
         <Motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={introActive ? false : { opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-6"
         >
           <Motion.div
             className="flex flex-col items-center"
-            initial={{ scale: 0.8 }}
+            initial={introActive ? false : { scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
@@ -100,7 +101,7 @@ const HeroSection = () => {
             />
             <Motion.h1
               className="text-4xl md:text-5xl font-light text-dark-moss-green"
-              initial={{ opacity: 0 }}
+              initial={introActive ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
@@ -112,7 +113,7 @@ const HeroSection = () => {
 
         <Motion.p
           className="text-xl md:text-2xl text-pakistan-green-600 mb-8 font-medium"
-          initial={{ opacity: 0, y: 30 }}
+          initial={introActive ? false : { opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
@@ -121,7 +122,7 @@ const HeroSection = () => {
 
         <Motion.p
           className="text-lg text-pakistan-green-400 mb-12 max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
+          initial={introActive ? false : { opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
@@ -129,7 +130,7 @@ const HeroSection = () => {
         </Motion.p>
 
         <Motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={introActive ? false : { opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.8 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
@@ -156,7 +157,7 @@ const HeroSection = () => {
       {/* Floating illustration */}
       <Motion.div
         className="absolute transform -translate-x-1 bottom-[-8%] sm:bottom-[-10%] md:bottom-[-15%]"
-        initial={{ opacity: 0, y: 100 }}
+        initial={introActive ? false : { opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 3 }}
       >
@@ -173,7 +174,7 @@ const HeroSection = () => {
       {/* Scroll indicator */}
       <Motion.div
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0 }}
+        initial={introActive ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.8 }}
       >

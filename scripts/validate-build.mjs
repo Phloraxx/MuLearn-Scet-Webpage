@@ -85,6 +85,7 @@ pass(!appSource.includes('__finishMulearnLoader'), 'App can reveal the loader be
 pass(heroSource.includes('__finishMulearnLoader'), 'The mounted Hero does not signal loader readiness')
 pass(heroSource.includes('document.fonts?.ready'), 'Loader can reveal the page before route fonts are ready')
 pass(heroSource.includes('afterTwoPaints'), 'Loader can reveal before the Hero has painted')
+pass(heroSource.includes('introActive ? false'), 'Hero entrance animations can still be mid-flight during the first-loader reveal')
 pass((await content(resolve(root, 'src/components/SeoManager.jsx'))).includes('useLayoutEffect'), 'SPA font selection is not updated before paint')
 pass(gallerySource.includes('requestAnimationFrame(update)'), 'Statistics count-up animation missing')
 pass(gallerySource.includes('className="sr-only">{end}'), 'Statistics final values are not exposed accessibly')
