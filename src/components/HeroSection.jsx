@@ -1,8 +1,60 @@
 import { motion as Motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
 import MuLearnLogo from './MuLearnLogo'
 
+const waitForImage = (image) => {
+  if (!image) return Promise.resolve()
+  if (image.complete) return image.decode?.().catch(() => undefined) ?? Promise.resolve()
+  return new Promise((resolve) => {
+    image.addEventListener('load', resolve, { once: true })
+    image.addEventListener('error', resolve, { once: true })
+  })
+}
+
+const afterTwoPaints = () => new Promise((resolve) => {
+  requestAnimationFrame(() => requestAnimationFrame(resolve))
+})
+
 const HeroSection = () => {
+  const mobileBackgroundRef = useRef(null)
+  const desktopBackgroundRef = useRef(null)
+  const illustrationRef = useRef(null)
+
+  useEffect(() => {
+    if (!document.documentElement.classList.contains('mulearn-intro-active')) return undefined
+
+    let cancelled = false
+    let timeoutId
+
+    const activeBackground = window.matchMedia('(max-width: 639px)').matches
+      ? mobileBackgroundRef.current
+      : desktopBackgroundRef.current
+    const fontsReady = document.fonts?.ready ?? Promise.resolve()
+    const visualReady = Promise.all([
+      fontsReady,
+      waitForImage(activeBackground),
+      waitForImage(illustrationRef.current),
+      afterTwoPaints(),
+    ])
+    const timeout = new Promise((resolve) => {
+      timeoutId = window.setTimeout(resolve, 2600)
+    })
+
+    Promise.race([visualReady, timeout]).then(() => {
+      window.clearTimeout(timeoutId)
+      if (cancelled) return
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (!cancelled) window.__finishMulearnLoader?.()
+      }))
+    })
+
+    return () => {
+      cancelled = true
+      window.clearTimeout(timeoutId)
+    }
+  }, [])
+
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-cornsilk via-cornsilk-600 to-earth-yellow-800">
       {/* Background SVG */}
@@ -14,12 +66,14 @@ const HeroSection = () => {
       >
         {/* Mobile Background */}
         <img
+          ref={mobileBackgroundRef}
           src="/assets/blob-scene-haikei-mobile.svg"
           alt=""
           className="block sm:hidden w-full h-full object-cover object-center"
         />
         {/* Desktop Background */}
         <img
+          ref={desktopBackgroundRef}
           src="/assets/blob-scene-haikei.svg"
           alt=""
           className="hidden sm:block w-full h-full object-cover object-center"
@@ -107,6 +161,7 @@ const HeroSection = () => {
         transition={{ delay: 1.2, duration: 3 }}
       >
         <Motion.img
+          ref={illustrationRef}
           src="/assets/illustration.webp"
           alt="Learning illustration"
           className="object-contain h-64 sm:h-120 md:h-120"
