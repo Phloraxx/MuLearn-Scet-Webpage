@@ -1,7 +1,7 @@
 <div align="center">
 
 <a href="https://mulearnscet.in">
-  <img src="./docs/readme/hero.svg" alt="µLearn SahrdayaCET — Empowering Students Through Peer Learning & Innovation" width="100%" />
+  <img src="./docs/readme/hero.webp" alt="µLearn SahrdayaCET — Empowering Students Through Peer Learning & Innovation" width="100%" />
 </a>
 
 <br />
